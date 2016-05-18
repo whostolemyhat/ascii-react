@@ -2,7 +2,7 @@ import React from 'react';
 import core from 'services/core';
 
 export default class Result extends React.Component {
-    constructor() {
+    constructor () {
         super();
 
         core.ascii.on('result', this.showResult.bind(this));
@@ -12,15 +12,15 @@ export default class Result extends React.Component {
     }
 
 
-    showResult(result) {
+    showResult (result) {
         this.setState({ result });
     }
 
-    render() {
+    render () {
         return (
-            <pre className="result">
+            <pre className='result'>
                 <code>
-                    { this.state.result }
+                    {this.state.result}
                 </code>
             </pre>
         );

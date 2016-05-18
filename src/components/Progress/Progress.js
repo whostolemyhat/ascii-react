@@ -2,7 +2,7 @@ import React from 'react';
 import core from 'services/core';
 
 export default class Progress extends React.Component {
-    constructor() {
+    constructor () {
         super();
 
         this.state = {
@@ -15,34 +15,34 @@ export default class Progress extends React.Component {
         core.on('imageChanged', this.updateImg.bind(this));
     }
 
-    updateImg(src) {
+    updateImg (src) {
         this.setState({ img: src });
         this.renderPreview();
     }
 
-    renderPreview() {
-        if(this.state.img) {
+    renderPreview () {
+        if (this.state.img) {
             return (
-                <img className="preview" src={ this.state.img } />
+                <img className='preview' src={this.state.img} />
             );
         }
     }
 
-    updateProgress(progress) {
+    updateProgress (progress) {
         this.setState({ progress: progress });
     }
 
-    renderProgress() {
-        if(this.state.progress) {
-            return <progress className="progress__bar" value={ this.state.progress } max="100" />
+    renderProgress () {
+        if (this.state.progress) {
+            return <progress className='progress__bar' value={this.state.progress} max='100' />;
         }
     }
 
-    render() {
+    render () {
         return (
-            <div className="progress">
-                { this.renderPreview() }
-                { this.renderProgress() }
+            <div className='progress'>
+                {this.renderPreview()}
+                {this.renderProgress()}
             </div>
         );
     };

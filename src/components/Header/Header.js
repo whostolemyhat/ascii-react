@@ -9,7 +9,7 @@ export const Header = () => (
       Home
     </IndexLink>
     {' · '}
-    <Link to='/upload' activeClassName={ classes.activeRoute }>
+    <Link to='/upload' activeClassName={classes.activeRoute}>
       Upload
     </Link>
   </div>

@@ -4,6 +4,11 @@ import core from 'services/core';
 import classnames from 'classnames';
 
 export default class UploadForm extends React.Component {
+    static propTypes = {
+        handleImageUpload: React.PropTypes.func.isRequired,
+        visible: React.PropTypes.string
+    };
+
     state = {
         preview: null,
         dragEnter: false,
@@ -44,30 +49,36 @@ export default class UploadForm extends React.Component {
         // check only one
         let file = files[0];
 
-        if(this.state.allowedTypes.indexOf(file.type) > -1) {
+        if (this.state.allowedTypes.indexOf(file.type) > -1) {
             this.setState({ preview: window.URL.createObjectURL(file) });
 
             const canvas = ReactDOM.findDOMNode(this.refs.photo);
             this.image = new Image();
 
             // note case!
-            this.image.onload = () => { this.renderImage(canvas, this.image) };
-            this.image.src =  window.URL.createObjectURL(file);
-            core.setImage(this.image.src);
+            this.image.onload = () => { this.renderImage(canvas, this.image); };
+            this.image.src = window.URL.createObjectURL(file);
+
+            // replace with imageupload
+            // core.setImage(this.image.src);
+            this.props.handleImageUpload(this.image.src);
         }
     }
 
     renderImage = (canvas, image) => {
         // resize canvas to image
-       canvas.width = image.width;
-       canvas.height = image.height;
-       const context = canvas.getContext('2d');
-       context.drawImage(image, 0, 0);
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0);
 
-       core.ascii.toAscii(context.getImageData(0, 0, canvas.height, canvas.width));
+        // todo: this should be an action
+        core.ascii.toAscii(context.getImageData(0, 0, canvas.height, canvas.width));
     }
 
     render () {
+        console.log(this.props, this.state);
+
         const classes = classnames({
             'upload': true,
             'upload--drag-enter': this.state.dragEnter,
@@ -76,16 +87,16 @@ export default class UploadForm extends React.Component {
 
         return (
             <div
-                className={ classes }
+                className={classes}
                 onClick={ this.onClick }
-                onDrop={ this.onDrop }
-                onDragEnter={ this.onDragEnter }
-                onDragOver={ this.onDragOver }
-                onDragLeave={ this.onDragLeave }>
+                onDrop={this.onDrop}
+                onDragEnter={this.onDragEnter}
+                onDragOver={this.onDragOver}
+                onDragLeave={this.onDragLeave}>
 
                 { this.props.children }
 
-                <input type='file' ref='input' onChange={ this.onDrop } />
+                <input type='file' ref='input' onChange={this.onDrop} className='input' />
                 <canvas ref='photo' className='canvas'></canvas>
             </div>
         );

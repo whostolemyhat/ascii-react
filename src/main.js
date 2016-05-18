@@ -45,10 +45,10 @@ let render = (routerKey = null) => {
 
     ReactDOM.render(
         <AppContainer
-            store={store}
-            history={history}
-            routes={routes}
-            routerKey={routerKey}
+          store={store}
+          history={history}
+          routes={routes}
+          routerKey={routerKey}
         />,
         MOUNT_NODE
     );

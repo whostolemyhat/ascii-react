@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import CoreLayout from '../layouts/CoreLayout/CoreLayout';
-import HomeView from './Home/HomeView';
+import HomeView from 'views/Home/HomeView';
 // import Counter from './Counter';
-import UploadFormView from './UploadForm/UploadFormView';
+import UploadFormView from 'views/UploadForm/UploadFormView';
 
 /*  Note: Instead of using JSX, we recommend using react-router
         PlainRoute objects to build route definitions.   */
