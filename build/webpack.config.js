@@ -58,6 +58,13 @@ webpackConfig.plugins = [
   })
 ]
 
+webpackConfig.worker = {
+  output: {
+    filename: 'hash.worker.js',
+    chunkFilename: '[id].hash.worker.js'
+  }
+}
+
 if (__DEV__) {
   debug('Enable plugins for live development (HMR, NoErrors).')
   webpackConfig.plugins.push(
