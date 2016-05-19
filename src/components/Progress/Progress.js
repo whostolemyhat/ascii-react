@@ -11,8 +11,8 @@ export default class Progress extends React.Component {
         };
 
         // TODO: hmm
-        core.ascii.on('progress', this.updateProgress.bind(this));
-        core.on('imageChanged', this.updateImg.bind(this));
+        // core.ascii.on('progress', this.updateProgress.bind(this));
+        // core.on('imageChanged', this.updateImg.bind(this));
     }
 
     updateImg (src) {
@@ -28,17 +28,21 @@ export default class Progress extends React.Component {
         }
     }
 
-    updateProgress (progress) {
-        this.setState({ progress: progress });
-    }
+    // updateProgress (progress) {
+    //     this.setState({ progress: progress });
+    // }
 
     renderProgress () {
-        if (this.state.progress) {
-            return <progress className='progress__bar' value={this.state.progress} max='100' />;
+        if (this.props.percentComplete) {
+            return <progress
+                        className='progress__bar'
+                        value={this.props.percentComplete}
+                        max='100' />;
         }
     }
 
     render () {
+        console.log('hello I\'m the progress bar', this.props);
         return (
             <div className='progress'>
                 {this.renderPreview()}

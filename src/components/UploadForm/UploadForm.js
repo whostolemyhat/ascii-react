@@ -6,6 +6,7 @@ import classnames from 'classnames';
 export default class UploadForm extends React.Component {
     static propTypes = {
         handleImageUpload: React.PropTypes.func.isRequired,
+        handleImageProcessing: React.PropTypes.func.isRequired,
         visible: React.PropTypes.string
     };
 
@@ -73,6 +74,7 @@ export default class UploadForm extends React.Component {
         context.drawImage(image, 0, 0);
 
         // todo: this should be an action
+        this.props.handleImageProcessing();
         core.ascii.toAscii(context.getImageData(0, 0, canvas.height, canvas.width));
     }
 

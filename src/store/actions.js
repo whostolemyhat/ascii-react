@@ -20,24 +20,27 @@ export function imageUpload (image) {
     };
 }
 
-function imageProcessing () {
+export function imageProcessing () {
     return {
         type: IMAGE_PROCESSING,
         visible: VisibilityState.PROGRESS
     };
 }
 
-function dataReceived (data) {
+export function dataReceived (data) {
+    console.log('dataReceived', data);
+
     return {
         type: DATA_RECEIVED,
-        percentComplete: data.value
+        percentComplete: data
     };
 }
 
-function imageComplete (data) {
+export function imageComplete (data) {
+    console.log('COMPLETE', data);
     return {
         type: IMAGE_COMPLETE,
-        output: data.value,
+        output: data,
         visible: VisibilityState.RESULT
     };
 }
@@ -62,16 +65,19 @@ export default function asciiApp (state = initialState, action) {
         });
 
     case IMAGE_PROCESSING:
+        console.log('image processing', action);
         return Object.assign({}, state, {
             visible: action.visible
         });
 
     case DATA_RECEIVED:
+        console.log('data recevived', action);
         return Object.assign({}, state, {
             percentComplete: action.percentComplete
         });
 
     case IMAGE_COMPLETE:
+        console.log('image complete', action);
         return Object.assign({}, state, {
             percentComplete: 100,
             output: action.output,
