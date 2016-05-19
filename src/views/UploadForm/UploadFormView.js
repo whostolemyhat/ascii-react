@@ -6,7 +6,13 @@ import UploadForm from 'components/UploadForm/UploadForm';
 import Progress from 'components/Progress/Progress';
 import Result from 'components/Result/Result';
 
-import { imageUpload, imageProcessing, dataReceived, imageComplete } from 'store/actions';
+import {
+    imageUpload,
+    imageProcessing,
+    dataReceived,
+    imageComplete,
+    reset
+} from 'store/actions';
 
 class UploadFormView extends React.Component {
     static propTypes = {
@@ -14,6 +20,7 @@ class UploadFormView extends React.Component {
         handleImageProcessing: React.PropTypes.func.isRequired,
         handleDataReceived: React.PropTypes.func.isRequired,
         handleImageComplete: React.PropTypes.func.isRequired,
+        handleReset: React.PropTypes.func.isRequired,
         visible: React.PropTypes.string,
         percentComplete: React.PropTypes.number,
         output: React.PropTypes.string
@@ -25,6 +32,11 @@ class UploadFormView extends React.Component {
 
         // TODO: this sets image preview
         // core.on('imageChanged', this.props.handleImageComplete);
+    }
+
+    handleResetClick = e => {
+        e.preventDefault();
+        this.props.handleReset();
     }
 
     render () {
@@ -41,8 +53,9 @@ class UploadFormView extends React.Component {
                         percentComplete={ this.props.percentComplete } />
                     : null }
                 { this.props.visible === 'RESULT'
-                    ? <Result
-                        output={ this.props.output } />
+                    ? <div><a href='#' onClick={ this.handleResetClick }>Another</a>
+                        <Result
+                        output={ this.props.output } /></div>
                     : null }
             </div>
         );
@@ -63,8 +76,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     console.log('own', ownProps);
 
     return {
-        handleImageUpload: img => {
-            dispatch(imageUpload(img));
+        handleImageUpload: () => {
+            dispatch(imageUpload());
         },
 
         handleImageProcessing: () => {
@@ -77,6 +90,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         handleImageComplete: data => {
             dispatch(imageComplete(data));
+        },
+
+        handleReset: () => {
+            dispatch(reset());
         }
     };
 };

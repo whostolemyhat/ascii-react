@@ -2,6 +2,7 @@ export const IMAGE_UPLOAD = 'IMAGE_UPLOAD';
 export const IMAGE_PROCESSING = 'IMAGE_PROCESSING';
 export const DATA_RECEIVED = 'DATA_RECEIVED';
 export const IMAGE_COMPLETE = 'IMAGE_COMPLETE';
+export const RESET = 'RESET';
 
 export const VisibilityState = {
     UPLOAD: 'UPLOAD',
@@ -10,12 +11,9 @@ export const VisibilityState = {
 };
 
 // actions
-export function imageUpload (image) {
-    console.log('image upload', image);
-
+export function imageUpload () {
     return {
         type: IMAGE_UPLOAD,
-        image,
         visible: VisibilityState.PROGRESS
     };
 }
@@ -28,8 +26,6 @@ export function imageProcessing () {
 }
 
 export function dataReceived (data) {
-    console.log('dataReceived', data);
-
     return {
         type: DATA_RECEIVED,
         percentComplete: data
@@ -37,7 +33,6 @@ export function dataReceived (data) {
 }
 
 export function imageComplete (data) {
-    console.log('COMPLETE', data);
     return {
         type: IMAGE_COMPLETE,
         output: data,
@@ -45,11 +40,14 @@ export function imageComplete (data) {
     };
 }
 
-// const boundImageUpload = img => dispatch(imageUpload(img));
+export function reset () {
+    return {
+        type: RESET
+    };
+}
 
 // reducers
 const initialState = {
-    image: '',
     visible: VisibilityState.UPLOAD,
     percentComplete: 0,
     output: ''
@@ -58,31 +56,29 @@ const initialState = {
 export default function asciiApp (state = initialState, action) {
     switch (action.type) {
     case IMAGE_UPLOAD:
-        console.log('image upload case', action);
-
         return Object.assign({}, state, {
             visible: action.visible
         });
 
     case IMAGE_PROCESSING:
-        console.log('image processing', action);
         return Object.assign({}, state, {
             visible: action.visible
         });
 
     case DATA_RECEIVED:
-        console.log('data recevived', action);
         return Object.assign({}, state, {
             percentComplete: action.percentComplete
         });
 
     case IMAGE_COMPLETE:
-        console.log('image complete', action);
         return Object.assign({}, state, {
             percentComplete: 100,
             output: action.output,
             visible: action.visible
         });
+
+    case RESET:
+        return Object.assign({}, state, initialState);
 
     default:
         return state;

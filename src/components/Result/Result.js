@@ -1,27 +1,11 @@
 import React from 'react';
-// import core from 'services/core';
 
-export default class Result extends React.Component {
-    // constructor () {
-    //     super();
+const Result = ({ output }) => (
+    <pre className='result'><code>{ output }</code></pre>
+);
 
-    //     core.ascii.on('result', this.showResult.bind(this));
-    //     this.state = {
-    //         result: ''
-    //     };
-    // }
+Result.propTypes = {
+    output: React.PropTypes.string
+};
 
-    // showResult (result) {
-    //     this.setState({ result });
-    // }
-
-    render () {
-        return (
-            <pre className='result'>
-                <code>
-                    { this.props.output }
-                </code>
-            </pre>
-        );
-    };
-}
+export default Result;

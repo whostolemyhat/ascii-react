@@ -7,11 +7,6 @@ export default class AsciiConverter extends EventEmitter {
         this.charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
     }
 
-    // pixelToChar (pixel, mapLength) {
-    //     const averageShade = Math.floor(pixel.r * 0.3 + pixel.b * 0.3 + pixel.g * 0.3);
-    //     return Math.floor((255 - averageShade) * (mapLength / 256));
-    // }
-
     toAscii (pixels) {
         const Worker = require('worker-loader!./asciiWorker');
         const worker = new Worker();

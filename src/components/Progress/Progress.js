@@ -2,19 +2,20 @@ import React from 'react';
 import core from 'services/core';
 
 export default class Progress extends React.Component {
-    constructor () {
-        super();
+    // constructor () {
+    //     super();
 
-        this.state = {
-            progress: 0,
-            img: null
-        };
+    //     this.state = {
+    //         progress: 0,
+    //         img: null
+    //     };
 
-        // TODO: hmm
-        // core.ascii.on('progress', this.updateProgress.bind(this));
-        // core.on('imageChanged', this.updateImg.bind(this));
-    }
+    //     // TODO: hmm
+    //     // core.ascii.on('progress', this.updateProgress.bind(this));
+    //     // core.on('imageChanged', this.updateImg.bind(this));
+    // }
 
+    // TODO: move this to a preview component
     updateImg (src) {
         this.setState({ img: src });
         this.renderPreview();
@@ -42,10 +43,8 @@ export default class Progress extends React.Component {
     }
 
     render () {
-        console.log('hello I\'m the progress bar', this.props);
         return (
             <div className='progress'>
-                {this.renderPreview()}
                 {this.renderProgress()}
             </div>
         );
