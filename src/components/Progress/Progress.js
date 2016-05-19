@@ -1,5 +1,5 @@
 import React from 'react';
-import core from 'services/core';
+// import core from 'services/core';
 
 export default class Progress extends React.Component {
     // constructor () {
@@ -33,20 +33,21 @@ export default class Progress extends React.Component {
     //     this.setState({ progress: progress });
     // }
 
-    renderProgress () {
-        if (this.props.percentComplete) {
-            return <progress
-                        className='progress__bar'
-                        value={this.props.percentComplete}
-                        max='100' />;
-        }
-    }
+    // renderProgress () {
+    //     if (this.props.percentComplete) {
+    //         return <progress
+    //                     className='progress__bar'
+    //                     value={this.props.percentComplete}
+    //                     max='100' />;
+    //     }
+    // }
 
     render () {
         return (
-            <div className='progress'>
-                {this.renderProgress()}
-            </div>
+            <progress
+                className='progress__bar'
+                value={this.props.percentComplete}
+                max='100' />
         );
     };
 }

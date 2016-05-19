@@ -5,7 +5,9 @@ function pixelToChar (pixel, mapLength) {
     return Math.floor((255 - averageShade) * (mapLength / 256));
 }
 
-const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
+const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+// const charMapSpace = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
+// const charMapInverse = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 onmessage = function (e) { // eslint-disable-line no-undef
     console.log(e.data);
@@ -44,6 +46,5 @@ onmessage = function (e) { // eslint-disable-line no-undef
         }
     }
 
-    // return out;
     postMessage({ type: 'result', value: out });
 };

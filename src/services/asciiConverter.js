@@ -13,7 +13,7 @@ export default class AsciiConverter extends EventEmitter {
 
         worker.postMessage([pixels]);
         worker.onmessage = e => {
-            console.log(e);
+            // console.log(e);
 
             if (e.data.type === 'progress') {
                 this.emit('progress', e.data.value);
