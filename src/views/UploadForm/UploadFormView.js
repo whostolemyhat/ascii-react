@@ -45,23 +45,23 @@ class UploadFormView extends React.Component {
   render () {
     return (
       <div>
-        { this.props.visible === 'UPLOAD'
+        {this.props.visible === 'UPLOAD'
           ? <UploadForm
-            converter={ this.ascii }
-            handleImageUpload={ this.props.handleImageUpload }
-            handleImageProcessing={ this.props.handleImageProcessing }>
+            converter={this.ascii}
+            handleImageUpload={this.props.handleImageUpload}
+            handleImageProcessing={this.props.handleImageProcessing}>
             Drop an image here, or click to pick</UploadForm>
-          : null }
-        { this.props.visible === 'PROGRESS'
+          : null}
+        {this.props.visible === 'PROGRESS'
           ? <Progress
-            percentComplete={ this.props.percentComplete } />
-          : null }
-        { this.props.visible === 'RESULT'
+            percentComplete={this.props.percentComplete} />
+          : null}
+        {this.props.visible === 'RESULT'
           ? <div>
-            <a href='#' onClick={ this.handleResetClick }>Another</a>
-            <Result output={ this.props.output } />
+            <a href='#' onClick={this.handleResetClick}>Another</a>
+            <Result output={this.props.output} />
             </div>
-          : null }
+          : null}
       </div>
     );
   }

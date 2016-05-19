@@ -20,9 +20,9 @@ import UploadFormView from 'views/UploadForm/UploadFormView';
 // });
 
 export default (store) => (
-    <Route path='/' component={ CoreLayout }>
-        <IndexRoute component={ HomeView } />
-        <Route component={ UploadFormView } path='/upload' />
+    <Route path='/' component={CoreLayout}>
+        <IndexRoute component={HomeView} />
+        <Route component={UploadFormView} path='/upload' />
 
     </Route>
 );
