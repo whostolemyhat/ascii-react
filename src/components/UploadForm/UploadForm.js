@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import core from 'services/core';
 import classnames from 'classnames';
 
 export default class UploadForm extends React.Component {
     static propTypes = {
         handleImageUpload: React.PropTypes.func.isRequired,
-        handleImageProcessing: React.PropTypes.func.isRequired
+        handleImageProcessing: React.PropTypes.func.isRequired,
+        converter: React.PropTypes.object.isRequired
     };
 
     state = {
@@ -72,7 +72,7 @@ export default class UploadForm extends React.Component {
 
         // todo: this should be an action
         this.props.handleImageProcessing();
-        core.ascii.toAscii(context.getImageData(0, 0, canvas.width, canvas.height));
+        this.props.converter.toAscii(context.getImageData(0, 0, canvas.width, canvas.height));
     }
 
     render () {

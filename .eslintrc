@@ -17,7 +17,7 @@
   "rules": {
     "semi" : ["error", "always"],
     "max-len": [2, 120, 2],
-    "indent": ["error", 4],
+    "indent": ["error", 2],
     "template-curly-spacing": ["error", "always"]
   }
 }
