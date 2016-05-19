@@ -6,8 +6,7 @@ import classnames from 'classnames';
 export default class UploadForm extends React.Component {
     static propTypes = {
         handleImageUpload: React.PropTypes.func.isRequired,
-        handleImageProcessing: React.PropTypes.func.isRequired,
-        visible: React.PropTypes.string
+        handleImageProcessing: React.PropTypes.func.isRequired
     };
 
     state = {
@@ -45,7 +44,6 @@ export default class UploadForm extends React.Component {
         this.setState({ dragEnter: false });
 
         const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-        console.log(files);
 
         // check only one
         let file = files[0];
@@ -54,15 +52,14 @@ export default class UploadForm extends React.Component {
             this.setState({ preview: window.URL.createObjectURL(file) });
 
             const canvas = ReactDOM.findDOMNode(this.refs.photo);
-            this.image = new Image();
+            let image = new Image();
 
             // note case!
-            this.image.onload = () => { this.renderImage(canvas, this.image); };
-            this.image.src = window.URL.createObjectURL(file);
+            image.onload = () => { this.renderImage(canvas, image); };
+            image.src = window.URL.createObjectURL(file);
 
-            // replace with imageupload
-            // core.setImage(this.image.src);
-            this.props.handleImageUpload(this.image.src);
+            this.props.handleImageUpload();
+            this.setState({ image });
         }
     }
 
@@ -75,7 +72,7 @@ export default class UploadForm extends React.Component {
 
         // todo: this should be an action
         this.props.handleImageProcessing();
-        core.ascii.toAscii(context.getImageData(0, 0, canvas.height, canvas.width));
+        core.ascii.toAscii(context.getImageData(0, 0, canvas.width, canvas.height));
     }
 
     render () {

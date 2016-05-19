@@ -7,11 +7,15 @@ function pixelToChar (pixel, mapLength) {
 
 const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
-onmessage = function (e) {
+onmessage = function (e) { // eslint-disable-line no-undef
     console.log(e.data);
 
     const pixels = e.data[0];
+
+    // TODO: allow resolution
     const resolution = 1;
+
+    // r,g,b,a
     const PIXEL_LENGTH = 4;
     const imgWidth = pixels.width * PIXEL_LENGTH;
     const rowPercent = 100 / pixels.height;
