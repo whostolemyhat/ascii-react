@@ -1,26 +1,25 @@
 import React from 'react';
-import core from 'services/core';
+// import core from 'services/core';
 
 export default class Result extends React.Component {
-    constructor () {
-        super();
+    // constructor () {
+    //     super();
 
-        core.ascii.on('result', this.showResult.bind(this));
-        this.state = {
-            result: ''
-        };
-    }
+    //     core.ascii.on('result', this.showResult.bind(this));
+    //     this.state = {
+    //         result: ''
+    //     };
+    // }
 
-
-    showResult (result) {
-        this.setState({ result });
-    }
+    // showResult (result) {
+    //     this.setState({ result });
+    // }
 
     render () {
         return (
             <pre className='result'>
                 <code>
-                    {this.state.result}
+                    { this.props.output }
                 </code>
             </pre>
         );
