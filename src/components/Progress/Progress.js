@@ -2,6 +2,9 @@ import React from 'react';
 // import core from 'services/core';
 
 export default class Progress extends React.Component {
+  static propTypes = {
+    percentComplete: React.PropTypes.number
+  };
     // constructor () {
     //     super();
 
@@ -16,18 +19,18 @@ export default class Progress extends React.Component {
     // }
 
     // TODO: move this to a preview component
-    updateImg (src) {
-        this.setState({ img: src });
-        this.renderPreview();
-    }
+  updateImg (src) {
+    this.setState({ img: src });
+    this.renderPreview();
+  }
 
-    renderPreview () {
-        if (this.state.img) {
-            return (
-                <img className='preview' src={this.state.img} />
-            );
-        }
+  renderPreview () {
+    if (this.state.img) {
+      return (
+        <img className='preview' src={this.state.img} />
+      );
     }
+  }
 
     // updateProgress (progress) {
     //     this.setState({ progress: progress });
@@ -42,12 +45,14 @@ export default class Progress extends React.Component {
     //     }
     // }
 
-    render () {
-        return (
-            <progress
-                className='progress__bar'
-                value={this.props.percentComplete}
-                max='100' />
-        );
-    };
+  render () {
+    return (
+      <progress
+        className='progress__bar'
+        value={ this.props.percentComplete }
+        max='100' />
+    );
+  };
 }
+
+// Progress.propTypes = { percentComplete: React.PropTypes.number.isRequired };

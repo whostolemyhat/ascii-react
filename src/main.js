@@ -10,7 +10,7 @@ import AppContainer from './containers/AppContainer';
 // Browser History Setup
 // ========================================================
 const browserHistory = useRouterHistory(createBrowserHistory)({
-    basename: __BASENAME__
+  basename: __BASENAME__
 });
 
 // ========================================================
@@ -23,16 +23,16 @@ const browserHistory = useRouterHistory(createBrowserHistory)({
 const initialState = window.___INITIAL_STATE__;
 const store = createStore(initialState, browserHistory);
 const history = syncHistoryWithStore(browserHistory, store, {
-    selectLocationState: (state) => state.router
+  selectLocationState: (state) => state.router
 });
 
 // ========================================================
 // Developer Tools Setup
 // ========================================================
 if (__DEBUG__) {
-    if (window.devToolsExtension) {
-        window.devToolsExtension.open();
-    }
+  if (window.devToolsExtension) {
+    window.devToolsExtension.open();
+  }
 }
 
 // ========================================================
@@ -41,9 +41,9 @@ if (__DEBUG__) {
 const MOUNT_NODE = document.getElementById('root');
 
 let render = (routerKey = null) => {
-    const routes = require('./routes/index').default(store);
+  const routes = require('./routes/index').default(store);
 
-    ReactDOM.render(
+  ReactDOM.render(
         <AppContainer
           store={store}
           history={history}
@@ -57,20 +57,20 @@ let render = (routerKey = null) => {
 // Enable HMR and catch runtime errors in RedBox
 // This code is excluded from production bundle
 if (__DEV__ && module.hot) {
-    const renderApp = render;
-    const renderError = (error) => {
-        const RedBox = require('redbox-react');
+  const renderApp = render;
+  const renderError = (error) => {
+    const RedBox = require('redbox-react');
 
-        ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
-    };
-    render = () => {
-        try {
-            renderApp(Math.random());
-        } catch (error) {
-            renderError(error);
-        }
-    };
-    module.hot.accept(['./routes/index'], () => render());
+    ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
+  };
+  render = () => {
+    try {
+      renderApp(Math.random());
+    } catch (error) {
+      renderError(error);
+    }
+  };
+  module.hot.accept(['./routes/index'], () => render());
 }
 
 // ========================================================

@@ -7,10 +7,10 @@ export const COUNTER_INCREMENT = 'COUNTER_INCREMENT';
 // Actions
 // ------------------------------------
 export function increment (value = 1) {
-    return {
-        type: COUNTER_INCREMENT,
-        payload: value
-    };
+  return {
+    type: COUNTER_INCREMENT,
+    payload: value
+  };
 }
 
 /*  This is a thunk, meaning it is a function that immediately
@@ -22,26 +22,26 @@ export function increment (value = 1) {
     reducer take care of this logic.  */
 
 export const doubleAsync = () => {
-    return (dispatch, getState) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                dispatch(increment(getState().counter));
-                resolve();
-            }, 200);
-        });
-    };
+  return (dispatch, getState) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch(increment(getState().counter));
+        resolve();
+      }, 200);
+    });
+  };
 };
 
 export const actions = {
-    increment,
-    doubleAsync
+  increment,
+  doubleAsync
 };
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-    [COUNTER_INCREMENT]: (state, action) => state + action.payload
+  [COUNTER_INCREMENT]: (state, action) => state + action.payload
 };
 
 // ------------------------------------
@@ -49,7 +49,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = 0;
 export default function counterReducer (state = initialState, action) {
-    const handler = ACTION_HANDLERS[action.type];
+  const handler = ACTION_HANDLERS[action.type];
 
-    return handler ? handler(state, action) : state;
+  return handler ? handler(state, action) : state;
 }

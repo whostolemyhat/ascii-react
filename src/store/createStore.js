@@ -7,23 +7,23 @@ export default (initialState = {}, history) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-    const middleware = [thunk, routerMiddleware(history)];
+  const middleware = [thunk, routerMiddleware(history)];
 
   // ======================================================
   // Store Enhancers
   // ======================================================
-    const enhancers = [];
-    if (__DEBUG__) {
-        const devToolsExtension = window.devToolsExtension;
-        if (typeof devToolsExtension === 'function') {
-            enhancers.push(devToolsExtension());
-        }
+  const enhancers = [];
+  if (__DEBUG__) {
+    const devToolsExtension = window.devToolsExtension;
+    if (typeof devToolsExtension === 'function') {
+      enhancers.push(devToolsExtension());
     }
+  }
 
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-    const store = createStore(
+  const store = createStore(
     makeRootReducer(),
     initialState,
     compose(
@@ -31,14 +31,14 @@ export default (initialState = {}, history) => {
       ...enhancers
     )
   );
-    store.asyncReducers = {};
+  store.asyncReducers = {};
 
-    if (module.hot) {
-        module.hot.accept('./reducers', () => {
-            const reducers = require('./reducers').default;
-            store.replaceReducer(reducers);
-        });
-    }
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      const reducers = require('./reducers').default;
+      store.replaceReducer(reducers);
+    });
+  }
 
-    return store;
+  return store;
 };
