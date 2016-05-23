@@ -17,8 +17,9 @@ export const HomeView = () => (
         <li>Inverse</li>
         <li>use whitespace</li>
         <li>colours</li>
+        <li>error handling - eg not correct type, too large</li>
         <li>run on server</li>
-        <li>save result</li>
+        <li><strike>save result</strike></li>
     </ul>
   </div>
 );
