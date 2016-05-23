@@ -47,7 +47,7 @@ export function reset () {
 }
 
 // reducers
-const initialState = {
+export const initialState = {
   visible: VisibilityState.UPLOAD,
   percentComplete: 0,
   output: ''

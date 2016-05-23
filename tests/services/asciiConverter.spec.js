@@ -1,13 +1,16 @@
+import EventEmitter from 'eventemitter3';
 
 describe('(service) AsciiConverter', () => {
-  let Ascii, workerStub, postMessage;
+  let Ascii, workerStub, postMessageStub;
 
   beforeEach(() => {
-    postMessage = sinon.spy();
+    postMessageStub = sinon.spy();
 
-    workerStub = () => ({
-      postMessage
-    });
+    class Worker extends EventEmitter {
+      postMessage = postMessageStub;
+      emit = EventEmitter.emit;
+    }
+    workerStub = Worker;
 
     let inject = require('inject!services/AsciiConverter');
     Ascii = inject({
@@ -23,6 +26,19 @@ describe('(service) AsciiConverter', () => {
     const ascii = new Ascii();
     ascii.toAscii('hello');
 
-    expect(postMessage).to.have.been.calledWith( ['hello'] );
+    expect(postMessageStub).to.have.been.calledWith(['hello']);
   });
+
+  // need to somehow send a message from the worker that converter owns
+  // it('should handle progress events from worker', done => {
+  //   const ascii = new Ascii();
+  //   ascii.toAscii('hello');
+  //   console.log('ascii', ascii.on, workerStub.emit);
+  //   // document.addEventListener(ascii, 'progress', done);
+  //   ascii.on('progress', done);
+
+  //   workerStub.emit('message', { data: { type: 'progress', value: 'test' }});
+  // });
+
+  // it('should handle result events from worker');
 });

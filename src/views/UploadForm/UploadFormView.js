@@ -16,7 +16,7 @@ import {
   reset
 } from 'store/actions';
 
-class UploadFormView extends React.Component {
+export class UploadFormView extends React.Component {
   static propTypes = {
     handleImageUpload: React.PropTypes.func.isRequired,
     handleImageProcessing: React.PropTypes.func.isRequired,
@@ -44,13 +44,14 @@ class UploadFormView extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className='container'>
         {this.props.visible === 'UPLOAD'
           ? <UploadForm
             converter={this.ascii}
             handleImageUpload={this.props.handleImageUpload}
             handleImageProcessing={this.props.handleImageProcessing}>
-            Drop an image here, or click to pick</UploadForm>
+            Drop an image here, or click to pick
+          </UploadForm>
           : null}
         {this.props.visible === 'PROGRESS'
           ? <Progress
@@ -60,7 +61,12 @@ class UploadFormView extends React.Component {
           ? <div>
             <a href='#' onClick={this.handleResetClick}>Another</a>
             <Result output={this.props.output} />
-            </div>
+            <a
+              href={ 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.props.output) }
+              download='ascii.txt'>
+              download
+            </a>
+          </div>
           : null}
       </div>
     );
