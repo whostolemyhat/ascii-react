@@ -1,14 +1,7 @@
 import EventEmitter from 'eventemitter3';
-// const Worker = require('worker-loader!./asciiWorker');
 import Worker from 'worker-loader!./asciiWorker';
 
 export default class AsciiConverter extends EventEmitter {
-  // constructor () {
-  //   super();
-
-  //   // this.charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
-  // }
-
   toAscii (pixels) {
     const worker = new Worker();
 
