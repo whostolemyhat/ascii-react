@@ -49,8 +49,6 @@ export default class UploadForm extends React.Component {
     let file = files[0];
 
     if (this.state.allowedTypes.indexOf(file.type) > -1) {
-      this.setState({ preview: window.URL.createObjectURL(file) });
-
       const canvas = ReactDOM.findDOMNode(this.refs.photo);
       let image = new Image();
 
@@ -58,7 +56,7 @@ export default class UploadForm extends React.Component {
       image.onload = () => { this.renderImage(canvas, image); };
       image.src = window.URL.createObjectURL(file);
 
-      this.props.handleImageUpload();
+      this.props.handleImageUpload(window.URL.createObjectURL(file));
       this.setState({ image });
     }
   }
