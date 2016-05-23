@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import core from 'services/core';
 import AsciiConverter from 'services/asciiConverter';
 
 import UploadForm from 'components/UploadForm/UploadForm';
 import Progress from 'components/Progress/Progress';
+import Preview from 'components/Preview/Preview';
 import Result from 'components/Result/Result';
 
 import {
@@ -25,16 +25,14 @@ export class UploadFormView extends React.Component {
     handleReset: React.PropTypes.func.isRequired,
     visible: React.PropTypes.string,
     percentComplete: React.PropTypes.number,
-    output: React.PropTypes.string
+    output: React.PropTypes.string,
+    src: React.PropTypes.object
   }
 
   componentWillMount () {
     this.ascii = new AsciiConverter();
     this.ascii.on('progress', data => this.props.handleDataReceived(data));
     this.ascii.on('result', this.props.handleImageComplete);
-
-    // TODO: this sets image preview
-    // core.on('imageChanged', this.props.handleImageComplete);
   }
 
   handleResetClick = e => {
@@ -59,10 +57,11 @@ export class UploadFormView extends React.Component {
           : null}
         {this.props.visible === 'RESULT'
           ? <div>
+            <Preview src={this.props.src} />
             <a href='#' onClick={this.handleResetClick}>Another</a>
             <Result output={this.props.output} />
             <a
-              href={ 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.props.output) }
+              href={'data:text/plain;charset=utf-8,' + encodeURIComponent(this.props.output)}
               download='ascii.txt'>
               download
             </a>
@@ -80,11 +79,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log('own', ownProps);
-
   return {
-    handleImageUpload: () => {
-      dispatch(imageUpload());
+    handleImageUpload: src => {
+      dispatch(imageUpload(src));
     },
 
     handleImageProcessing: () => {

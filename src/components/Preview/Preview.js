@@ -1,2 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+const Preview = ({ src }) => (
+  <img src={src} className='preview' />
+);
+
+Preview.propTypes = {
+  src: React.PropTypes.string
+};
+
+export default Preview;

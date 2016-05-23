@@ -11,10 +11,11 @@ export const VisibilityState = {
 };
 
 // actions
-export function imageUpload () {
+export function imageUpload (src) {
   return {
     type: IMAGE_UPLOAD,
-    visible: VisibilityState.PROGRESS
+    visible: VisibilityState.PROGRESS,
+    src
   };
 }
 
@@ -50,14 +51,16 @@ export function reset () {
 export const initialState = {
   visible: VisibilityState.UPLOAD,
   percentComplete: 0,
-  output: ''
+  output: '',
+  src: ''
 };
 
 export default function asciiApp (state = initialState, action) {
   switch (action.type) {
   case IMAGE_UPLOAD:
     return Object.assign({}, state, {
-      visible: action.visible
+      visible: action.visible,
+      src: action.src
     });
 
   case IMAGE_PROCESSING:
