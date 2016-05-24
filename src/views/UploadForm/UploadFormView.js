@@ -6,7 +6,7 @@ import AsciiConverter from 'services/asciiConverter';
 import UploadForm from 'components/UploadForm/UploadForm';
 import Progress from 'components/Progress/Progress';
 import Preview from 'components/Preview/Preview';
-import ResultsContainer from 'containers/ResultsContainer';
+import ResultsContainer from 'components/Result/ResultsContainer';
 
 import {
   imageUpload,
