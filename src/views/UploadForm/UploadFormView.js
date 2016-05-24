@@ -6,7 +6,7 @@ import AsciiConverter from 'services/asciiConverter';
 import UploadForm from 'components/UploadForm/UploadForm';
 import Progress from 'components/Progress/Progress';
 import Preview from 'components/Preview/Preview';
-import Result from 'components/Result/Result';
+import ResultsContainer from 'containers/ResultsContainer';
 
 import {
   imageUpload,
@@ -35,14 +35,9 @@ export class UploadFormView extends React.Component {
     this.ascii.on('result', this.props.handleImageComplete);
   }
 
-  handleResetClick = e => {
-    e.preventDefault();
-    this.props.handleReset();
-  }
-
   render () {
     return (
-      <div className='container'>
+      <div>
         {this.props.visible === 'UPLOAD'
           ? <UploadForm
             converter={this.ascii}
@@ -59,16 +54,9 @@ export class UploadFormView extends React.Component {
             percentComplete={this.props.percentComplete} />
           : null}
         {this.props.visible === 'RESULT'
-          ? <div>
-
-            <a href='#' onClick={this.handleResetClick}>Another</a>
-            <Result output={this.props.output} />
-            <a
-              href={'data:text/plain;charset=utf-8,' + encodeURIComponent(this.props.output)}
-              download='ascii.txt'>
-              download
-            </a>
-          </div>
+          ? <ResultsContainer
+            output={this.props.output}
+            handleReset={this.props.handleReset} />
           : null}
       </div>
     );

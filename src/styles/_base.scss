@@ -11,12 +11,22 @@ For example:
 @import './themes/default';
 */
 
+.container {
+    text-align: center;
+}
+
+.header {
+    margin: auto;
+    max-width: 800px;
+}
 .upload {
     background: #FCFF89;
     border-radius: 5px;
     width: 100%;
     min-height: 200px;
-    text-align: center;
+    // text-align: center;
+    margin: auto;
+    max-width: 800px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +47,8 @@ For example:
 
 .result {
     font-size: 4px;
-    line-height: 0.5;
+    line-height: 1;
+    letter-spacing: 0.5em;
 }
 
 .progress {
