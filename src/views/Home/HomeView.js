@@ -11,7 +11,7 @@ export const HomeView = () => (
     <ul>
         <li><strike>remove core</strike></li>
         <li>style</li>
-        <li>preview component</li>
+        <li><strike>preview component</strike></li>
         <li>adjustable font-size</li>
         <li>allow resolution</li>
         <li>Inverse</li>

@@ -51,13 +51,16 @@ export class UploadFormView extends React.Component {
             Drop an image here, or click to pick
           </UploadForm>
           : null}
+        {this.props.visible === 'PROGRESS' || this.props.visible === 'RESULT'
+          ? <Preview src={this.props.src} />
+          : null}
         {this.props.visible === 'PROGRESS'
           ? <Progress
             percentComplete={this.props.percentComplete} />
           : null}
         {this.props.visible === 'RESULT'
           ? <div>
-            <Preview src={this.props.src} />
+
             <a href='#' onClick={this.handleResetClick}>Another</a>
             <Result output={this.props.output} />
             <a
