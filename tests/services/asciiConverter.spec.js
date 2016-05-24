@@ -11,7 +11,7 @@ describe('(service) AsciiConverter', () => {
     }
     workerStub = Worker;
 
-    let inject = require('inject!services/AsciiConverter');
+    let inject = require('inject!services/asciiConverter');
     Ascii = inject({
       'worker-loader!./asciiWorker': workerStub
     }).default;
