@@ -1,6 +1,10 @@
+#Ascii-React
+
+[![Build Status](https://travis-ci.org/whostolemyhat/ascii-react.svg?branch=master)](https://travis-ci.org/whostolemyhat/ascii-react)
+
 React.js-based web app which converts images to ASCII text using service workers.
 
-Based on [React/Redux starter kit](https://github.com/davezuko/react-redux-starter-kit) - run via
+Based on [React/Redux starter kit](https://github.com/davezuko/react-redux-starter-kit) - run via:
 
 ```npm run dev```
 
