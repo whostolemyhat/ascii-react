@@ -1,14 +1,13 @@
 import EventEmitter from 'eventemitter3';
 
 describe('(service) AsciiConverter', () => {
-  let Ascii, workerStub, postMessageStub;
+  let ascii, Ascii, workerStub, postMessageStub;
 
   beforeEach(() => {
     postMessageStub = sinon.spy();
 
     class Worker extends EventEmitter {
       postMessage = postMessageStub;
-      emit = EventEmitter.emit;
     }
     workerStub = Worker;
 
@@ -16,29 +15,47 @@ describe('(service) AsciiConverter', () => {
     Ascii = inject({
       'worker-loader!./asciiWorker': workerStub
     }).default;
+
+    ascii = new Ascii();
   });
 
   it('should have .toAscii method', () => {
-    expect(new Ascii().toAscii).to.be.a('function');
+    expect(ascii.toAscii).to.be.a('function');
   });
 
   it('should send data to worker', () => {
-    const ascii = new Ascii();
     ascii.toAscii('hello');
 
     expect(postMessageStub).to.have.been.calledWith(['hello']);
   });
 
-  // need to somehow send a message from the worker that converter owns
-  // it('should handle progress events from worker', done => {
-  //   const ascii = new Ascii();
-  //   ascii.toAscii('hello');
-  //   console.log('ascii', ascii.on, workerStub.emit);
-  //   // document.addEventListener(ascii, 'progress', done);
-  //   ascii.on('progress', done);
+  describe('onmessage', () => {
+    it('should handle progress events from worker', () => {
+      ascii.emit = sinon.spy();
+      ascii.toAscii('hello');
 
-  //   workerStub.emit('message', { data: { type: 'progress', value: 'test' }});
-  // });
+      ascii.worker.onmessage({
+        data: {
+          type: 'progress',
+          value: 'hello'
+        }
+      });
 
-  // it('should handle result events from worker');
+      expect(ascii.emit).to.have.been.calledWith('progress', 'hello');
+    });
+
+    it('should handle result events from worker', () => {
+      ascii.emit = sinon.spy();
+      ascii.toAscii('hello');
+
+      ascii.worker.onmessage({
+        data: {
+          type: 'result',
+          value: 'world'
+        }
+      });
+
+      expect(ascii.emit).to.have.been.calledWith('result', 'world');
+    });
+  });
 });
