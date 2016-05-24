@@ -11,7 +11,11 @@ import {
 describe('(store) actions', () => {
   describe('action handlers', () => {
     it('should handle image upload', () => {
-      expect(imageUpload()).to.eql({ type: 'IMAGE_UPLOAD', visible: 'PROGRESS' });
+      expect(imageUpload('test')).to.eql({
+        type: 'IMAGE_UPLOAD',
+        visible: 'PROGRESS',
+        src: 'test'
+      });
     });
 
     it('should handle image processing', () => {
@@ -42,7 +46,8 @@ describe('(store) actions', () => {
     expect(initialState).to.eql({
       visible: 'UPLOAD',
       percentComplete: 0,
-      output: ''
+      output: '',
+      src: ''
     });
   });
 

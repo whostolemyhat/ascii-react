@@ -1,4 +1,4 @@
-console.log('worker script loaded');
+// console.log('worker script loaded');
 
 export function pixelToChar (pixel, mapLength) {
   const averageShade = Math.floor(pixel.r * 0.3 + pixel.b * 0.3 + pixel.g * 0.3);
@@ -10,7 +10,7 @@ export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 // const charMapInverse = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
-  console.log(e.data);
+  // console.log(e.data);
 
   const pixels = e.data[0];
 
