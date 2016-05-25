@@ -24,9 +24,9 @@ describe('(service) AsciiConverter', () => {
   });
 
   it('should send data to worker', () => {
-    ascii.toAscii('hello');
+    ascii.toAscii('hello', {});
 
-    expect(postMessageStub).to.have.been.calledWith(['hello']);
+    expect(postMessageStub).to.have.been.calledWith(['hello', {}]);
   });
 
   describe('onmessage', () => {

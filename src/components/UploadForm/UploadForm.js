@@ -16,7 +16,8 @@ export default class UploadForm extends React.Component {
       'image/jpeg',
       'image/jpg',
       'image/png'
-    ]
+    ],
+    resolution: 1
   };
 
   onClick = () => {
@@ -52,7 +53,7 @@ export default class UploadForm extends React.Component {
       const canvas = ReactDOM.findDOMNode(this.refs.photo);
       let image = new Image();
 
-        // note case!
+      // note case!
       image.onload = () => { this.renderImage(canvas, image); };
       image.src = window.URL.createObjectURL(file);
 
@@ -61,16 +62,24 @@ export default class UploadForm extends React.Component {
     }
   }
 
+  handleResolutionChange = e => {
+    this.setState({ resolution: e.target.value });
+  }
+
   renderImage = (canvas, image) => {
-      // resize canvas to image
+    // resize canvas to image
     canvas.width = image.width;
     canvas.height = image.height;
     const context = canvas.getContext('2d');
     context.drawImage(image, 0, 0);
 
-      // todo: this should be an action
     this.props.handleImageProcessing();
-    this.props.converter.toAscii(context.getImageData(0, 0, canvas.width, canvas.height));
+    this.props.converter.toAscii(
+      context.getImageData(0, 0, canvas.width, canvas.height),
+      {
+        resolution: this.state.resolution
+      }
+    );
   }
 
   render () {
@@ -81,18 +90,26 @@ export default class UploadForm extends React.Component {
     });
 
     return (
-      <div
-        className={classes}
-        onClick={this.onClick}
-        onDrop={this.onDrop}
-        onDragEnter={this.onDragEnter}
-        onDragOver={this.onDragOver}
-        onDragLeave={this.onDragLeave}>
+      <div className='upload__wrapper'>
+        <label htmlFor='resolution'>Resolution (lower = better quality but slower)</label>
+        <input type='number'
+          name='resolution'
+          id='resolution'
+          onChange={this.handleResolutionChange}
+          value={this.state.resolution} />
+        <div
+          className={classes}
+          onClick={this.onClick}
+          onDrop={this.onDrop}
+          onDragEnter={this.onDragEnter}
+          onDragOver={this.onDragOver}
+          onDragLeave={this.onDragLeave}>
 
-        { this.props.children }
+          {this.props.children}
 
-        <input type='file' ref='input' onChange={this.onDrop} className='input' />
-        <canvas ref='photo' className='canvas'></canvas>
+          <input type='file' ref='input' onChange={this.onDrop} className='input' />
+          <canvas ref='photo' className='canvas'></canvas>
+        </div>
       </div>
     );
   }
