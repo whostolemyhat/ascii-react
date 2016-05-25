@@ -1,4 +1,5 @@
 import { AsciiWorker, pixelToChar, charMap } from 'services/asciiWorker';
+import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
@@ -21,9 +22,28 @@ describe('(service) AsciiWorker', () => {
     AsciiWorker.onmessage({
       data: [{
         data: [120, 200, 12], width: 10, height: 10
-      }]
+      },
+      {}]
     });
 
     expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';' });
+  });
+
+  it('should allow resolution to be changed', () => {
+    const pixel = [120, 200, 12];
+
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel, pixel, pixel]), width: 10, height: 10
+        },
+        {
+          resolution: 2
+        }
+      ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;' });
   });
 });

@@ -21,7 +21,7 @@ describe('(Component) UploadForm', () => {
   });
 
   it('should have a file input', () => {
-    const input = _component.find('input');
+    const input = _component.find('.input');
     expect(input).to.exist;
     expect(input.props().type).to.equal('file');
   });
@@ -29,6 +29,10 @@ describe('(Component) UploadForm', () => {
   it('should have a canvas', () => {
     const canvas = _component.find('.canvas');
     expect(canvas).to.exist;
-    // expect(canvas.props().ref).to.equal('photo');
+  });
+
+  it('should have a resolution input', () => {
+    expect(_component.find('#resolution')).to.exist;
+    expect(_component.find('#resolution').prop('type')).to.equal('number');
   });
 });
