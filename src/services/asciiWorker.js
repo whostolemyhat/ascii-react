@@ -5,7 +5,6 @@ export function pixelToChar (pixel, mapLength) {
 
 export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 // const charMapSpace = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
-// const charMapInverse = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
   // console.log(e.data);
@@ -14,7 +13,12 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
   const options = e.data[1];
 
   // TODO: allow resolution
-  const resolution = options.resolution || 1;
+  const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
+  const invert = options.invert;
+  if (invert) {
+    // Note: works in-place!
+    charMap.reverse();
+  }
 
   // r,g,b,a
   const PIXEL_LENGTH = 4;
