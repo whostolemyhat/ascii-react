@@ -1,5 +1,3 @@
-// console.log('worker script loaded');
-
 export function pixelToChar (pixel, mapLength) {
   const averageShade = Math.floor(pixel.r * 0.3 + pixel.b * 0.3 + pixel.g * 0.3);
   return Math.floor((255 - averageShade) * (mapLength / 256));
@@ -10,14 +8,15 @@ export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 // const charMapInverse = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
-  // console.log(e.data);
+  console.log(e.data);
 
   const pixels = e.data[0];
+  const options = e.data[1];
 
-    // TODO: allow resolution
-  const resolution = 1;
+  // TODO: allow resolution
+  const resolution = options.resolution || 1;
 
-    // r,g,b,a
+  // r,g,b,a
   const PIXEL_LENGTH = 4;
   const imgWidth = pixels.width * PIXEL_LENGTH;
   const rowPercent = 100 / pixels.height;
@@ -41,7 +40,7 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
       postMessage({ type: 'progress', value: (rowCount * rowPercent) * resolution });
       rowCount++;
 
-            // skip rows
+      // skip rows
       i += imgWidth * (resolution - 1);
     }
   }
