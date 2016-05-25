@@ -1,6 +1,6 @@
 #Ascii-React
 
-[![Build Status](https://travis-ci.org/whostolemyhat/ascii-react.svg?branch=master)](https://travis-ci.org/whostolemyhat/ascii-react) [![license](https://img.shields.io/github/license/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://github.com/whostolemyhat/ascii-react/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/whostolemyhat/ascii-react.svg?maxAge=2592000)]() [![David](https://img.shields.io/david/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://david-dm.org/whostolemyhat/ascii-react)
+[![Build Status](https://travis-ci.org/whostolemyhat/ascii-react.svg?branch=master)](https://travis-ci.org/whostolemyhat/ascii-react) [![David](https://img.shields.io/david/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://david-dm.org/whostolemyhat/ascii-react) [![license](https://img.shields.io/github/license/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://github.com/whostolemyhat/ascii-react/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/whostolemyhat/ascii-react.svg?maxAge=2592000)]()
 
 React.js-based web app which converts images to ASCII text using service workers.
 
