@@ -3,6 +3,10 @@ import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
+  beforeEach(() => {
+    console.log(charMap);
+  });
+
   it('should have a character map', () => {
     expect(charMap).to.be.an('array');
   });
@@ -19,14 +23,17 @@ describe('(service) AsciiWorker', () => {
 
   it('should send a message', () => {
     window.postMessage = sinon.spy();
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [0, 0, 0, 1];
+
     AsciiWorker.onmessage({
       data: [{
-        data: [120, 200, 12], width: 10, height: 10
+        data: _.flatten([pixel, pixel2]), width: 10, height: 10
       },
       {}]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '@.' });
   });
 
   it('should allow resolution to be changed', () => {
@@ -45,5 +52,24 @@ describe('(service) AsciiWorker', () => {
     });
 
     expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;' });
+  });
+
+  it('should allow charMap to be inverted', () => {
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [0, 0, 0, 1];
+
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel, pixel2, pixel2]), width: 10, height: 10
+        },
+        {
+          invert: true
+        }
+      ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@' });
   });
 });

@@ -13,7 +13,7 @@ export const HomeView = () => (
       <li>style</li>
       <li><strike>preview component</strike></li>
       <li><strike>adjustable font-size</strike></li>
-      <li>allow resolution</li>
+      <li><strike>allow resolution</strike></li>
       <li>Inverse</li>
       <li>use whitespace</li>
       <li>colours</li>

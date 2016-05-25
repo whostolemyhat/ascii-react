@@ -31,8 +31,25 @@ describe('(Component) UploadForm', () => {
     expect(canvas).to.exist;
   });
 
-  it('should have a resolution input', () => {
-    expect(_component.find('#resolution')).to.exist;
-    expect(_component.find('#resolution').prop('type')).to.equal('number');
+  describe('options', () => {
+    it('should have a resolution input', () => {
+      expect(_component.find('#resolution')).to.exist;
+      expect(_component.find('#resolution').prop('type')).to.equal('number');
+    });
+
+    it('should handle resolution change', () => {
+      _component.find('#resolution').simulate('change', { target: { value: 3 } });
+      expect(_component.state('resolution')).to.equal(3);
+    });
+
+    it('should have an inversion input', () => {
+      expect(_component.find('#invert')).to.exist;
+      expect(_component.find('#invert')).prop('type').to.equal('checkbox');
+    });
+
+    it('should handle invert change', () => {
+      _component.find('#invert').simulate('change');
+      expect(_component.state('invert')).to.be.true;
+    });
   });
 });

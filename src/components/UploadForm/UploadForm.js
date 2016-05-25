@@ -17,7 +17,8 @@ export default class UploadForm extends React.Component {
       'image/jpg',
       'image/png'
     ],
-    resolution: 1
+    resolution: 1,
+    invert: false
   };
 
   onClick = () => {
@@ -66,6 +67,10 @@ export default class UploadForm extends React.Component {
     this.setState({ resolution: e.target.value });
   }
 
+  handleInvertChange = () => {
+    this.setState({ invert: !this.state.invert });
+  }
+
   renderImage = (canvas, image) => {
     // resize canvas to image
     canvas.width = image.width;
@@ -77,7 +82,8 @@ export default class UploadForm extends React.Component {
     this.props.converter.toAscii(
       context.getImageData(0, 0, canvas.width, canvas.height),
       {
-        resolution: this.state.resolution
+        resolution: this.state.resolution,
+        invert: this.state.invert
       }
     );
   }
@@ -96,7 +102,17 @@ export default class UploadForm extends React.Component {
           name='resolution'
           id='resolution'
           onChange={this.handleResolutionChange}
-          value={this.state.resolution} />
+          value={this.state.resolution}
+          step='1'
+          min='1' />
+
+        <label htmlFor='invert'>Invert characters</label>
+        <input type='checkbox'
+          name='invert'
+          id='invert'
+          onChange={this.handleInvertChange}
+          checked={this.state.invert} />
+
         <div
           className={classes}
           onClick={this.onClick}
