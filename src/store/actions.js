@@ -70,7 +70,6 @@ export default function asciiApp (state = initialState, action) {
     });
 
   case IMAGE_PROCESSING:
-    console.log('IMAGE_PROCESSING', state, action);
     return Object.assign({}, state, {
       visible: action.visible,
       options: action.options

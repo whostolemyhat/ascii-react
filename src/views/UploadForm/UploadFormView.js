@@ -26,7 +26,8 @@ export class UploadFormView extends React.Component {
     visible: React.PropTypes.string,
     percentComplete: React.PropTypes.number,
     output: React.PropTypes.string,
-    src: React.PropTypes.string
+    src: React.PropTypes.string,
+    options: React.PropTypes.object
   }
 
   componentWillMount () {

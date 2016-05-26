@@ -19,7 +19,11 @@ describe('(store) actions', () => {
     });
 
     it('should handle image processing', () => {
-      expect(imageProcessing()).to.eql({ type: 'IMAGE_PROCESSING', visible: 'PROGRESS' });
+      expect(imageProcessing({})).to.eql({
+        type: 'IMAGE_PROCESSING',
+        visible: 'PROGRESS',
+        options: {}
+      });
     });
 
     it('should handle data received', () => {
@@ -47,7 +51,12 @@ describe('(store) actions', () => {
       visible: 'UPLOAD',
       percentComplete: 0,
       output: '',
-      src: ''
+      src: '',
+      options: {
+        resolution: 1,
+        invert: false,
+        colour: false
+      }
     });
   });
 
