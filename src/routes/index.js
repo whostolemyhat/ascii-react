@@ -21,8 +21,8 @@ import UploadFormView from 'views/UploadForm/UploadFormView';
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>
-    <IndexRoute component={HomeView} />
-    <Route component={UploadFormView} path='/upload' />
+    <IndexRoute component={UploadFormView} />
+    <Route component={HomeView} path='/todo' />
   </Route>
 );
 

@@ -6,11 +6,11 @@ export const Header = () => (
   <div className='header'>
     <h1>Ascii</h1>
     <IndexLink to='/' activeClassName={classes.activeRoute}>
-      Home
+      Upload
     </IndexLink>
     {' · '}
-    <Link to='/upload' activeClassName={classes.activeRoute}>
-      Upload
+    <Link to='/todo' activeClassName={classes.activeRoute}>
+      Todo
     </Link>
   </div>
 );
