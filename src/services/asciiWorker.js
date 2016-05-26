@@ -39,6 +39,8 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
     const char = charMap[ pixelToChar(pixel, charMap.length) ];
     out += char;
 
+    // TODO: wrap in span with rgb
+
     if (i % imgWidth === 0 && i > 0) {
       out += '\r\n';
       postMessage({ type: 'progress', value: (rowCount * rowPercent) * resolution });

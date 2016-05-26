@@ -97,7 +97,7 @@ export default class UploadForm extends React.Component {
 
     return (
       <div className='upload__wrapper'>
-        <label htmlFor='resolution'>Resolution (lower = better quality but slower)</label>
+        <label htmlFor='resolution'>Pixels per char (lower = better quality but slower)</label>
         <input type='number'
           name='resolution'
           id='resolution'
