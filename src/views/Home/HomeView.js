@@ -25,7 +25,7 @@ export const HomeView = () => (
       <li>save as pic</li>
       <li>file size</li>
       <li>routes</li>
-      <li>prod server</li>
+      <li><strike>prod server</strike></li>
     </ul>
   </div>
 );
