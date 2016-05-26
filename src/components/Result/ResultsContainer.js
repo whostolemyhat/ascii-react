@@ -35,7 +35,8 @@ export default class ResultsContainer extends React.Component {
 
         <Result
           output={this.props.output}
-          size={this.state.size} />
+          size={this.state.size}
+          options={this.props.options} />
 
         <nav className='result__nav'>
           <ul>

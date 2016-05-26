@@ -55,6 +55,7 @@ export class UploadFormView extends React.Component {
           : null}
         {this.props.visible === 'RESULT'
           ? <ResultsContainer
+            options={this.props.options}
             output={this.props.output}
             handleReset={this.props.handleReset} />
           : null}
@@ -75,8 +76,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(imageUpload(src));
     },
 
-    handleImageProcessing: () => {
-      dispatch(imageProcessing());
+    handleImageProcessing: options => {
+      dispatch(imageProcessing(options));
     },
 
     handleDataReceived: data => {
