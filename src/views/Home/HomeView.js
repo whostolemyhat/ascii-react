@@ -23,8 +23,10 @@ export const HomeView = () => (
       <li><strike>save result</strike></li>
       <li>enter own characters</li>
       <li>save as pic</li>
+      <li>phaser, save as pic</li>
       <li>file size</li>
-      <li>routes</li>
+      <li><strike>routes</strike></li>
+      <li>url</li>
       <li><strike>prod server</strike></li>
     </ul>
   </div>

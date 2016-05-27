@@ -51,5 +51,15 @@ describe('(Component) UploadForm', () => {
       _component.find('#invert').simulate('change');
       expect(_component.state('invert')).to.be.true;
     });
+
+    it('should have a colour input', () => {
+      expect(_component.find('#colour')).to.exist;
+      expect(_component.find('#colour').prop('type')).to.equal('checkbox');
+    });
+
+    it('should handle colour change', () => {
+      _component.find('#colour').simulate('change');
+      expect(_component.state('colour')).to.be.true;
+    });
   });
 });
