@@ -18,8 +18,14 @@ export default class Result extends React.Component {
     return (
       <div className='results'>
       {this.props.options.colour
-        ? <pre className='result' style={{fontSize: this.props.size + 'px'}} dangerouslySetInnerHTML={this.toHTML()}></pre>
-        : <pre className='result' style={{fontSize: this.props.size + 'px'}}><code>{this.props.output}</code></pre>
+        ? <pre className='result'
+          style={{fontSize: this.props.size + 'px'}}
+          dangerouslySetInnerHTML={this.toHTML()}></pre>
+
+        : <pre className='result'
+          style={{fontSize: this.props.size + 'px'}}>
+            <code>{this.props.output}</code>
+          </pre>
       }
       </div>
     );

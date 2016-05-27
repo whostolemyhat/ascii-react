@@ -25,6 +25,10 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
 
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
+  if (options.whitespace === 'spaces') {
+    charMap[charMap.length - 1] = ' ';
+  }
+
   if (options.invert) {
     // Note: works in-place!
     charMap.reverse();

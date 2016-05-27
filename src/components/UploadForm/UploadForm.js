@@ -19,7 +19,8 @@ export default class UploadForm extends React.Component {
     ],
     resolution: 2,
     invert: false,
-    colour: false
+    colour: false,
+    whitespace: 'dots'
   };
 
   onClick = () => {
@@ -76,6 +77,10 @@ export default class UploadForm extends React.Component {
     this.setState({ colour: !this.state.colour });
   }
 
+  handleWhitespaceChange = e => {
+    this.setState({ whitespace: e.target.value });
+  }
+
   renderImage = (canvas, image) => {
     // resize canvas to image
     canvas.width = image.width;
@@ -85,7 +90,8 @@ export default class UploadForm extends React.Component {
     const options = {
       resolution: this.state.resolution,
       invert: this.state.invert,
-      colour: this.state.colour
+      colour: this.state.colour,
+      whitespace: this.state.whitespace
     };
 
     this.props.handleImageProcessing(options);
@@ -101,6 +107,8 @@ export default class UploadForm extends React.Component {
       'upload--drag-enter': this.state.dragEnter,
       'upload--has-file': this.state.preview
     });
+
+    console.log(this.state);
 
     return (
       <div className='upload__wrapper'>
@@ -126,6 +134,22 @@ export default class UploadForm extends React.Component {
           id='colour'
           onChange={this.handleColourChange}
           checked={this.state.colour} />
+
+        <label htmlFor='dots'>Use dots</label>
+        <input type='radio'
+          name='dots'
+          id='dots'
+          onChange={this.handleWhitespaceChange}
+          checked={this.state.whitespace === 'dots'}
+          value='dots' />
+
+        <label htmlFor='whitespace'>Use spaces</label>
+        <input type='radio'
+          name='whitespace'
+          id='whitespace'
+          onChange={this.handleWhitespaceChange}
+          checked={this.state.whitespace === 'spaces'}
+          value='spaces' />
 
         <div
           className={classes}

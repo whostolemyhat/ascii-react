@@ -61,5 +61,15 @@ describe('(Component) UploadForm', () => {
       _component.find('#colour').simulate('change');
       expect(_component.state('colour')).to.be.true;
     });
+
+    it('should have whitespace inputs', () => {
+      expect(_component.find('#dots')).to.exist;
+      expect(_component.find('#dots').prop('type')).to.equal('radio');
+    });
+
+    it('should handle colour change', () => {
+      _component.find('#colour').simulate('change');
+      expect(_component.state('colour')).to.be.true;
+    });
   });
 });

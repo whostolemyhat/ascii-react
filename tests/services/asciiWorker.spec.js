@@ -90,4 +90,38 @@ describe('(service) AsciiWorker', () => {
       value: '<span style="color:rgb(255, 255, 255)">.</span><span style="color:rgb(123, 0, 12)">#</span>\r\n'
     });
   });
+
+  it('should allow whitespace', () => {
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [123, 0, 12, 1];
+
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+     data: [
+       {
+         data: _.flatten([pixel, pixel2]), width: 10, height: 10
+       },
+       {}
+     ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({
+     type: 'result',
+     value: '.#\r\n'
+    });
+
+    AsciiWorker.onmessage({
+     data: [
+       {
+         data: _.flatten([pixel, pixel2]), width: 10, height: 10
+       },
+       { whitespace: 'spaces' }
+     ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({
+     type: 'result',
+     value: ' #\r\n'
+    });
+  });
 });
