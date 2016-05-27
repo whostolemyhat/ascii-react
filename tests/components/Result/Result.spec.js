@@ -7,7 +7,10 @@ describe('(Component) Result', () => {
 
   beforeEach(() => {
     _props = {
-      output: ''
+      output: '',
+      options: {
+        colour: false
+      }
     };
 
     _wrapper = shallow(<Result { ..._props } />);
@@ -19,7 +22,10 @@ describe('(Component) Result', () => {
 
   it('Shows text', () => {
     _props = {
-      output: 'test'
+      output: 'test',
+      options: {
+        colour: false
+      }
     };
     _wrapper = shallow(<Result { ..._props } />);
 

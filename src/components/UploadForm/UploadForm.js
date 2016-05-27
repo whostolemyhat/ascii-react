@@ -17,8 +17,9 @@ export default class UploadForm extends React.Component {
       'image/jpg',
       'image/png'
     ],
-    resolution: 1,
-    invert: false
+    resolution: 2,
+    invert: false,
+    colour: false
   };
 
   onClick = () => {
@@ -71,20 +72,26 @@ export default class UploadForm extends React.Component {
     this.setState({ invert: !this.state.invert });
   }
 
+  handleColourChange = () => {
+    this.setState({ colour: !this.state.colour });
+  }
+
   renderImage = (canvas, image) => {
     // resize canvas to image
     canvas.width = image.width;
     canvas.height = image.height;
     const context = canvas.getContext('2d');
     context.drawImage(image, 0, 0);
+    const options = {
+      resolution: this.state.resolution,
+      invert: this.state.invert,
+      colour: this.state.colour
+    };
 
-    this.props.handleImageProcessing();
+    this.props.handleImageProcessing(options);
     this.props.converter.toAscii(
       context.getImageData(0, 0, canvas.width, canvas.height),
-      {
-        resolution: this.state.resolution,
-        invert: this.state.invert
-      }
+      options
     );
   }
 
@@ -112,6 +119,13 @@ export default class UploadForm extends React.Component {
           id='invert'
           onChange={this.handleInvertChange}
           checked={this.state.invert} />
+
+        <label htmlFor='colour'>Colour</label>
+        <input type='checkbox'
+          name='colour'
+          id='colour'
+          onChange={this.handleColourChange}
+          checked={this.state.colour} />
 
         <div
           className={classes}

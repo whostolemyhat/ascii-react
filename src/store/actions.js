@@ -19,10 +19,11 @@ export function imageUpload (src) {
   };
 }
 
-export function imageProcessing () {
+export function imageProcessing (options) {
   return {
     type: IMAGE_PROCESSING,
-    visible: VisibilityState.PROGRESS
+    visible: VisibilityState.PROGRESS,
+    options
   };
 }
 
@@ -52,7 +53,12 @@ export const initialState = {
   visible: VisibilityState.UPLOAD,
   percentComplete: 0,
   output: '',
-  src: ''
+  src: '',
+  options: {
+    resolution: 1,
+    invert: false,
+    colour: false
+  }
 };
 
 export default function asciiApp (state = initialState, action) {
@@ -65,7 +71,8 @@ export default function asciiApp (state = initialState, action) {
 
   case IMAGE_PROCESSING:
     return Object.assign({}, state, {
-      visible: action.visible
+      visible: action.visible,
+      options: action.options
     });
 
   case DATA_RECEIVED:

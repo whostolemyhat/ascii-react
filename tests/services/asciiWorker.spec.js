@@ -3,10 +3,6 @@ import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
-  beforeEach(() => {
-    console.log(charMap);
-  });
-
   it('should have a character map', () => {
     expect(charMap).to.be.an('array');
   });
@@ -33,7 +29,7 @@ describe('(service) AsciiWorker', () => {
       {}]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '@.' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '@.\r\n' });
   });
 
   it('should allow resolution to be changed', () => {
@@ -51,7 +47,7 @@ describe('(service) AsciiWorker', () => {
       ]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;\r\n' });
   });
 
   it('should allow charMap to be inverted', () => {
@@ -70,6 +66,28 @@ describe('(service) AsciiWorker', () => {
       ]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@\r\n' });
+  });
+
+  it('should allow colour option', () => {
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [123, 0, 12, 1];
+
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel2]), width: 10, height: 10
+        },
+        {
+          colour: true
+        }
+      ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({
+      type: 'result',
+      value: '<span style="color:rgb(255, 255, 255)">.</span><span style="color:rgb(123, 0, 12)">#</span>\r\n'
+    });
   });
 });
