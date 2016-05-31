@@ -4,7 +4,8 @@ import Result from 'components/Result/Result';
 export default class ResultsContainer extends React.Component {
   static propTypes = {
     output: React.PropTypes.string,
-    handleReset: React.PropTypes.func.isRequired
+    handleReset: React.PropTypes.func.isRequired,
+    options: React.PropTypes.object.isRequired
   }
 
   state = {
@@ -18,6 +19,21 @@ export default class ResultsContainer extends React.Component {
 
   handleFontSizeChange = e => {
     this.setState({ size: e.target.value });
+  }
+
+  getEncodedResult () {
+    let openWrapper = '';
+    let closeWrapper = '';
+
+    if (this.props.options.colour) {
+      openWrapper = '<pre>';
+      closeWrapper = '</pre>';
+    }
+
+    // ignore long line - using 'pre'
+    /* eslint-disable max-len */
+    return `data:text/plain;charset=utf-8,${ encodeURIComponent(openWrapper) }${ encodeURIComponent(this.props.output) }${ encodeURIComponent(closeWrapper) }`;
+    /* eslint-enable max-len */
   }
 
   render () {
@@ -39,23 +55,18 @@ export default class ResultsContainer extends React.Component {
           options={this.props.options} />
 
         <nav className='result__nav'>
-          <ul>
-            <li>
-              <a
-                href={'data:text/plain;charset=utf-8,' + encodeURIComponent(this.props.output)}
-                className='result__download'
-                download='ascii.txt'>
-                Download
-              </a>
-            </li>
-            <li>
-              <a href='/upload'
-                className='result__reset'
-                onClick={this.handleResetClick}>
-                  Upload another image
-              </a>
-            </li>
-          </ul>
+          <a
+            href={this.getEncodedResult()}
+            className='result__download button'
+            download={this.props.options.colour ? 'ascii.html' : 'ascii.txt'}>
+            Download
+          </a>
+
+          <a href='/upload'
+            className='result__reset'
+            onClick={this.handleResetClick}>
+              Upload another image
+          </a>
         </nav>
       </div>
     );

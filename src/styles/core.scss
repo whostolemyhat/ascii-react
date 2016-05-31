@@ -1,9 +1,4 @@
 :global {
-  @import 'base';
-  @import '~normalize.css/normalize';
-
-  // Some best-practice CSS that's useful for most apps
-  // Just remove them if they're not what you want
   html {
     box-sizing: border-box;
   }
@@ -20,4 +15,13 @@
   *:after {
     box-sizing: inherit;
   }
+
+  @import '~normalize.css/normalize';
+
+  @import 'variables';
+  @import 'base';
+  @import 'upload';
+  @import 'progress';
+  @import 'result';
+  @import 'footer';
 }

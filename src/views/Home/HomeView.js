@@ -1,5 +1,4 @@
 import React from 'react';
-import DuckImage from './assets/Duck.jpg';
 
 export const HomeView = () => (
   <div>
@@ -7,7 +6,7 @@ export const HomeView = () => (
 
     <ul>
       <li><strike>remove core</strike></li>
-      <li>style</li>
+      <li>style, fonts, colours</li>
       <li><strike>preview component</strike></li>
       <li><strike>adjustable font-size</strike></li>
       <li><strike>allow resolution</strike></li>
@@ -25,6 +24,8 @@ export const HomeView = () => (
       <li><strike>routes</strike></li>
       <li><strike>url</strike></li>
       <li><strike>prod server</strike></li>
+      <li>Example pic</li>
+      <li>Better copy</li>
     </ul>
   </div>
 );

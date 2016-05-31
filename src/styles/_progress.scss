@@ -1,0 +1,32 @@
+.progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: grey;
+}
+
+progress {
+    border-radius: $border-radius;
+    width: calc(100% - 125px);
+
+    @media (min-width: 1024px) {
+        width: 50%;
+    }
+}
+
+progress::-webkit-progress-bar {
+    background-color: #E8F1F5;
+    border-radius: $border-radius;
+}
+progress::-webkit-progress-value {
+    background-color: $blue;
+    border-radius: $border-radius;
+}
+progress::-moz-progress-bar {
+    /* style rules */
+}
+
+.preview {
+    max-width: 100px;
+    margin-right: 25px;
+}

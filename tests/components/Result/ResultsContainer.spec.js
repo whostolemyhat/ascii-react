@@ -12,7 +12,10 @@ describe('(component) ResultsContainer', () => {
 
     _props = {
       output: 'testOutput',
-      handleReset: resetStub
+      handleReset: resetStub,
+      options: {
+        colour: false
+      }
     };
 
     _component = shallow(<ResultsContainer { ..._props } />);
@@ -43,6 +46,26 @@ describe('(component) ResultsContainer', () => {
       expect(link.prop('download')).to.match(/ascii.txt/);
       expect(link.prop('href'))
         .to.equal('data:text/plain;charset=utf-8,' + encodeURIComponent('testOutput'));
+    });
+
+    it('handles HTML download', () => {
+      resetStub = sinon.spy();
+
+      _props = {
+        output: 'testOutput',
+        handleReset: resetStub,
+        options: {
+          colour: true
+        }
+      };
+
+      _component = shallow(<ResultsContainer { ..._props } />);
+
+      const link = _component.find('.result__download');
+
+      expect(link.prop('download')).to.match(/ascii.html/);
+      expect(link.prop('href'))
+        .to.equal('data:text/plain;charset=utf-8,' + encodeURIComponent('<pre>') + encodeURIComponent('testOutput') + encodeURIComponent('</pre>'));
     });
   });
 
