@@ -1,0 +1,56 @@
+.upload {
+    background: #FCFF89;
+    border-radius: 5px;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &--drag-enter {
+        background: #FE7187;
+    }
+
+    &--has-file {
+        background: $blue;
+    }
+
+    .input,
+    .canvas {
+        display: none;
+    }
+}
+
+.upload__wrapper {
+    margin: auto;
+    max-width: 800px;
+}
+
+.upload__copy {
+    max-width: 600px;
+    margin: 1.5rem auto;
+}
+
+.form-row {
+    margin-bottom: 0.5rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+.label__info {
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+input[type='number'] {
+    width: 100px;
+    padding: 0.25rem;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+    margin: auto 0.5rem;
+}

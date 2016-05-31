@@ -1,0 +1,20 @@
+.result {
+    font-size: 4px;
+    line-height: 1;
+    letter-spacing: 0.5em;
+    margin: 2rem auto 3rem;
+}
+
+.button {
+    color: $white;
+    background: $red;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+    padding: 0.8rem 1rem;
+    margin: 1rem;
+    text-decoration: none;
+
+    &:hover {
+      background: lighten($red, 5%);
+    }
+}

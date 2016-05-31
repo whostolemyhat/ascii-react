@@ -16,7 +16,8 @@ export function pixelToChar (pixel, mapLength) {
   return Math.floor((255 - averageShade) * (mapLength / 256));
 }
 
-export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+// export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
   const pixels = e.data[0];
@@ -25,7 +26,7 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
   if (options.whitespace === 'spaces') {
-    charMap[charMap.length - 1] = ' ';
+    charMap[0] = ' ';
   }
 
   if (options.invert) {
