@@ -5,8 +5,6 @@ export default class AsciiConverter extends EventEmitter {
   toAscii (pixels, options) {
     this.worker = new Worker();
 
-    console.log('options', options);
-
     this.worker.postMessage([pixels, options]);
     this.worker.onmessage = e => {
       if (e.data.type === 'progress') {

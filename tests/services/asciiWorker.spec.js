@@ -1,8 +1,12 @@
-import { AsciiWorker, pixelToChar, charMap } from 'services/asciiWorker';
+import { pixelToChar, charMap } from 'services/asciiWorker';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
+  beforeEach(() => {
+    import { AsciiWorker } from 'services/asciiWorker';
+  });
+
   it('should have a character map', () => {
     expect(charMap).to.be.an('array');
   });
@@ -88,6 +92,40 @@ describe('(service) AsciiWorker', () => {
     expect(postMessage).to.have.been.calledWith({
       type: 'result',
       value: '<span style="color:rgb(255, 255, 255)">.</span><span style="color:rgb(123, 0, 12)">#</span>\r\n'
+    });
+  });
+
+  it('should allow whitespace', () => {
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [123, 0, 12, 1];
+
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel2]), width: 10, height: 10
+        },
+        {}
+      ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({
+      type: 'result',
+      value: '.#\r\n'
+    });
+
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel2]), width: 10, height: 10
+        },
+        { whitespace: 'spaces' }
+      ]
+    });
+
+    expect(postMessage).to.have.been.calledWith({
+      type: 'result',
+      value: ' #\r\n'
     });
   });
 });

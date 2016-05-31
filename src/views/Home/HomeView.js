@@ -16,7 +16,7 @@ export const HomeView = () => (
       <li><strike>allow resolution</strike></li>
       <li><strike>Inverse</strike></li>
       <li>use whitespace</li>
-      <li>colours</li>
+      <li><strike>colours</strike></li>
       <li>error handling - eg not correct type, too large</li>
       <li>info bar</li>
       <li>run on server</li>
@@ -26,7 +26,7 @@ export const HomeView = () => (
       <li>phaser, save as pic</li>
       <li>file size</li>
       <li><strike>routes</strike></li>
-      <li>url</li>
+      <li><strike>url</strike></li>
       <li><strike>prod server</strike></li>
     </ul>
   </div>

@@ -17,13 +17,21 @@ export function pixelToChar (pixel, mapLength) {
 }
 
 export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+// export const charMapInverse = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 // const charMapSpace = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
+// const charMapSpaceInverse = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
   const pixels = e.data[0];
   const options = e.data[1];
 
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
+
+  if (options.whitespace === 'spaces') {
+    console.log('yep its spaces');
+    charMap[charMap.length - 1] = ' ';
+    console.log(charMap);
+  }
 
   if (options.invert) {
     // Note: works in-place!
@@ -58,6 +66,7 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
     postMessage({ type: 'progress', value: (i * rowPercent) * resolution });
   }
 
+  console.log('out', out);
   postMessage({ type: 'result', value: out });
 };
 
