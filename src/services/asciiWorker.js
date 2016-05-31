@@ -17,7 +17,9 @@ export function pixelToChar (pixel, mapLength) {
 }
 
 export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+// export const charMapInverse = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 // const charMapSpace = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
+// const charMapSpaceInverse = ['@', '#', '%', 'x', 'o', ';', ':', ',', ' '];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
   const pixels = e.data[0];

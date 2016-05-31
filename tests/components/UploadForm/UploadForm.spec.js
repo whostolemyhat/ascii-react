@@ -70,7 +70,7 @@ describe('(Component) UploadForm', () => {
     });
 
     it('should handle whitespace change', () => {
-      _component.find('#whitespace').simulate('click', { target: { value: 'spaces' } });
+      _component.find('#whitespace').simulate('change', { target: { value: 'spaces' } });
       expect(_component.state('whitespace')).to.equal('spaces');
     });
   });

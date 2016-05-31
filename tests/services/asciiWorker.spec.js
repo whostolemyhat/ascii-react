@@ -1,8 +1,12 @@
-import { AsciiWorker, pixelToChar, charMap } from 'services/asciiWorker';
+import { pixelToChar, charMap } from 'services/asciiWorker';
 import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
+  beforeEach(() => {
+    import { AsciiWorker } from 'services/asciiWorker';
+  });
+
   it('should have a character map', () => {
     expect(charMap).to.be.an('array');
   });
@@ -50,24 +54,24 @@ describe('(service) AsciiWorker', () => {
     expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;\r\n' });
   });
 
-  // it('should allow charMap to be inverted', () => {
-  //   const pixel = [255, 255, 255, 1];
-  //   const pixel2 = [0, 0, 0, 1];
+  it('should allow charMap to be inverted', () => {
+    const pixel = [255, 255, 255, 1];
+    const pixel2 = [0, 0, 0, 1];
 
-  //   window.postMessage = sinon.spy();
-  //   AsciiWorker.onmessage({
-  //     data: [
-  //       {
-  //         data: _.flatten([pixel, pixel, pixel2, pixel2]), width: 10, height: 10
-  //       },
-  //       {
-  //         invert: true
-  //       }
-  //     ]
-  //   });
+    window.postMessage = sinon.spy();
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel, pixel2, pixel2]), width: 10, height: 10
+        },
+        {
+          invert: true
+        }
+      ]
+    });
 
-  //   expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@\r\n' });
-  // });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@\r\n' });
+  });
 
   it('should allow colour option', () => {
     const pixel = [255, 255, 255, 1];
@@ -96,19 +100,19 @@ describe('(service) AsciiWorker', () => {
     const pixel2 = [123, 0, 12, 1];
 
     window.postMessage = sinon.spy();
-    // AsciiWorker.onmessage({
-    //   data: [
-    //     {
-    //       data: _.flatten([pixel, pixel2]), width: 10, height: 10
-    //     },
-    //     {}
-    //   ]
-    // });
+    AsciiWorker.onmessage({
+      data: [
+        {
+          data: _.flatten([pixel, pixel2]), width: 10, height: 10
+        },
+        {}
+      ]
+    });
 
-    // expect(postMessage).to.have.been.calledWith({
-    //   type: 'result',
-    //   value: '.#\r\n'
-    // });
+    expect(postMessage).to.have.been.calledWith({
+      type: 'result',
+      value: '.#\r\n'
+    });
 
     AsciiWorker.onmessage({
       data: [
