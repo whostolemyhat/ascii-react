@@ -3,8 +3,12 @@ import _ from 'lodash';
 import sinon from 'sinon';
 
 describe('(service) AsciiWorker', () => {
+  let AsciiWorker;
+
   beforeEach(() => {
-    import { AsciiWorker } from 'services/asciiWorker';
+    let inject = require('inject!services/asciiWorker');
+    AsciiWorker = inject({}).AsciiWorker;
+    // import { AsciiWorker } from 'services/asciiWorker';
   });
 
   it('should have a character map', () => {
@@ -33,7 +37,7 @@ describe('(service) AsciiWorker', () => {
       {}]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '@.\r\n' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '.@\r\n' });
   });
 
   it('should allow resolution to be changed', () => {
@@ -51,7 +55,7 @@ describe('(service) AsciiWorker', () => {
       ]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: ';;\r\n' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: 'xx\r\n' });
   });
 
   it('should allow charMap to be inverted', () => {
@@ -70,7 +74,7 @@ describe('(service) AsciiWorker', () => {
       ]
     });
 
-    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '..@@\r\n' });
+    expect(postMessage).to.have.been.calledWith({ type: 'result', value: '@@..\r\n' });
   });
 
   it('should allow colour option', () => {
