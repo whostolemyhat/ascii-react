@@ -4,9 +4,6 @@ import DuckImage from './assets/Duck.jpg';
 export const HomeView = () => (
   <div>
     <h4>TODO</h4>
-    <img
-      alt='This is a duck, because Redux!'
-      src={DuckImage} />
 
     <ul>
       <li><strike>remove core</strike></li>
@@ -15,7 +12,7 @@ export const HomeView = () => (
       <li><strike>adjustable font-size</strike></li>
       <li><strike>allow resolution</strike></li>
       <li><strike>Inverse</strike></li>
-      <li>use whitespace</li>
+      <li><strike>use whitespace</strike></li>
       <li><strike>colours</strike></li>
       <li>error handling - eg not correct type, too large</li>
       <li>info bar</li>

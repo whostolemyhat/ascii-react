@@ -78,7 +78,6 @@ export default class UploadForm extends React.Component {
   }
 
   handleWhitespaceChange = e => {
-    console.log('setting ', e.target.value);
     this.setState({ whitespace: e.target.value });
   }
 
