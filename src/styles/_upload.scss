@@ -20,6 +20,10 @@
     .canvas {
         display: none;
     }
+
+    &--error {
+        background: $red;
+    }
 }
 
 .upload__wrapper {
