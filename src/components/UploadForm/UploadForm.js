@@ -20,7 +20,8 @@ export default class UploadForm extends React.Component {
     resolution: 2,
     invert: false,
     colour: false,
-    whitespace: 'dots'
+    whitespace: 'dots',
+    error: false
   };
 
   onClick = () => {
@@ -45,11 +46,15 @@ export default class UploadForm extends React.Component {
 
   onDrop = e => {
     e.preventDefault();
-    this.setState({ dragEnter: false });
+    this.setState({
+      dragEnter: false,
+      error: false,
+      errorMessage: ''
+    });
 
     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
 
-      // check only one
+    // check only one
     let file = files[0];
 
     if (this.state.allowedTypes.indexOf(file.type) > -1) {
@@ -62,6 +67,11 @@ export default class UploadForm extends React.Component {
 
       this.props.handleImageUpload(window.URL.createObjectURL(file));
       this.setState({ image });
+    } else {
+      this.setState({
+        error: true,
+        errorMessage: 'Image type not recognised'
+      });
     }
   }
 
@@ -105,19 +115,27 @@ export default class UploadForm extends React.Component {
     const classes = classnames({
       'upload': true,
       'upload--drag-enter': this.state.dragEnter,
-      'upload--has-file': this.state.preview
+      'upload--has-file': this.state.preview,
+      'upload--error': this.state.error
+    });
+
+    const errorClasses = classnames({
+      'error-message': true,
+      'error-message--visible': this.state.error
     });
 
     return (
       <div className='upload__wrapper'>
         <div className='form__options'>
           <div className='form-row'>
-            <label htmlFor='resolution'>Quality <span className='label__info'>(lower = better quality but slower)</span> </label>
+            <label htmlFor='resolution'>Quality
+              <span className='label__info'>(lower = better quality but slower)</span>
+            </label>
             <input type='number'
               name='resolution'
               id='resolution'
-              onChange={this.handleResolutionChange}
-              value={this.state.resolution}
+              onChange={ this.handleResolutionChange }
+              value={ this.state.resolution }
               step='1'
               min='1' />
           </div>
@@ -127,8 +145,8 @@ export default class UploadForm extends React.Component {
             <input type='checkbox'
               name='invert'
               id='invert'
-              onChange={this.handleInvertChange}
-              checked={this.state.invert} />
+              onChange={ this.handleInvertChange }
+              checked={ this.state.invert } />
           </div>
 
           <div className='form-row'>
@@ -136,8 +154,8 @@ export default class UploadForm extends React.Component {
             <input type='checkbox'
               name='colour'
               id='colour'
-              onChange={this.handleColourChange}
-              checked={this.state.colour} />
+              onChange={ this.handleColourChange }
+              checked={ this.state.colour } />
           </div>
 
           <div className='form-row'>
@@ -146,31 +164,32 @@ export default class UploadForm extends React.Component {
             <input type='radio'
               name='dots'
               id='dots'
-              onChange={this.handleWhitespaceChange}
-              checked={this.state.whitespace === 'dots'}
+              onChange={ this.handleWhitespaceChange }
+              checked={ this.state.whitespace === 'dots' }
               value='dots' />
 
             <label htmlFor='whitespace'>use spaces</label>
             <input type='radio'
               name='whitespace'
               id='whitespace'
-              onChange={this.handleWhitespaceChange}
-              checked={this.state.whitespace === 'spaces'}
+              onChange={ this.handleWhitespaceChange }
+              checked={ this.state.whitespace === 'spaces' }
               value='spaces' />
           </div>
         </div>
 
+        <div className={ errorClasses }>{ this.state.errorMessage }</div>
         <div
-          className={classes}
-          onClick={this.onClick}
-          onDrop={this.onDrop}
-          onDragEnter={this.onDragEnter}
-          onDragOver={this.onDragOver}
-          onDragLeave={this.onDragLeave}>
+          className={ classes }
+          onClick={ this.onClick }
+          onDrop={ this.onDrop }
+          onDragEnter={ this.onDragEnter }
+          onDragOver={ this.onDragOver }
+          onDragLeave={ this.onDragLeave }>
 
-          {this.props.children}
+          { this.props.children }
 
-          <input type='file' ref='input' onChange={this.onDrop} className='input' />
+          <input type='file' ref='input' onChange={ this.onDrop } className='input' />
           <canvas ref='photo' className='canvas'></canvas>
         </div>
 

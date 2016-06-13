@@ -31,6 +31,23 @@ describe('(Component) UploadForm', () => {
     expect(canvas).to.exist;
   });
 
+  it('should show an error message if non-image is uploaded', () => {
+    const textFile = {
+      preventDefault: () => {},
+      target: {
+        files: [
+          { type: 'txt' }
+        ]
+      }
+    };
+    _component.instance().onDrop(textFile);
+    _component.update();
+
+    const message = _component.find('.error-message--visible');
+    expect(message).to.exist;
+    expect(message.text()).to.match(/Image type not recognised/);
+  });
+
   describe('options', () => {
     it('should have a resolution input', () => {
       expect(_component.find('#resolution')).to.exist;
