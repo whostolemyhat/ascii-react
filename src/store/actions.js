@@ -58,8 +58,7 @@ export const initialState = {
     resolution: 1,
     invert: false,
     colour: false
-  },
-  errorMsg: ''
+  }
 };
 
 export default function asciiApp (state = initialState, action) {

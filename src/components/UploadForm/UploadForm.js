@@ -54,7 +54,7 @@ export default class UploadForm extends React.Component {
 
     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
 
-      // check only one
+    // check only one
     let file = files[0];
 
     if (this.state.allowedTypes.indexOf(file.type) > -1) {
@@ -72,7 +72,6 @@ export default class UploadForm extends React.Component {
         error: true,
         errorMessage: 'Image type not recognised'
       });
-      // this.props.handleImageError('Image type not recognised.');
     }
   }
 
@@ -129,7 +128,9 @@ export default class UploadForm extends React.Component {
       <div className='upload__wrapper'>
         <div className='form__options'>
           <div className='form-row'>
-            <label htmlFor='resolution'>Quality <span className='label__info'>(lower = better quality but slower)</span> </label>
+            <label htmlFor='resolution'>Quality
+              <span className='label__info'>(lower = better quality but slower)</span>
+            </label>
             <input type='number'
               name='resolution'
               id='resolution'
