@@ -26,6 +26,7 @@ export const HomeView = () => (
       <li><strike>prod server</strike></li>
       <li>Example pic</li>
       <li>Better copy</li>
+      <li>Tweak options on result page</li>
     </ul>
   </div>
 );

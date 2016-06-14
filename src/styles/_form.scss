@@ -1,0 +1,29 @@
+
+.form-row {
+    margin-bottom: 0.5rem;
+}
+
+.form__options {
+    background: $grey;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+label {
+    // font-weight: bold;
+}
+
+.label__info {
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+input[type='number'] {
+    width: 100px;
+    padding: 0.25rem;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+    margin: auto 0.5rem;
+}
