@@ -42,6 +42,7 @@ export default class UploadForm extends React.Component {
 
   onDragLeave = e => {
     e.preventDefault();
+    this.setState({ dragEnter: false });
   }
 
   onDrop = e => {
@@ -187,7 +188,12 @@ export default class UploadForm extends React.Component {
           onDragOver={ this.onDragOver }
           onDragLeave={ this.onDragLeave }>
 
-          { this.props.children }
+          <span className='instructions instructions--standard'>
+            Drag an image here, or click to upload
+          </span>
+          <span className='instructions instructions--drop'>
+            Drop it!
+          </span>
 
           <input type='file' ref='input' onChange={ this.onDrop } className='input' />
           <canvas ref='photo' className='canvas'></canvas>
@@ -197,7 +203,8 @@ export default class UploadForm extends React.Component {
         Black-and-white images are converted into text format, and the colour option converts
         pictures into HTML.</p>
 
-        <p className='upload__copy'>Choose between allowing white space to be shown as spaces or as dots, and try inverting
+        <p className='upload__copy'>Choose between allowing white space to be
+         shown as spaces or as dots, and try inverting
         the characters used to get the best results. The quality setting changes how many pixels are
         used per character in the output - lower numbers in the quality setting will result in a
         better-looking result, but will take longer.</p>

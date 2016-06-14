@@ -43,9 +43,7 @@ export class UploadFormView extends React.Component {
           ? <UploadForm
             converter={ this.ascii }
             handleImageUpload={ this.props.handleImageUpload }
-            handleImageProcessing={ this.props.handleImageProcessing }>
-            Drop an image here, or click to pick
-          </UploadForm>
+            handleImageProcessing={ this.props.handleImageProcessing } />
           : null }
         { this.props.visible === 'PROGRESS' || this.props.visible === 'RESULT'
           ? <Preview src={ this.props.src } />
