@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+// import { IndexLink, Link } from 'react-router';
 
 export const Header = () => (
   <header className='header'>
@@ -9,14 +9,10 @@ export const Header = () => (
       Convert pictures and photos into text or HTML.
     </p>
 
-    <IndexLink to='/' activeClassName='nav--active'>
-      Upload
-    </IndexLink>
-    { ' · ' }
-    <Link to='/todo' activeClassName='nav--active'>
-      Todo
-    </Link>
   </header>
 );
 
 export default Header;
+    // <IndexLink to='/' activeClassName='nav--active'>
+    //   Upload
+    // </IndexLink>

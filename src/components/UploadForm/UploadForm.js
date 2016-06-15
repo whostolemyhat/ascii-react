@@ -143,7 +143,7 @@ export default class UploadForm extends React.Component {
           </div>
 
           <div className='form-row'>
-            <label htmlFor='colour'>Colour</label>
+            <label htmlFor='colour'>Use colour</label>
             <input type='checkbox'
               name='colour'
               id='colour'
@@ -188,9 +188,9 @@ export default class UploadForm extends React.Component {
           onDragOver={ this.onDragOver }
           onDragLeave={ this.onDragLeave }>
 
-          <span className='instructions instructions--standard'>
-            Drag an image here, or click to upload
-          </span>
+          <div className='instructions instructions--standard'>
+            Drag an image here, or <button className='button icon-arrow-up'>upload</button>
+          </div>
           <span className='instructions instructions--drop'>
             Drop it!
           </span>
