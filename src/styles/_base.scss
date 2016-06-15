@@ -13,4 +13,20 @@ ul {
     margin: auto;
 }
 
+a {
+  color: $black;
+  text-decoration: underline;
+  font-weight: bold;
 
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: $black;
+  }
+}
+
+.nav--active {
+  text-decoration: none;
+}
