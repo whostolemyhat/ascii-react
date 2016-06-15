@@ -17,6 +17,14 @@ describe('(Component) Progress', () => {
     expect(_wrapper.find('progress')).to.exist;
   });
 
+  it('renders message', () => {
+    expect(_wrapper.text()).to.match(/Working.../);
+  });
+
+  it('renders a loading icon', () => {
+    expect(_wrapper.find('.progress__spinner')).to.exist;
+  });
+
   it('Updates progress', () => {
     expect(_wrapper.find('progress').props().value).to.equal(0);
 
