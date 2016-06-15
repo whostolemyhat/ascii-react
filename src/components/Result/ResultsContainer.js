@@ -57,13 +57,13 @@ export default class ResultsContainer extends React.Component {
         <nav className='result__nav'>
           <a
             href={ this.getEncodedResult() }
-            className='result__download button'
+            className='result__download button icon-arrow-down'
             download={ this.props.options.colour ? 'ascii.html' : 'ascii.txt' }>
             Download
           </a>
 
           <a href='/upload'
-            className='result__reset'
+            className='result__reset button icon-arrow-up'
             onClick={ this.handleResetClick }>
               Upload another image
           </a>

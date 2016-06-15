@@ -17,7 +17,7 @@ export default class UploadForm extends React.Component {
       'image/jpg',
       'image/png'
     ],
-    resolution: 4,
+    resolution: 8,
     invert: false,
     colour: false,
     whitespace: 'dots',
@@ -130,24 +130,16 @@ export default class UploadForm extends React.Component {
         <div className='form__options'>
           <div className='form-row'>
             <label htmlFor='resolution'>Quality
-              <span className='label__info'>(lower = better quality but slower)</span>
             </label>
             <input type='number'
+              className='input__resolution'
               name='resolution'
               id='resolution'
               onChange={ this.handleResolutionChange }
               value={ this.state.resolution }
               step='1'
               min='1' />
-          </div>
-
-          <div className='form-row'>
-            <label htmlFor='invert'>Invert characters</label>
-            <input type='checkbox'
-              name='invert'
-              id='invert'
-              onChange={ this.handleInvertChange }
-              checked={ this.state.invert } />
+            <span className='label__info'>(lower = better quality but slower)</span>
           </div>
 
           <div className='form-row'>
@@ -157,6 +149,14 @@ export default class UploadForm extends React.Component {
               id='colour'
               onChange={ this.handleColourChange }
               checked={ this.state.colour } />
+
+            <label htmlFor='invert'>Invert characters</label>
+            <input type='checkbox'
+              className='input__invert'
+              name='invert'
+              id='invert'
+              onChange={ this.handleInvertChange }
+              checked={ this.state.invert } />
           </div>
 
           <div className='form-row'>

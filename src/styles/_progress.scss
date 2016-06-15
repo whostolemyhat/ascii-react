@@ -2,12 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $yellow2;
+    // background: $yellow2;
 }
 
 progress {
     border-radius: $border-radius;
     width: calc(100% - 125px);
+    margin-left: 1rem;
 
     @media (min-width: 1024px) {
         width: 50%;
@@ -20,7 +21,7 @@ progress::-webkit-progress-bar {
     border-radius: $border-radius;
 }
 progress::-webkit-progress-value {
-    background-color: $yellow4;
+    background-color: $yellow5;
     border-radius: $border-radius;
 }
 progress::-moz-progress-bar {
@@ -30,4 +31,29 @@ progress::-moz-progress-bar {
 .preview {
     max-width: 100px;
     margin-right: 25px;
+}
+
+.progress__spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    margin-top: -1px;
+
+    &:before {
+        transform-origin: center;
+        animation: rotate 1s linear infinite;
+        margin: 0;
+        vertical-align: 0;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
