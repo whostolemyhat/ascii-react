@@ -1,6 +1,5 @@
 .upload {
-    background: $red;
-    color: $grey;
+    background: $yellow3;
     border-radius: 5px;
     width: 100%;
     min-height: 200px;
@@ -30,8 +29,8 @@
 }
 
 .upload--drag-enter {
-    border: 5px solid $green;
-    color: $green;
+    border: 5px solid $yellow5;
+    color: $yellow5;
 
     .instructions--standard {
         display: none;

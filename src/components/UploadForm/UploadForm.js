@@ -17,7 +17,7 @@ export default class UploadForm extends React.Component {
       'image/jpg',
       'image/png'
     ],
-    resolution: 2,
+    resolution: 4,
     invert: false,
     colour: false,
     whitespace: 'dots',

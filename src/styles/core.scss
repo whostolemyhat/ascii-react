@@ -1,28 +1,30 @@
-:global {
-  html {
-    box-sizing: border-box;
-  }
+// :global {
+  @import 'variables';
+  @import '~normalize.css/normalize';
+
+  // html {
+  //   box-sizing: border-box;
+  // }
 
   html,
   body {
     margin: 0;
     padding: 0;
     height: 100%;
+    background: $yellow;
   }
 
   *,
   *:before,
   *:after {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
 
-  @import '~normalize.css/normalize';
 
-  @import 'variables';
   @import 'base';
   @import 'upload';
   @import 'form';
   @import 'progress';
   @import 'result';
   @import 'footer';
-}
+// }
