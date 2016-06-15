@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from 'components/Header/Header';
-import { IndexLink, Link } from 'react-router';
+// import { IndexLink } from 'react-router';
 import { shallow } from 'enzyme';
 
 describe('(component) Header', () => {
@@ -16,13 +16,9 @@ describe('(component) Header', () => {
     expect(welcome.text()).to.match(/asciiPicture/);
   });
 
-  describe('Navigation links...', () => {
-    it('Should render an IndexLink to Home route', () => {
-      expect(_wrapper.contains(<IndexLink to='/' />)).to.equal.true;
-    });
-
-    it('Should render an Link to todo route)', () => {
-      expect(_wrapper.contains(<Link to='/todo' />)).to.equal.true;
-    });
-  });
+  // describe('Navigation links', () => {
+  //   it('Should render an IndexLink to Home route', () => {
+  //     expect(_wrapper.contains(<IndexLink to='/' />)).to.equal.true;
+  //   });
+  // });
 });
