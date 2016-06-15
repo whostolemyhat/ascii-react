@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: grey;
+    background: $yellow2;
 }
 
 progress {
@@ -14,12 +14,13 @@ progress {
     }
 }
 
+// background
 progress::-webkit-progress-bar {
-    background-color: #E8F1F5;
+    background-color: $yellow2;
     border-radius: $border-radius;
 }
 progress::-webkit-progress-value {
-    background-color: $blue;
+    background-color: $yellow4;
     border-radius: $border-radius;
 }
 progress::-moz-progress-bar {

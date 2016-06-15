@@ -1,1 +1,124 @@
-!function(r){function e(o){if(t[o])return t[o].exports;var a=t[o]={exports:{},id:o,loaded:!1};return r[o].call(a.exports,a,a.exports,e),a.loaded=!0,a.exports}var t={};return e.m=r,e.c=t,e.p="/",e(0)}([function(r,e){"use strict";function t(r,e){var t=Math.floor(.3*r.r+.3*r.b+.3*r.g);return Math.floor((255-t)*(e/256))}Object.defineProperty(e,"__esModule",{value:!0}),e.pixelToChar=t;var o=function(r,e){if(null==e||1>e)return[];for(var t=[],o=r.length,a=0;o>a;)t.push(Array.prototype.slice.call(r,a,a+=e));return t},a=e.charMap=[".",",",":",";","o","x","%","#","@"];self.onmessage=function(r){var e=r.data[0],s=r.data[1],n=s.resolution>0?Math.ceil(s.resolution):1;"spaces"===s.whitespace&&(a[0]=" "),s.invert&&a.reverse();for(var l=4,u=e.width*l,i=100/e.height,p=o(e.data,u),c=p.length,f="",v=0;c>v;v+=n){for(var h=0;h<p[v].length;h+=l*n){var g={};g.r=p[v][h],g.g=p[v][h+1],g.b=p[v][h+2],g.a=p[v][h+3];var d=a[t(g,a.length)];s.colour&&(d='<span style="color:rgb('+g.r+", "+g.g+", "+g.b+')">'+d+"</span>"),f+=d}f+="\r\n",postMessage({type:"progress",value:v*i*n})}postMessage({type:"result",value:f})},e.AsciiWorker=self}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.pixelToChar = pixelToChar;
+	// lodash chunk function
+	var chunk = function chunk(array, count) {
+	  if (count == null || count < 1) return [];
+	
+	  var result = [];
+	  var length = array.length;
+	  var i = 0;
+	  while (i < length) {
+	    result.push(Array.prototype.slice.call(array, i, i += count));
+	  }
+	  return result;
+	};
+	
+	function pixelToChar(pixel, mapLength) {
+	  var averageShade = Math.floor(pixel.r * 0.3 + pixel.b * 0.3 + pixel.g * 0.3);
+	  return Math.floor((255 - averageShade) * (mapLength / 256));
+	}
+	
+	// export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
+	var charMap = exports.charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
+	
+	self.onmessage = function (e) {
+	  // eslint-disable-line no-undef
+	  var pixels = e.data[0];
+	  var options = e.data[1];
+	
+	  var resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
+	
+	  if (options.whitespace === 'spaces') {
+	    charMap[0] = ' ';
+	  }
+	
+	  if (options.invert) {
+	    // Note: works in-place!
+	    charMap.reverse();
+	  }
+	
+	  // r,g,b,a
+	  var PIXEL_LENGTH = 4;
+	  var imgWidth = pixels.width * PIXEL_LENGTH;
+	  var rowPercent = 100 / pixels.height;
+	  var data = chunk(pixels.data, imgWidth);
+	  var dataLength = data.length;
+	  var out = '';
+	
+	  for (var i = 0; i < dataLength; i += resolution) {
+	    for (var j = 0; j < data[i].length; j += PIXEL_LENGTH * resolution) {
+	      var pixel = {};
+	      pixel.r = data[i][j];
+	      pixel.g = data[i][j + 1];
+	      pixel.b = data[i][j + 2];
+	      pixel.a = data[i][j + 3];
+	
+	      var char = charMap[pixelToChar(pixel, charMap.length)];
+	      if (options.colour) {
+	        char = '<span style="color:rgb(' + pixel.r + ', ' + pixel.g + ', ' + pixel.b + ')">' + char + '</span>';
+	      }
+	      out += char;
+	    }
+	
+	    out += '\r\n';
+	    postMessage({ type: 'progress', value: i * rowPercent });
+	  }
+	
+	  postMessage({ type: 'result', value: out });
+	};
+	
+	exports.AsciiWorker = self;
+
+/***/ }
+/******/ ]);
+//# sourceMappingURL=hash.worker.js.map

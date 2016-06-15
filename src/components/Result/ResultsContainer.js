@@ -46,25 +46,25 @@ export default class ResultsContainer extends React.Component {
           type='range'
           min='4'
           max='25'
-          value={this.state.size}
-          onChange={this.handleFontSizeChange} />
+          value={ this.state.size }
+          onChange={ this.handleFontSizeChange } />
 
         <Result
-          output={this.props.output}
-          size={this.state.size}
-          options={this.props.options} />
+          output={ this.props.output }
+          size={ this.state.size }
+          options={ this.props.options } />
 
         <nav className='result__nav'>
           <a
-            href={this.getEncodedResult()}
+            href={ this.getEncodedResult() }
             className='result__download button'
-            download={this.props.options.colour ? 'ascii.html' : 'ascii.txt'}>
+            download={ this.props.options.colour ? 'ascii.html' : 'ascii.txt' }>
             Download
           </a>
 
           <a href='/upload'
             className='result__reset'
-            onClick={this.handleResetClick}>
+            onClick={ this.handleResetClick }>
               Upload another image
           </a>
         </nav>

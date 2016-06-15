@@ -59,7 +59,7 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
     }
 
     out += '\r\n';
-    postMessage({ type: 'progress', value: (i * rowPercent) * resolution });
+    postMessage({ type: 'progress', value: i * rowPercent });
   }
 
   postMessage({ type: 'result', value: out });
