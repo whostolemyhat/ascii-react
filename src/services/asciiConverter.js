@@ -8,7 +8,7 @@ export default class AsciiConverter extends EventEmitter {
     this.worker.postMessage([pixels, options]);
     this.worker.onmessage = e => {
       if (e.data.type === 'progress') {
-        this.emit('progress', parseFloat(e.data.value).toFixed(0));
+        this.emit('progress', e.data.value);
       }
 
       if (e.data.type === 'result') {
