@@ -24,15 +24,17 @@ export default class ResultsContainer extends React.Component {
   getEncodedResult () {
     let openWrapper = '';
     let closeWrapper = '';
+    let dataType = 'text/plain';
 
     if (this.props.options.colour) {
       openWrapper = '<pre>';
       closeWrapper = '</pre>';
+      dataType = 'text/html';
     }
 
     // ignore long line - using 'pre'
     /* eslint-disable max-len */
-    return `data:text/plain;charset=utf-8,${ encodeURIComponent(openWrapper) }${ encodeURIComponent(this.props.output) }${ encodeURIComponent(closeWrapper) }`;
+    return `data:${ dataType };charset=utf-8,${ encodeURIComponent(openWrapper) }${ encodeURIComponent(this.props.output) }${ encodeURIComponent(closeWrapper) }`;
     /* eslint-enable max-len */
   }
 

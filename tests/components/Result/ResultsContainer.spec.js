@@ -65,7 +65,7 @@ describe('(component) ResultsContainer', () => {
 
       expect(link.prop('download')).to.match(/ascii.html/);
       expect(link.prop('href'))
-        .to.equal('data:text/plain;charset=utf-8,' + encodeURIComponent('<pre>') + encodeURIComponent('testOutput') + encodeURIComponent('</pre>'));
+        .to.equal('data:text/html;charset=utf-8,' + encodeURIComponent('<pre>') + encodeURIComponent('testOutput') + encodeURIComponent('</pre>'));
     });
   });
 
