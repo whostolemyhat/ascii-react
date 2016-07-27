@@ -1,9 +1,10 @@
 import React from 'react';
-// import { IndexLink, Link } from 'react-router';
 
 export const Header = () => (
   <header className='header'>
     <h1>asciiPicture</h1>
+
+    <img src='https://www.jamestease.co.uk/static/img/projects/logos.png' />
 
     <p className='header__description'>
       Convert pictures and photos into text or HTML.
@@ -13,6 +14,3 @@ export const Header = () => (
 );
 
 export default Header;
-    // <IndexLink to='/' activeClassName='nav--active'>
-    //   Upload
-    // </IndexLink>

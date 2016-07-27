@@ -15,7 +15,7 @@ export const HomeView = () => (
       <li><strike>Inverse</strike></li>
       <li><strike>use whitespace</strike></li>
       <li><strike>colours</strike></li>
-      <li>options on result page</li>
+      <li>options on result page to try again</li>
       <li>html download link</li>
       <li>info bar</li>
       <li>run on server</li>
@@ -29,6 +29,8 @@ export const HomeView = () => (
       <li><strike>url</strike></li>
       <li><strike>prod server</strike></li>
       <li>Better copy</li>
+      <li>Back button</li>
+      <li>Type words to transform to ascii as you type</li>
     </ul>
   </div>
 );
