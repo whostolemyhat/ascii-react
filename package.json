@@ -1,6 +1,6 @@
 {
   "name": "Ascii",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "description": "React.js-based web app which converts images to ASCII text using service workers",
   "main": "index.js",
   "engines": {
