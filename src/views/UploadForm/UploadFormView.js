@@ -32,6 +32,20 @@ export class UploadFormView extends React.Component {
     options: React.PropTypes.object
   }
 
+  state = {
+    numWorkers: 2,
+    workerOption: 'no'
+  };
+
+  handleNumWorkerChange = e => {
+    // console.log(e.target.value);
+    this.setState({ numWorkers: e.target.value });
+  }
+
+  handleWorkerChange = e => {
+    this.setState({ workerOption: e.target.value });
+  }
+
   componentWillMount () {
     this.ascii = new AsciiConverter();
     this.ascii.on('progress', data => this.props.handleDataReceived(data));
@@ -47,13 +61,42 @@ export class UploadFormView extends React.Component {
   }
 
   render () {
+    // TODO quick hack for demo
+    let worker;
+    switch (this.state.workerOption) {
+    case 'no':
+      worker = this.noWorker;
+      break;
+    case 'one':
+      worker = this.ascii;
+      break;
+    case 'multi':
+      worker = this.poolWorker;
+      break;
+    }
+
     return (
       <div>
+        <form>
+          <label><input type="radio" onClick={ this.handleWorkerChange } value="no" name="noWorker" checked={ this.state.workerOption === 'no' } /> No worker</label>
+          <label><input type="radio" onClick={ this.handleWorkerChange } value="one" name="singleWorker" checked={ this.state.workerOption === 'one' } /> Single worker</label>
+          <label><input type="radio" onClick={ this.handleWorkerChange } value="multi" name="singleWorker" checked={ this.state.workerOption === 'multi' } /> Multi worker</label>
+          <input
+            id='numberWorkers'
+            className='result__size'
+            type='range'
+            min='2'
+            max='32'
+            value={ this.state.numWorkers }
+            onChange={ this.handleNumWorkerChange } /> { this.state.numWorkers }
+        </form>
+
         { this.props.visible === 'UPLOAD'
           ? <UploadForm
             // converter={ this.ascii }
             // converter={ this.noWorker }
-            converter={ this.poolWorker }
+            // converter={ this.poolWorker }
+            converter={ worker }
             handleImageUpload={ this.props.handleImageUpload }
             handleImageProcessing={ this.props.handleImageProcessing } />
           : null }

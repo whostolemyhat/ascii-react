@@ -3,6 +3,7 @@ import Worker from 'worker-loader!./asciiWorker';
 
 export default class AsciiConverter extends EventEmitter {
   toAscii (pixels, options) {
+    console.log('using single worker');
     this.worker = new Worker();
 
     this.worker.postMessage([pixels, options]);

@@ -22,6 +22,8 @@ export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 export default class NoWorkerConverter extends EventEmitter {
   toAscii (pixels, options) {
+    console.log('using no worker');
+
     const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
     if (options.whitespace === 'spaces') {

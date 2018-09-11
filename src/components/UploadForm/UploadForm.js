@@ -105,6 +105,9 @@ export default class UploadForm extends React.Component {
       whitespace: this.state.whitespace
     };
 
+    // TODO fix this hack :)
+    options.numWorkers = document.querySelector('#numberWorkers').value;
+
     this.props.handleImageProcessing(options);
     this.props.converter.toAscii(
       context.getImageData(0, 0, canvas.width, canvas.height),

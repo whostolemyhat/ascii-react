@@ -17,6 +17,7 @@ const chunk = function (array, count) {
 
 export default class PoolConverter extends EventEmitter {
   toAscii (pixels, options) {
+    console.log('using multi worker', options.numWorkers);
     this.output = [];
     this.finished = 0;
 
@@ -27,7 +28,7 @@ export default class PoolConverter extends EventEmitter {
     this.totalTasks = Math.floor(data.length / resolution);
 
     // create pool
-    const pool = new Pool(32);
+    const pool = new Pool(options.numWorkers || 32);
 
     // split pixel array
     for (let i = 0; i < data.length; i += resolution) {
