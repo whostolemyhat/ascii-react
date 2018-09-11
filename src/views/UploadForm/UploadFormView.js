@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AsciiConverter from 'services/asciiConverter';
+import NoWorkerConverter from 'services/noWorkerConverter';
+import PoolConverter from 'services/poolConverter';
 
 import UploadForm from 'components/UploadForm/UploadForm';
 import Progress from 'components/Progress/Progress';
@@ -34,6 +36,14 @@ export class UploadFormView extends React.Component {
     this.ascii = new AsciiConverter();
     this.ascii.on('progress', data => this.props.handleDataReceived(data));
     this.ascii.on('result', this.props.handleImageComplete);
+
+    this.noWorker = new NoWorkerConverter();
+    this.noWorker.on('progress', data => this.props.handleDataReceived(data));
+    this.noWorker.on('result', this.props.handleImageComplete);
+
+    this.poolWorker = new PoolConverter();
+    this.poolWorker.on('progress', data => this.props.handleDataReceived(data));
+    this.poolWorker.on('result', this.props.handleImageComplete);
   }
 
   render () {
@@ -41,7 +51,9 @@ export class UploadFormView extends React.Component {
       <div>
         { this.props.visible === 'UPLOAD'
           ? <UploadForm
-            converter={ this.ascii }
+            // converter={ this.ascii }
+            // converter={ this.noWorker }
+            converter={ this.poolWorker }
             handleImageUpload={ this.props.handleImageUpload }
             handleImageProcessing={ this.props.handleImageProcessing } />
           : null }

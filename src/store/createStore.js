@@ -12,13 +12,15 @@ export default (initialState = {}, history) => {
   // ======================================================
   // Store Enhancers
   // ======================================================
-  const enhancers = [];
-  if (__DEBUG__) {
-    const devToolsExtension = window.devToolsExtension;
-    if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension());
-    }
-  }
+  // const enhancers = [];
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  // if (__DEBUG__) {
+  //   const devToolsExtension = window.devToolsExtension;
+  //   if (typeof devToolsExtension === 'function') {
+  //     enhancers.push(devToolsExtension());
+  //   }
+  // }
 
   // ======================================================
   // Store Instantiation and HMR Setup
@@ -26,9 +28,8 @@ export default (initialState = {}, history) => {
   const store = createStore(
     makeRootReducer(),
     initialState,
-    compose(
+    composeEnhancers(
       applyMiddleware(...middleware),
-      ...enhancers
     )
   );
   store.asyncReducers = {};
