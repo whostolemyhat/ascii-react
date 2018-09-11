@@ -3,12 +3,12 @@ export function pixelToChar (pixel, mapLength) {
   return Math.floor((255 - averageShade) * (mapLength / 256));
 }
 
-// export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) { // eslint-disable-line no-undef
   const pixels = e.data[0];
   const options = e.data[1];
+  const index = e.data[2];
 
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
@@ -21,14 +21,9 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
     charMap.reverse();
   }
 
-  // r,g,b,a
-
-  console.log('received', pixels);
-
   const PIXEL_LENGTH = 4;
   let out = '';
 
-  // for (let i = 0; i < pixels.length; i += resolution) {
   for (let j = 0; j < pixels.length; j += PIXEL_LENGTH * resolution) {
     const pixel = {};
     pixel.r = pixels[j];
@@ -42,12 +37,10 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
         char + '</span>';
     }
     out += char;
-
-    // out += '\r\n';
-    // postMessage({ type: 'progress', value: i * rowPercent });
   }
 
-  postMessage({ type: 'result', value: out });
+  postMessage({ type: 'result', value: out, index });
+  self.close();
 };
 
 export { self as AsciiWorker };

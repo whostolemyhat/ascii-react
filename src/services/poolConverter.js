@@ -2,6 +2,7 @@
 import EventEmitter from 'eventemitter3';
 import Worker from 'worker-loader!./poolWorker';
 
+// lodash
 const chunk = function (array, count) {
   if (count == null || count < 1) return [];
 
@@ -16,26 +17,22 @@ const chunk = function (array, count) {
 
 export default class PoolConverter extends EventEmitter {
   toAscii (pixels, options) {
-    this.output = '';
+    this.output = [];
     this.finished = 0;
 
     const PIXEL_LENGTH = 4;
     const imgWidth = (pixels.width * PIXEL_LENGTH);
-    // const rowPercent = 100 / pixels.height;
     const data = chunk(pixels.data, imgWidth);
-    // const dataLength = data.length;
     const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
     this.totalTasks = Math.floor(data.length / resolution);
 
-    console.log('data', data); // tasks
     // create pool
-    const pool = new Pool(4);
+    const pool = new Pool(32);
 
-    // split pixel array (if needed) and label
-
+    // split pixel array
     for (let i = 0; i < data.length; i += resolution) {
       const task = {
-        data: [data[i], options],
+        data: [data[i], options, i],
         callback: this.callback.bind(this)
       };
 
@@ -44,13 +41,11 @@ export default class PoolConverter extends EventEmitter {
   }
 
   callback (e) {
-    console.log('worker', e);
     this.finished++;
-    console.log(this.finished, this.totalTasks);
     this.emit('progress', (this.finished / this.totalTasks) * 100);
-    this.output += e.data.value + '\r\n';
+    this.output[e.data.index] = e.data.value;
     if (this.finished >= this.totalTasks) {
-      this.emit('result', this.output);
+      this.emit('result', this.output.filter(row => row && row.length).join('\r\n'));
     }
   }
 }
@@ -95,14 +90,15 @@ class WorkerThread {
   run (task) {
     this.task = task;
     // create worker
-    const worker = new Worker();
-    worker.onmessage = this.receiveCallback.bind(this);
+    this.worker = new Worker();
+    this.worker.onmessage = this.receiveCallback.bind(this);
 
     // start worker
-    worker.postMessage(this.task.data);
+    this.worker.postMessage(this.task.data);
   }
 
   receiveCallback (e) {
+    // worker destroys itself after posting message
     this.task.callback(e);
     this.parentPool.freeWorkerThread(this);
   }
