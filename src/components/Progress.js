@@ -15,7 +15,7 @@ export default class Progress extends React.Component {
   renderPreview () {
     if (this.state.img) {
       return (
-        <img className='preview' src={ this.state.img } />
+        <img className='preview' alt='' src={ this.state.img } />
       );
     }
   }

@@ -47,7 +47,7 @@ export class UploadFormView extends React.Component {
     this.setState({ workerOption: e.target.value });
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.ascii = new AsciiConverter();
     this.ascii.on('progress', data => this.props.handleDataReceived(data));
     this.ascii.on('result', this.props.handleImageComplete);
@@ -66,6 +66,7 @@ export class UploadFormView extends React.Component {
     let worker;
     switch (this.state.workerOption) {
     case 'no':
+    default:
       worker = this.noWorker;
       break;
     case 'one':
@@ -78,7 +79,7 @@ export class UploadFormView extends React.Component {
 
     return (
       <div>
-        <form>
+        <form className='upload__workers'>
           <label><input type="radio" onClick={ this.handleWorkerChange } value="no" name="noWorker" checked={ this.state.workerOption === 'no' } /> No worker</label>
           <label><input type="radio" onClick={ this.handleWorkerChange } value="one" name="singleWorker" checked={ this.state.workerOption === 'one' } /> Single worker</label>
           <label><input type="radio" onClick={ this.handleWorkerChange } value="multi" name="singleWorker" checked={ this.state.workerOption === 'multi' } /> Multi worker</label>

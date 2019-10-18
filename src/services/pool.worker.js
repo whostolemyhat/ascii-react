@@ -42,6 +42,3 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
   postMessage({ type: 'result', value: out, index });
   self.close();
 };
-
-// @ts-ignore
-export { self as AsciiWorker };

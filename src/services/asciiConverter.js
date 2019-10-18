@@ -2,8 +2,6 @@ import EventEmitter from 'eventemitter3';
 // eslint-disable-next-line
 import Worker from 'worker-loader!./ascii.worker';
 
-// import Worker from './asciiWorker';
-
 export default class AsciiConverter extends EventEmitter {
   toAscii (pixels, options) {
     console.log('using single worker');

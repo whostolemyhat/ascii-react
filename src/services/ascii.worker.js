@@ -19,7 +19,10 @@ export function pixelToChar (pixel, mapLength) {
 // export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
+// eslint-disable-next-line
+// self.addEventListener('message', onMessage);
 self.onmessage = function (e) { // eslint-disable-line no-undef
+// function onMessage (e) {
   const pixels = e.data[0];
   const options = e.data[1];
 
@@ -65,4 +68,6 @@ self.onmessage = function (e) { // eslint-disable-line no-undef
   postMessage({ type: 'result', value: out });
 };
 
-export { self as AsciiWorker };
+// export {
+//   self as AsciiWorker
+// };

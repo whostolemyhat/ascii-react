@@ -203,7 +203,7 @@ export default class UploadForm extends React.Component {
           <canvas ref='photo' className='canvas'></canvas>
         </div>
 
-        <p className='upload__copy'>Convert your pictures into text or HTML - easy to copy and paste into blogs.
+        {/* <p className='upload__copy'>Convert your pictures into text or HTML - easy to copy and paste into blogs.
         Black-and-white images are converted into text format, and the colour option converts
         pictures into HTML.</p>
 
@@ -211,7 +211,7 @@ export default class UploadForm extends React.Component {
          shown as spaces or as dots, and try inverting
         the characters used to get the best results. The quality setting changes how many pixels are
         used per character in the output - lower numbers in the quality setting will result in a
-        better-looking result, but will take longer.</p>
+        better-looking result, but will take longer.</p> */}
       </div>
     );
   }
