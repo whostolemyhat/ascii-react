@@ -20,12 +20,9 @@ export function pixelToChar (pixel, mapLength) {
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 // eslint-disable-next-line
-// self.addEventListener('message', onMessage);
-self.onmessage = function (e) { // eslint-disable-line no-undef
-// function onMessage (e) {
+self.onmessage = function (e) {
   const pixels = e.data[0];
   const options = e.data[1];
-
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
   if (options.whitespace === 'spaces') {

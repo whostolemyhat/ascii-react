@@ -33,32 +33,33 @@ export class UploadFormView extends React.Component {
     options: PropTypes.object
   }
 
-  state = {
-    numWorkers: 2,
-    workerOption: 'no'
-  };
+  constructor (props) {
+    super();
+
+    this.ascii = new AsciiConverter();
+    this.ascii.on('progress', data => props.handleDataReceived(data));
+    this.ascii.on('result', props.handleImageComplete);
+
+    this.noWorker = new NoWorkerConverter();
+    this.noWorker.on('progress', data => props.handleDataReceived(data));
+    this.noWorker.on('result', props.handleImageComplete);
+
+    this.poolWorker = new PoolConverter();
+    this.poolWorker.on('progress', data => props.handleDataReceived(data));
+    this.poolWorker.on('result', props.handleImageComplete);
+
+    this.state = {
+      numWorkers: 2,
+      workerOption: 'no'
+    }
+  }
 
   handleNumWorkerChange = e => {
-    // console.log(e.target.value);
     this.setState({ numWorkers: e.target.value });
   }
 
   handleWorkerChange = e => {
     this.setState({ workerOption: e.target.value });
-  }
-
-  componentDidMount () {
-    this.ascii = new AsciiConverter();
-    this.ascii.on('progress', data => this.props.handleDataReceived(data));
-    this.ascii.on('result', this.props.handleImageComplete);
-
-    this.noWorker = new NoWorkerConverter();
-    this.noWorker.on('progress', data => this.props.handleDataReceived(data));
-    this.noWorker.on('result', this.props.handleImageComplete);
-
-    this.poolWorker = new PoolConverter();
-    this.poolWorker.on('progress', data => this.props.handleDataReceived(data));
-    this.poolWorker.on('result', this.props.handleImageComplete);
   }
 
   render () {
