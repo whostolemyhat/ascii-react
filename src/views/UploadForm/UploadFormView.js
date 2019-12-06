@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AsciiConverter from 'services/asciiConverter';
-import NoWorkerConverter from 'services/noWorkerConverter';
-import PoolConverter from 'services/poolConverter';
+import AsciiConverter from '../services/asciiConverter';
+import NoWorkerConverter from '../services/noWorkerConverter';
+import PoolConverter from '../services/poolConverter';
 
-import UploadForm from 'components/UploadForm/UploadForm';
-import Progress from 'components/Progress/Progress';
-import Preview from 'components/Preview/Preview';
-import ResultsContainer from 'components/Result/ResultsContainer';
+import UploadForm from '../components/UploadForm/UploadForm';
+import Progress from '../components/Progress/Progress';
+import Preview from '../components/Preview/Preview';
+import ResultsContainer from '../components/Result/ResultsContainer';
 
 import {
   imageUpload,
@@ -61,6 +61,8 @@ export class UploadFormView extends React.Component {
   }
 
   render () {
+    console.log('hiya here');
+
     // TODO quick hack for demo
     let worker;
     switch (this.state.workerOption) {
@@ -74,6 +76,8 @@ export class UploadFormView extends React.Component {
       worker = this.poolWorker;
       break;
     }
+
+    console.log('worker', worker);
 
     return (
       <div>
@@ -93,9 +97,6 @@ export class UploadFormView extends React.Component {
 
         { this.props.visible === 'UPLOAD'
           ? <UploadForm
-            // converter={ this.ascii }
-            // converter={ this.noWorker }
-            // converter={ this.poolWorker }
             converter={ worker }
             handleImageUpload={ this.props.handleImageUpload }
             handleImageProcessing={ this.props.handleImageProcessing } />
