@@ -104,10 +104,10 @@ export default class UploadForm extends React.Component {
     options.numWorkers = document.querySelector('#numberWorkers').value;
 
     this.props.handleImageProcessing(options);
-    this.props.converter.toAscii(
-      context.getImageData(0, 0, canvas.width, canvas.height),
-      options
-    );
+    // this.props.converter.toAscii(
+    //   context.getImageData(0, 0, canvas.width, canvas.height),
+    //   options
+    // );
   }
 
   render () {
