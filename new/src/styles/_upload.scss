@@ -1,0 +1,52 @@
+.upload {
+    background: $yellow3;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .input,
+    .canvas {
+        display: none;
+    }
+
+    &--error {
+        background: $red;
+    }
+}
+
+.upload__wrapper {
+    margin: 1rem auto 2rem;
+    max-width: 800px;
+}
+
+.upload__copy {
+    max-width: 600px;
+    margin: 1.5rem auto;
+    line-height: 1.5rem;
+}
+
+.upload--drag-enter {
+    border: 5px solid $yellow5;
+    color: $yellow5;
+
+    .instructions--standard {
+        display: none;
+    }
+
+    .instructions--drop {
+        display: block;
+    }
+}
+
+.instructions {
+    display: block;
+    font-size: 1.3rem;
+}
+
+.instructions--drop {
+    display: none;
+}

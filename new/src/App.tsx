@@ -1,33 +1,72 @@
-import React, { useState } from 'react';
-import './App.scss';
+import React, { useRef, useState } from 'react';
+// import './App.scss';
+import './styles/core.scss';
 import UploadForm from './UploadForm';
-import NoWorkerConverter from './utils/noWorkerConverer';
+import NoWorkerConverter, { Options, Pixels } from './utils/noWorkerConverer';
 import BackendForm from './components/BackendForm';
 import classNames from 'classnames';
 
 const noWorkerConverter = new NoWorkerConverter();
+
+// type ConversionOptions = {
+//   resolution: number,
+//   colour: boolean,
+//   invert: boolean,
+//   whitespace: boolean,
+//   numWorkers: number
+// }
+function handleImageUpload(imageData: Pixels, options: Options) {
+  noWorkerConverter.toAscii(
+    imageData,
+    options
+  );
+}
 
 const allowedTypes = [
       'image/jpeg',
       'image/jpg',
       'image/png'
     ];
+
 function App() {
   const [file, setFile] = useState<HTMLImageElement | null>(null);
   const [dragEnter, setDragEnter] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-const onClick = () => {
+  const input = useRef(null);
+  const photo = useRef(null);
+
+  const handleDataReceived = (data: any) => {
+    console.log('got some data', data);
+  }
+
+  const handleImageComplete = (data: any) => {
+    console.log('complete', data);
+  }
+
+  noWorkerConverter.on("progress", (data: any) =>
+    handleDataReceived(data)
+  );
+  noWorkerConverter.on("result", handleImageComplete);
+
+
+
+  const onClick = () => {
     // use file upload
-    const input = this.refs.input;
-    input.value = null;
-    input.click();
+    if (input.current) {
+      // @ts-ignore
+      input.current.value = null;
+      // @ts-ignore
+      input.current?.click();
+    } else {
+      console.error('No input ref set');
+    }
   }
 
   const onDragEnter = (e: any) => {
     e.preventDefault();
-    this.setState({ dragEnter: true });
+    setDragEnter(true);
   }
 
   const onDragOver = (e: any) => {
@@ -36,7 +75,7 @@ const onClick = () => {
 
   const onDragLeave = (e: any) => {
     e.preventDefault();
-    this.setState({ dragEnter: false });
+    setDragEnter(false);
   }
 
   const onDrop = (e: any) => {
@@ -50,24 +89,28 @@ const onClick = () => {
     // check only one
     let file = files[0];
 
+    console.log('got a file', file);
+
     if (allowedTypes.indexOf(file.type) > -1) {
-      const canvas = ReactDOM.findDOMNode(this.refs.photo);
+      // const canvas = ReactDOM.findDOMNode(photo);
+      const canvas = photo.current;
       let image = new Image();
 
       // note case!
-      // image.onload = () => { this.renderImage(canvas, image); };
+      // image.onload = () => { renderImage(canvas, image); };
       image.src = window.URL.createObjectURL(file);
 
-      // this.props.handleImageUpload(window.URL.createObjectURL(file));
+      // handleImageUpload(window.URL.createObjectURL(file));
+      if (canvas) {
+        // @ts-ignore
+        const context = canvas.getContext('2d')
+        // @ts-ignore
+        handleImageUpload(context.getImageData(0, 0, canvas.width, canvas.height), {});
+      }
       setFile(image)
-      // this.setState({ image });
     } else {
       setHasError(true);
       setErrorMessage('Image type not recognised');
-      // this.setState({
-      //   error: true,
-      //   errorMessage: 'Image type not recognised'
-      // });
     }
   }
 
@@ -84,10 +127,9 @@ const onClick = () => {
     });
   return (
     <div className="App">
-      {/* //@ts-ignore */}
     {/* <UploadForm converter={noWorkerConverter}/> */}
     <BackendForm />
-            <div
+      <div
           className={ classes }
           onClick={ onClick }
           onDrop={ onDrop }
@@ -102,8 +144,8 @@ const onClick = () => {
             Drop it!
           </span>
 
-          <input type='file' ref='input' onChange={ onDrop } className='input' />
-          <canvas ref='photo' className='canvas'></canvas>
+          <input type='file' ref={input} onChange={ onDrop } className='input' />
+          <canvas ref={photo} className='canvas'></canvas>
         </div>
     </div>
   );

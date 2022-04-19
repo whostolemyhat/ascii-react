@@ -27,13 +27,13 @@ type Pixel = {
   a: number
 }
 
-type Pixels = {
+export type Pixels = {
   data: Array<Pixel>,
   width: number,
   height: number
 }
 
-type Options = {
+export type Options = {
   resolution: number,
   whitespace: string,
   invert: boolean,
