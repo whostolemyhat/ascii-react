@@ -1,9 +1,8 @@
 import classNames from 'classnames';
-import React, { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import './styles/core.scss';
-// import UploadForm from './UploadForm';
-import NoWorkerConverter, { Options, Pixels } from './utils/noWorkerConverer';
 import BackendForm from './components/BackendForm';
+import NoWorkerConverter, { Options } from './utils/noWorkerConverer';
 
 const noWorkerConverter = new NoWorkerConverter();
 
@@ -15,25 +14,62 @@ const noWorkerConverter = new NoWorkerConverter();
 //   numWorkers: number
 // }
 
-function showImagePreview(
-  canvasContext: CanvasRenderingContext2D,
-  image: CanvasImageSource,
-) {
-  console.log('drawiign');
-  canvasContext.drawImage(image, 0, 0);
-}
-
-function handleImageUpload(imageData: Pixels, options: Options) {
+function convertImage(imageData: ImageData, options: Options) {
+  console.log('image data', imageData);
+  // @ts-ignore
   noWorkerConverter.toAscii(imageData, options);
 }
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+const Preview = ({
+  file,
+  clear,
+  canvas,
+  options,
+}: {
+  file: string;
+  clear: any;
+  canvas?: HTMLCanvasElement | null;
+  options: Options;
+}) => {
+  if (!canvas) {
+    console.error('no canvas found');
+    return null;
+  }
+  const context = canvas?.getContext('2d');
+  const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
+  if (!imageData) {
+    console.error(`Couldn't convert image`);
+    return null;
+  }
+  return (
+    <>
+      <img src={file} className="preview" />
+      <button type="submit" onClick={() => convertImage(imageData, options)}>
+        Convert
+      </button>
+      <button onClick={() => clear()}>Clear</button>
+    </>
+  );
+};
+
+const Output = ({ result }: { result: string }) => {
+  return (
+    <div className="results">
+      <pre className="result" style={{ fontSize: '4px' }}>
+        <code>{result}</code>
+      </pre>
+    </div>
+  );
+};
 
 function App() {
   const [file, setFile] = useState('');
   const [dragEnter, setDragEnter] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [result, setResult] = useState('');
 
   const input = useRef(null); // file input
   const photo = useRef(null); // canvas
@@ -44,6 +80,7 @@ function App() {
 
   const handleImageComplete = (data: any) => {
     console.log('complete', data);
+    setResult(data);
   };
 
   noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
@@ -75,6 +112,16 @@ function App() {
     setDragEnter(false);
   };
 
+  const renderImage = (canvas: HTMLCanvasElement, image: HTMLImageElement) => {
+    // resize canvas to image
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext('2d');
+    if (context) {
+      context.drawImage(image, 0, 0);
+    }
+  };
+
   const onDrop = (e: any) => {
     e.preventDefault();
     setDragEnter(false);
@@ -84,18 +131,23 @@ function App() {
     const files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
 
     // check only one
-    let file = files[0];
+    const file = files[0];
 
     console.log('got a file', file);
 
     if (allowedTypes.indexOf(file.type) > -1) {
       // const canvas = ReactDOM.findDOMNode(photo);
-      // const canvas = photo.current;
-      // let image = new Image();
-
-      // note case!
-      // image.onload = () => { renderImage(canvas, image); };
-      // image.src = window.URL.createObjectURL(file);
+      const canvas = photo.current;
+      const image = new Image();
+      if (canvas) {
+        // note case!
+        image.onload = () => {
+          renderImage(canvas, image);
+        };
+        image.src = window.URL.createObjectURL(file);
+      } else {
+        console.error('No canvas found');
+      }
 
       // handleImageUpload(window.URL.createObjectURL(file));
       // if (canvas) {
@@ -110,6 +162,7 @@ function App() {
       setErrorMessage('Image type not recognised');
     }
   };
+
   const processForm = (e: FormEvent) => {
     e.preventDefault();
     const canvas = photo.current;
@@ -119,7 +172,7 @@ function App() {
       // @ts-ignore
       const context = canvas.getContext('2d');
       // showImagePreview(context, file);
-      handleImageUpload(
+      convertImage(
         // @ts-ignore
         context.getImageData(0, 0, canvas.width, canvas.height),
         // @ts-ignore
@@ -139,14 +192,27 @@ function App() {
     'error-message': true,
     // 'error-message--visible': this.state.error
   });
+
+  const options: Options = {
+    resolution: 1,
+    colour: false,
+    whitespace: '',
+    invert: false,
+  };
   return (
     <div className="App">
       {/* <UploadForm converter={noWorkerConverter}/> */}
       <BackendForm />
       <canvas ref={photo} className="canvas"></canvas>
+      {result && <Output result={result} />}
       <form onSubmit={processForm}>
         {file ? (
-          <Preview file={file} clear={setFile} />
+          <Preview
+            file={file}
+            clear={setFile}
+            canvas={photo.current}
+            options={options}
+          />
         ) : (
           <div
             onClick={onClick}
@@ -174,15 +240,5 @@ function App() {
     </div>
   );
 }
-
-const Preview = ({ file, clear }: { file: string; clear: any }) => {
-  return (
-    <>
-      <img src={file} className="preview" />
-      <button type="submit">Convert</button>
-      <button onClick={() => clear()}>Clear</button>
-    </>
-  );
-};
 
 export default App;
