@@ -15,7 +15,6 @@ const noWorkerConverter = new NoWorkerConverter();
 // }
 
 function convertImage(imageData: ImageData, options: Options) {
-  console.log('image data', imageData);
   // @ts-ignore
   noWorkerConverter.toAscii(imageData, options);
 }
@@ -64,12 +63,21 @@ const Output = ({ result }: { result: string }) => {
   );
 };
 
+enum AppState {
+  UPLOAD,
+  PREVIEW,
+  LOADING,
+  RESULT,
+}
+
 function App() {
   const [file, setFile] = useState('');
   const [dragEnter, setDragEnter] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [result, setResult] = useState('');
+
+  const [appState, setAppState] = useState(AppState.UPLOAD);
 
   const input = useRef(null); // file input
   const photo = useRef(null); // canvas
@@ -81,6 +89,7 @@ function App() {
   const handleImageComplete = (data: any) => {
     console.log('complete', data);
     setResult(data);
+    setAppState(AppState.RESULT);
   };
 
   noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
@@ -119,6 +128,9 @@ function App() {
     const context = canvas.getContext('2d');
     if (context) {
       context.drawImage(image, 0, 0);
+      setAppState(AppState.PREVIEW);
+    } else {
+      console.error(`Couldn't get context`);
     }
   };
 
@@ -132,8 +144,6 @@ function App() {
 
     // check only one
     const file = files[0];
-
-    console.log('got a file', file);
 
     if (allowedTypes.indexOf(file.type) > -1) {
       // const canvas = ReactDOM.findDOMNode(photo);
@@ -157,6 +167,7 @@ function App() {
       // handleImageUpload(context.getImageData(0, 0, canvas.width, canvas.height), {});
       // }
       setFile(window.URL.createObjectURL(file));
+      // have to set appstate.preview after rendering to canvas, not here
     } else {
       setHasError(true);
       setErrorMessage('Image type not recognised');
@@ -166,12 +177,9 @@ function App() {
   const processForm = (e: FormEvent) => {
     e.preventDefault();
     const canvas = photo.current;
-    console.log('processing');
-    console.log(canvas, file);
     if (canvas && file) {
       // @ts-ignore
       const context = canvas.getContext('2d');
-      // showImagePreview(context, file);
       convertImage(
         // @ts-ignore
         context.getImageData(0, 0, canvas.width, canvas.height),
@@ -199,44 +207,57 @@ function App() {
     whitespace: '',
     invert: false,
   };
-  return (
-    <div className="App">
-      {/* <UploadForm converter={noWorkerConverter}/> */}
-      <BackendForm />
-      <canvas ref={photo} className="canvas"></canvas>
-      {result && <Output result={result} />}
-      <form onSubmit={processForm}>
-        {file ? (
+
+  let child = null;
+  switch (appState) {
+    case AppState.PREVIEW:
+      child = (
+        <form onSubmit={processForm}>
           <Preview
             file={file}
-            clear={setFile}
+            clear={() => {
+              setFile('');
+              setAppState(AppState.UPLOAD);
+            }}
             canvas={photo.current}
             options={options}
           />
-        ) : (
-          <div
-            onClick={onClick}
-            onDrop={onDrop}
-            className={classes}
-            onDragEnter={onDragEnter}
-            onDragOver={onDragOver}
-            onDragLeave={onDragLeave}
-          >
-            <div className="instructions instructions--standard">
-              Drag an image here, or{' '}
-              <button className="button icon-arrow-up">upload</button>
-            </div>
-            <span className="instructions instructions--drop">Drop it!</span>
+        </form>
+      );
+      break;
 
-            <input
-              type="file"
-              ref={input}
-              onChange={onDrop}
-              className="input"
-            />
+    case AppState.RESULT:
+      child = <Output result={result} />;
+      break;
+
+    case AppState.UPLOAD:
+    default:
+      child = (
+        <div
+          onClick={onClick}
+          onDrop={onDrop}
+          className={classes}
+          onDragEnter={onDragEnter}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+        >
+          <div className="instructions instructions--standard">
+            Drag an image here, or{' '}
+            <button className="button icon-arrow-up">upload</button>
           </div>
-        )}
-      </form>
+          <span className="instructions instructions--drop">Drop it!</span>
+
+          <input type="file" ref={input} onChange={onDrop} className="input" />
+        </div>
+      );
+      break;
+  }
+  return (
+    <div className="App">
+      {/* <UploadForm converter={noWorkerConverter}/> */}
+      {/* <BackendForm /> */}
+      <canvas ref={photo} className="canvas"></canvas>
+      {child}
     </div>
   );
 }
