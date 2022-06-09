@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import { Options, Pixel } from './types';
 
 const chunk = function (array: ImageData['data'], count: number) {
   if (count == null || count < 1) return [];
@@ -19,28 +20,8 @@ export function pixelToChar(pixel: Pixel, mapLength: number): number {
   return Math.floor((255 - averageShade) * (mapLength / 256));
 }
 
-// export const charMap = ['@', '#', '%', 'x', 'o', ';', ':', ',', '.'];
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
-type Pixel = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-};
-
-export type Pixels = {
-  data: Array<Pixel>;
-  width: number;
-  height: number;
-};
-
-export type Options = {
-  resolution: number;
-  whitespace: string;
-  invert: boolean;
-  colour: boolean;
-};
 export default class NoWorkerConverter extends EventEmitter {
   toAscii(pixels: ImageData, options: Options) {
     console.log('using no worker');

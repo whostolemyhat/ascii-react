@@ -2,21 +2,24 @@ import classNames from 'classnames';
 import { FormEvent, useRef, useState } from 'react';
 import './styles/core.scss';
 import BackendForm from './components/BackendForm';
-import NoWorkerConverter, { Options } from './utils/noWorkerConverer';
+import AsciiConverter from './utils/asciiConverter';
+import NoWorkerConverter from './utils/noWorkerConverer';
+import { Options } from './utils/types';
+
+enum AppState {
+  UPLOAD,
+  PREVIEW,
+  LOADING,
+  RESULT,
+}
 
 const noWorkerConverter = new NoWorkerConverter();
-
-// type ConversionOptions = {
-//   resolution: number,
-//   colour: boolean,
-//   invert: boolean,
-//   whitespace: boolean,
-//   numWorkers: number
-// }
+const asciiConverter = new AsciiConverter();
 
 function convertImage(imageData: ImageData, options: Options) {
   // @ts-ignore
-  noWorkerConverter.toAscii(imageData, options);
+  // noWorkerConverter.toAscii(imageData, options);
+  asciiConverter.toAscii(imageData, options);
 }
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -26,11 +29,13 @@ const Preview = ({
   clear,
   canvas,
   options,
+  setAppState,
 }: {
   file: string;
   clear: any;
   canvas?: HTMLCanvasElement | null;
   options: Options;
+  setAppState: (state: AppState) => void;
 }) => {
   if (!canvas) {
     console.error('no canvas found');
@@ -45,7 +50,13 @@ const Preview = ({
   return (
     <>
       <img src={file} className="preview" />
-      <button type="submit" onClick={() => convertImage(imageData, options)}>
+      <button
+        type="submit"
+        onClick={() => {
+          setAppState(AppState.LOADING);
+          convertImage(imageData, options);
+        }}
+      >
         Convert
       </button>
       <button onClick={() => clear()}>Clear</button>
@@ -63,37 +74,36 @@ const Output = ({ result }: { result: string }) => {
   );
 };
 
-enum AppState {
-  UPLOAD,
-  PREVIEW,
-  LOADING,
-  RESULT,
-}
-
 function App() {
   const [file, setFile] = useState('');
   const [dragEnter, setDragEnter] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [result, setResult] = useState('');
+  const [progress, setProgress] = useState(0);
 
   const [appState, setAppState] = useState(AppState.UPLOAD);
 
   const input = useRef(null); // file input
   const photo = useRef(null); // canvas
 
-  const handleDataReceived = (data: any) => {
+  const handleDataReceived = (data: number) => {
     console.log('got some data', data);
+    const progress = data.toFixed(1);
+    setProgress(Number(progress));
   };
 
-  const handleImageComplete = (data: any) => {
+  const handleImageComplete = (data: string) => {
     console.log('complete', data);
     setResult(data);
     setAppState(AppState.RESULT);
   };
 
-  noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
-  noWorkerConverter.on('result', handleImageComplete);
+  // noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
+  // noWorkerConverter.on('result', handleImageComplete);
+
+  asciiConverter.on('progress', (data: any) => handleDataReceived(data));
+  asciiConverter.on('result', handleImageComplete);
 
   const onClick = () => {
     // use file upload
@@ -221,9 +231,14 @@ function App() {
             }}
             canvas={photo.current}
             options={options}
+            setAppState={setAppState}
           />
         </form>
       );
+      break;
+
+    case AppState.LOADING:
+      child = `Loading ${progress}%`;
       break;
 
     case AppState.RESULT:
