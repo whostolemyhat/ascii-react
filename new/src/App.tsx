@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import { FormEvent, useRef, useState } from 'react';
 import './styles/core.scss';
-import BackendForm from './components/BackendForm';
+// import BackendForm from './components/BackendForm';
+import { IConverter } from './utils/IConverter';
 import AsciiConverter from './utils/asciiConverter';
 import NoWorkerConverter from './utils/noWorkerConverer';
+import PoolConverter from './utils/poolConverter';
 import { Options } from './utils/types';
 
 enum AppState {
@@ -15,11 +17,14 @@ enum AppState {
 
 const noWorkerConverter = new NoWorkerConverter();
 const asciiConverter = new AsciiConverter();
+const poolConverter = new PoolConverter();
 
-function convertImage(imageData: ImageData, options: Options) {
-  // @ts-ignore
-  // noWorkerConverter.toAscii(imageData, options);
-  asciiConverter.toAscii(imageData, options);
+function convertImage(
+  imageData: ImageData,
+  options: Options,
+  worker: IConverter,
+) {
+  worker.toAscii(imageData, options);
 }
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -52,9 +57,12 @@ const Preview = ({
       <img src={file} className="preview" />
       <button
         type="submit"
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           setAppState(AppState.LOADING);
-          convertImage(imageData, options);
+
+          // switch between converters here
+          convertImage(imageData, options, poolConverter);
         }}
       >
         Convert
@@ -99,11 +107,14 @@ function App() {
     setAppState(AppState.RESULT);
   };
 
-  // noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
-  // noWorkerConverter.on('result', handleImageComplete);
+  noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
+  noWorkerConverter.on('result', handleImageComplete);
 
   asciiConverter.on('progress', (data: any) => handleDataReceived(data));
   asciiConverter.on('result', handleImageComplete);
+
+  poolConverter.on('progress', (data: any) => handleDataReceived(data));
+  poolConverter.on('result', handleImageComplete);
 
   const onClick = () => {
     // use file upload
@@ -156,7 +167,6 @@ function App() {
     const file = files[0];
 
     if (allowedTypes.indexOf(file.type) > -1) {
-      // const canvas = ReactDOM.findDOMNode(photo);
       const canvas = photo.current;
       const image = new Image();
       if (canvas) {
@@ -169,33 +179,11 @@ function App() {
         console.error('No canvas found');
       }
 
-      // handleImageUpload(window.URL.createObjectURL(file));
-      // if (canvas) {
-      // @ts-ignore
-      // const context = canvas.getContext('2d')
-      // @ts-ignore
-      // handleImageUpload(context.getImageData(0, 0, canvas.width, canvas.height), {});
-      // }
       setFile(window.URL.createObjectURL(file));
       // have to set appstate.preview after rendering to canvas, not here
     } else {
       setHasError(true);
       setErrorMessage('Image type not recognised');
-    }
-  };
-
-  const processForm = (e: FormEvent) => {
-    e.preventDefault();
-    const canvas = photo.current;
-    if (canvas && file) {
-      // @ts-ignore
-      const context = canvas.getContext('2d');
-      convertImage(
-        // @ts-ignore
-        context.getImageData(0, 0, canvas.width, canvas.height),
-        // @ts-ignore
-        {},
-      );
     }
   };
 
@@ -222,18 +210,16 @@ function App() {
   switch (appState) {
     case AppState.PREVIEW:
       child = (
-        <form onSubmit={processForm}>
-          <Preview
-            file={file}
-            clear={() => {
-              setFile('');
-              setAppState(AppState.UPLOAD);
-            }}
-            canvas={photo.current}
-            options={options}
-            setAppState={setAppState}
-          />
-        </form>
+        <Preview
+          file={file}
+          clear={() => {
+            setFile('');
+            setAppState(AppState.UPLOAD);
+          }}
+          canvas={photo.current}
+          options={options}
+          setAppState={setAppState}
+        />
       );
       break;
 

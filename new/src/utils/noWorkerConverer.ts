@@ -1,17 +1,19 @@
 import EventEmitter from 'eventemitter3';
+import { IConverter } from './IConverter';
+import { chunk } from './chunk';
 import { Options, Pixel } from './types';
 
-const chunk = function (array: ImageData['data'], count: number) {
-  if (count == null || count < 1) return [];
+// const chunk = function (array: ImageData['data'], count: number) {
+//   if (count == null || count < 1) return [];
 
-  const result = [];
-  const length = array.length;
-  let i = 0;
-  while (i < length) {
-    result.push(Array.prototype.slice.call(array, i, (i += count)));
-  }
-  return result;
-};
+//   const result = [];
+//   const length = array.length;
+//   let i = 0;
+//   while (i < length) {
+//     result.push(Array.prototype.slice.call(array, i, (i += count)));
+//   }
+//   return result;
+// };
 
 export function pixelToChar(pixel: Pixel, mapLength: number): number {
   const averageShade = Math.floor(
@@ -22,7 +24,10 @@ export function pixelToChar(pixel: Pixel, mapLength: number): number {
 
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
-export default class NoWorkerConverter extends EventEmitter {
+export default class NoWorkerConverter
+  extends EventEmitter
+  implements IConverter
+{
   toAscii(pixels: ImageData, options: Options) {
     console.log('using no worker');
 

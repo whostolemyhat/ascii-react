@@ -1,5 +1,3 @@
-import { Pixel } from './types';
-
 // lodash chunk function
 const chunk = function (array, count) {
   if (count == null || count < 1) return [];

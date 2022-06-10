@@ -16,4 +16,5 @@ export type Options = {
   whitespace: string;
   invert: boolean;
   colour: boolean;
+  numWorkers?: number;
 };
