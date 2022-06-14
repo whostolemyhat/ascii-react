@@ -1,12 +1,14 @@
 import classNames from 'classnames';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
+import { Output } from './components/Output';
+import { Progress } from './components/Progress';
 import { IConverter } from './utils/IConverter';
 import AsciiConverter from './utils/asciiConverter';
 import NoWorkerConverter from './utils/noWorkerConverer';
 import PoolConverter from './utils/poolConverter';
-import { Options } from './utils/types';
+import { Converter, Options } from './utils/types';
 
 enum AppState {
   UPLOAD,
@@ -52,6 +54,20 @@ const Preview = ({
     console.error(`Couldn't convert image`);
     return null;
   }
+
+  let converter: IConverter = asciiConverter;
+  switch (options.converter) {
+    case Converter.None:
+      converter = noWorkerConverter;
+      break;
+    case Converter.Pool:
+      converter = poolConverter;
+      break;
+    default:
+      converter = asciiConverter;
+      break;
+  }
+
   return (
     <>
       <img src={file} className="preview" />
@@ -62,23 +78,13 @@ const Preview = ({
           setAppState(AppState.LOADING);
 
           // switch between converters here
-          convertImage(imageData, options, poolConverter);
+          convertImage(imageData, options, converter);
         }}
       >
         Convert
       </button>
       <button onClick={() => clear()}>Clear</button>
     </>
-  );
-};
-
-const Output = ({ result }: { result: string }) => {
-  return (
-    <div className="results">
-      <pre className="result" style={{ fontSize: '4px' }}>
-        <code>{result}</code>
-      </pre>
-    </div>
   );
 };
 
@@ -89,6 +95,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [result, setResult] = useState('');
   const [progress, setProgress] = useState(0);
+  const [converter, setConverter] = useState(Converter.Single);
 
   const [appState, setAppState] = useState(AppState.UPLOAD);
 
@@ -107,14 +114,18 @@ function App() {
     setAppState(AppState.RESULT);
   };
 
-  noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
-  noWorkerConverter.on('result', handleImageComplete);
+  useEffect(() => {
+    console.log('adding listeners');
 
-  asciiConverter.on('progress', (data: any) => handleDataReceived(data));
-  asciiConverter.on('result', handleImageComplete);
+    noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
+    noWorkerConverter.on('result', handleImageComplete);
 
-  poolConverter.on('progress', (data: any) => handleDataReceived(data));
-  poolConverter.on('result', handleImageComplete);
+    asciiConverter.on('progress', (data: any) => handleDataReceived(data));
+    asciiConverter.on('result', handleImageComplete);
+
+    poolConverter.on('progress', (data: any) => handleDataReceived(data));
+    poolConverter.on('result', handleImageComplete);
+  }, []);
 
   const onClick = () => {
     // use file upload
@@ -204,6 +215,7 @@ function App() {
     colour: false,
     whitespace: '',
     invert: false,
+    converter,
   };
 
   let child = null;
@@ -224,32 +236,77 @@ function App() {
       break;
 
     case AppState.LOADING:
-      child = `Loading ${progress}%`;
+      // child = `Loading ${progress}%`;
+      child = <Progress percent={progress} />;
       break;
 
     case AppState.RESULT:
-      child = <Output result={result} />;
+      child = (
+        <Output
+          result={result}
+          reset={() => {
+            setFile('');
+            setAppState(AppState.UPLOAD);
+          }}
+        />
+      );
       break;
 
     case AppState.UPLOAD:
     default:
       child = (
-        <div
-          onClick={onClick}
-          onDrop={onDrop}
-          className={classes}
-          onDragEnter={onDragEnter}
-          onDragOver={onDragOver}
-          onDragLeave={onDragLeave}
-        >
-          <div className="instructions instructions--standard">
-            Drag an image here, or{' '}
-            <button className="button icon-arrow-up">upload</button>
+        <form>
+          <div>
+            <input
+              type="radio"
+              name="converter"
+              value="none"
+              id="none"
+              checked={converter === Converter.None}
+              onChange={() => setConverter(Converter.None)}
+            />
+            <label htmlFor="none">Single thread</label>
+            <input
+              type="radio"
+              name="converter"
+              value="single"
+              id="single"
+              checked={converter === Converter.Single}
+              onChange={() => setConverter(Converter.Single)}
+            />
+            <label htmlFor="single">Background worker</label>
+            <input
+              type="radio"
+              name="converter"
+              value="pool"
+              id="pool"
+              checked={converter === Converter.Pool}
+              onChange={() => setConverter(Converter.Pool)}
+            />
+            <label htmlFor="pool">Multi-worker</label>
           </div>
-          <span className="instructions instructions--drop">Drop it!</span>
+          <div
+            onClick={onClick}
+            onDrop={onDrop}
+            className={classes}
+            onDragEnter={onDragEnter}
+            onDragOver={onDragOver}
+            onDragLeave={onDragLeave}
+          >
+            <div className="instructions instructions--standard">
+              Drag an image here, or{' '}
+              <button className="button icon-arrow-up">upload</button>
+            </div>
+            <span className="instructions instructions--drop">Drop it!</span>
 
-          <input type="file" ref={input} onChange={onDrop} className="input" />
-        </div>
+            <input
+              type="file"
+              ref={input}
+              onChange={onDrop}
+              className="input"
+            />
+          </div>
+        </form>
       );
       break;
   }

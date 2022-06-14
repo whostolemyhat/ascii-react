@@ -95,7 +95,7 @@ export default class PoolConverter extends EventEmitter implements IConverter {
     this.totalTasks = Math.floor(data.length / resolution);
 
     // create pool
-    const pool = new Pool(options.numWorkers || 32);
+    const pool = new Pool(options.numWorkers || 8);
 
     // split pixel array
     for (let i = 0; i < data.length; i += resolution) {

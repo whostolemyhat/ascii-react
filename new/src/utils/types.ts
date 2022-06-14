@@ -11,10 +11,17 @@ export type Pixels = {
   height: number;
 };
 
+export enum Converter {
+  None,
+  Single,
+  Pool,
+}
+
 export type Options = {
   resolution: number;
   whitespace: string;
   invert: boolean;
   colour: boolean;
   numWorkers?: number;
+  converter: Converter;
 };
