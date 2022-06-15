@@ -3,7 +3,12 @@ export const Progress = ({ percent }: { percent: number }) => {
     <div className="progress">
       <i className="progress__spinner icon-spinner8"></i>
       Working...
-      <progress className="progress__bar" value={percent} max="100" />
+      <progress
+        data-testid="progress-bar"
+        className="progress__bar"
+        value={percent}
+        max="100"
+      />
     </div>
   );
 };

@@ -1,92 +1,21 @@
 import classNames from 'classnames';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Output } from './components/Output';
 import { Progress } from './components/Progress';
-import { IConverter } from './utils/IConverter';
 import AsciiConverter from './utils/asciiConverter';
 import NoWorkerConverter from './utils/noWorkerConverer';
 import PoolConverter from './utils/poolConverter';
-import { Converter, Options } from './utils/types';
+import { AppState, Converter, Options } from './utils/types';
+import { Preview } from './components/Preview';
+import { IConverter } from './utils/IConverter';
 
-enum AppState {
-  UPLOAD,
-  PREVIEW,
-  LOADING,
-  RESULT,
-}
-
-const noWorkerConverter = new NoWorkerConverter();
-const asciiConverter = new AsciiConverter();
-const poolConverter = new PoolConverter();
-
-function convertImage(
-  imageData: ImageData,
-  options: Options,
-  worker: IConverter,
-) {
-  worker.toAscii(imageData, options);
-}
+export const noWorkerConverter = new NoWorkerConverter();
+export const asciiConverter = new AsciiConverter();
+export const poolConverter = new PoolConverter();
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-
-const Preview = ({
-  file,
-  clear,
-  canvas,
-  options,
-  setAppState,
-}: {
-  file: string;
-  clear: any;
-  canvas?: HTMLCanvasElement | null;
-  options: Options;
-  setAppState: (state: AppState) => void;
-}) => {
-  if (!canvas) {
-    console.error('no canvas found');
-    return null;
-  }
-  const context = canvas?.getContext('2d');
-  const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
-  if (!imageData) {
-    console.error(`Couldn't convert image`);
-    return null;
-  }
-
-  let converter: IConverter = asciiConverter;
-  switch (options.converter) {
-    case Converter.None:
-      converter = noWorkerConverter;
-      break;
-    case Converter.Pool:
-      converter = poolConverter;
-      break;
-    default:
-      converter = asciiConverter;
-      break;
-  }
-
-  return (
-    <>
-      <img src={file} className="preview" />
-      <button
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          setAppState(AppState.LOADING);
-
-          // switch between converters here
-          convertImage(imageData, options, converter);
-        }}
-      >
-        Convert
-      </button>
-      <button onClick={() => clear()}>Clear</button>
-    </>
-  );
-};
 
 function App() {
   const [file, setFile] = useState('');
@@ -215,12 +144,23 @@ function App() {
     colour: false,
     whitespace: '',
     invert: false,
-    converter,
   };
 
   let child = null;
   switch (appState) {
     case AppState.PREVIEW:
+      let selectedConverter: IConverter = asciiConverter;
+      switch (converter) {
+        case Converter.None:
+          selectedConverter = noWorkerConverter;
+          break;
+        case Converter.Pool:
+          selectedConverter = poolConverter;
+          break;
+        default:
+          selectedConverter = asciiConverter;
+          break;
+      }
       child = (
         <Preview
           file={file}
@@ -229,6 +169,7 @@ function App() {
             setAppState(AppState.UPLOAD);
           }}
           canvas={photo.current}
+          converter={selectedConverter}
           options={options}
           setAppState={setAppState}
         />

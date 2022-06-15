@@ -18,10 +18,16 @@ export enum Converter {
 }
 
 export type Options = {
-  resolution: number;
-  whitespace: string;
-  invert: boolean;
-  colour: boolean;
+  resolution?: number;
+  whitespace?: string;
+  invert?: boolean;
+  colour?: boolean;
   numWorkers?: number;
-  converter: Converter;
 };
+
+export enum AppState {
+  UPLOAD,
+  PREVIEW,
+  LOADING,
+  RESULT,
+}

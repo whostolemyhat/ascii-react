@@ -8,11 +8,17 @@ export const Output = ({
   return (
     <>
       <div className="results">
-        <pre className="result" style={{ fontSize: '4px' }}>
+        <pre
+          data-testid="result"
+          className="result"
+          style={{ fontSize: '4px' }}
+        >
           <code>{result}</code>
         </pre>
       </div>
-      <button onClick={reset}>Restart</button>
+      <button data-testid="reset" onClick={reset}>
+        Restart
+      </button>
     </>
   );
 };
