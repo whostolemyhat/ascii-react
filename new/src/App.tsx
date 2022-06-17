@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Output } from './components/Output';
+import { Preview } from './components/Preview';
 import { Progress } from './components/Progress';
+import { IConverter } from './utils/IConverter';
 import AsciiConverter from './utils/asciiConverter';
 import NoWorkerConverter from './utils/noWorkerConverer';
 import PoolConverter from './utils/poolConverter';
+import SharedBufferConverter from './utils/sharedBufferConverter';
 import { AppState, Converter, Options } from './utils/types';
-import { Preview } from './components/Preview';
-import { IConverter } from './utils/IConverter';
 
 export const noWorkerConverter = new NoWorkerConverter();
 export const asciiConverter = new AsciiConverter();
 export const poolConverter = new PoolConverter();
+export const sharedConverter = new SharedBufferConverter();
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
@@ -54,6 +56,9 @@ function App() {
 
     poolConverter.on('progress', (data: any) => handleDataReceived(data));
     poolConverter.on('result', handleImageComplete);
+
+    sharedConverter.on('progress', (data: any) => handleDataReceived(data));
+    sharedConverter.on('result', handleImageComplete);
   }, []);
 
   const onClick = () => {
@@ -140,7 +145,7 @@ function App() {
   });
 
   const options: Options = {
-    resolution: 1,
+    resolution: 2,
     colour: false,
     whitespace: '',
     invert: false,
@@ -169,7 +174,8 @@ function App() {
             setAppState(AppState.UPLOAD);
           }}
           canvas={photo.current}
-          converter={selectedConverter}
+          // converter={selectedConverter}
+          converter={sharedConverter}
           options={options}
           setAppState={setAppState}
         />

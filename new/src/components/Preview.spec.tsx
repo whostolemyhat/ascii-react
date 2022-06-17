@@ -21,7 +21,7 @@ describe('Preview', () => {
       <Preview
         clear={reset}
         setAppState={setAppState}
-        options={{}}
+        options={{ resolution: 0 }}
         file="bob.gif"
         converter={converter}
         canvas={canvas}

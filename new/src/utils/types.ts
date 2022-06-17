@@ -18,7 +18,7 @@ export enum Converter {
 }
 
 export type Options = {
-  resolution?: number;
+  resolution: number;
   whitespace?: string;
   invert?: boolean;
   colour?: boolean;

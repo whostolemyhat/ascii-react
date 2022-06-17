@@ -3,18 +3,6 @@ import { IConverter } from './IConverter';
 import { chunk } from './chunk';
 import { Options, Pixel } from './types';
 
-// const chunk = function (array: ImageData['data'], count: number) {
-//   if (count == null || count < 1) return [];
-
-//   const result = [];
-//   const length = array.length;
-//   let i = 0;
-//   while (i < length) {
-//     result.push(Array.prototype.slice.call(array, i, (i += count)));
-//   }
-//   return result;
-// };
-
 export function pixelToChar(pixel: Pixel, mapLength: number): number {
   const averageShade = Math.floor(
     pixel.r * 0.3 + pixel.b * 0.3 + pixel.g * 0.3,
