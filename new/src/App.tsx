@@ -34,7 +34,7 @@ function App() {
   const photo = useRef(null); // canvas
 
   const handleDataReceived = (data: number) => {
-    console.log('got some data', data);
+    // console.log('got some data', data);
     const progress = data.toFixed(1);
     setProgress(Number(progress));
   };
@@ -58,7 +58,7 @@ function App() {
     poolConverter.on('result', handleImageComplete);
 
     sharedConverter.on('progress', (data: any) => handleDataReceived(data));
-    sharedConverter.on('result', handleImageComplete);
+    sharedConverter.once('result', handleImageComplete);
   }, []);
 
   const onClick = () => {
@@ -162,6 +162,9 @@ function App() {
         case Converter.Pool:
           selectedConverter = poolConverter;
           break;
+        case Converter.Buffer:
+          selectedConverter = sharedConverter;
+          break;
         default:
           selectedConverter = asciiConverter;
           break;
@@ -174,8 +177,7 @@ function App() {
             setAppState(AppState.UPLOAD);
           }}
           canvas={photo.current}
-          // converter={selectedConverter}
-          converter={sharedConverter}
+          converter={selectedConverter}
           options={options}
           setAppState={setAppState}
         />
@@ -231,6 +233,15 @@ function App() {
               onChange={() => setConverter(Converter.Pool)}
             />
             <label htmlFor="pool">Multi-worker</label>
+            <input
+              type="radio"
+              name="converter"
+              value="buffer"
+              id="buffer"
+              checked={converter === Converter.Buffer}
+              onChange={() => setConverter(Converter.Buffer)}
+            />
+            <label htmlFor="buffer">Shared array buffer</label>
           </div>
           <div
             onClick={onClick}

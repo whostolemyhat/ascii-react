@@ -12,15 +12,14 @@ self.onmessage = function (e) {
 
   // eslint-disable-line no-undef
   const options = e.data[1];
-  const rowNumber = e.data[2];
-  const startAt = e.data[3];
-  const imgWidth = e.data[4];
+  const imgWidth = e.data[2];
+  const imgHeight = e.data[3];
 
   // pull data out of shared memory
   const pixels = new Uint8ClampedArray(e.data[0]);
 
   // const sharedArray = new Uint8ClampedArray(e.data[0]);
-  console.log(pixels);
+  console.log('pix', pixels);
 
   const resolution = options.resolution > 0 ? Math.ceil(options.resolution) : 1;
 
@@ -35,8 +34,10 @@ self.onmessage = function (e) {
 
   const PIXEL_LENGTH = 4;
   let out = '';
+  let col = 0;
+  const rowPercent = 100 / imgHeight;
 
-  for (let j = 0; j < imgWidth; j += PIXEL_LENGTH * resolution) {
+  for (let j = 0; j < pixels.length; j += PIXEL_LENGTH * resolution) {
     const pixel = {};
     pixel.r = pixels[j];
     pixel.g = pixels[j + 1];
@@ -51,10 +52,16 @@ self.onmessage = function (e) {
         '</span>';
     }
     out += char;
+    col++;
+    if (col === imgWidth) {
+      out += '\n';
+      col = 0;
+      postMessage({ type: 'progress', value: j * rowPercent });
+    }
   }
 
   console.log('[worker] finished', out);
-  postMessage({ type: 'result', value: out, rowNumber });
+  postMessage({ type: 'result', value: out });
   self.close();
 };
 

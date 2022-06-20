@@ -15,6 +15,7 @@ export enum Converter {
   None,
   Single,
   Pool,
+  Buffer,
 }
 
 export type Options = {
