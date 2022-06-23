@@ -58,7 +58,7 @@ function App() {
     poolConverter.on('result', handleImageComplete);
 
     sharedConverter.on('progress', (data: any) => handleDataReceived(data));
-    sharedConverter.once('result', handleImageComplete);
+    sharedConverter.on('result', handleImageComplete);
   }, []);
 
   const onClick = () => {
@@ -223,7 +223,7 @@ function App() {
               checked={converter === Converter.Single}
               onChange={() => setConverter(Converter.Single)}
             />
-            <label htmlFor="single">Background worker</label>
+            <label htmlFor="single">Background worker (deprectated)</label>
             <input
               type="radio"
               name="converter"
@@ -232,7 +232,7 @@ function App() {
               checked={converter === Converter.Pool}
               onChange={() => setConverter(Converter.Pool)}
             />
-            <label htmlFor="pool">Multi-worker</label>
+            <label htmlFor="pool">Multi-worker (deprecated)</label>
             <input
               type="radio"
               name="converter"

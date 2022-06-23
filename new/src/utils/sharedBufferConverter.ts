@@ -25,17 +25,19 @@ export default class SharedBufferConverter
       sharedArray[i] = pixels.data[i];
     }
 
+    console.log('buffer', buffer);
+
     this.worker.onmessage = (e: any) => {
       if (e.data.type === 'progress') {
         this.emit('progress', e.data.value);
       }
 
       if (e.data.type === 'result') {
-        console.log('sending result');
+        console.log('sending result', e.data.value);
         this.emit('result', e.data.value);
       }
     };
 
-    this.worker.postMessage([pixels.data.buffer, pixels.width, pixels.height]);
+    this.worker.postMessage([sharedArray, pixels.width, pixels.height]);
   }
 }

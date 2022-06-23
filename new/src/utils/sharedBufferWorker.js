@@ -41,5 +41,5 @@ self.onmessage = function (e) {
   }
 
   postMessage({ type: 'result', value: out });
-  self.close();
+  // self.close();
 };
