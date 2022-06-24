@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Output } from './components/Output';
+import { OutputCanvas } from './components/OutputCanvas';
 import { Preview } from './components/Preview';
 import { Progress } from './components/Progress';
 import { IConverter } from './utils/IConverter';
@@ -26,7 +27,11 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [result, setResult] = useState('');
   const [progress, setProgress] = useState(0);
-  const [converter, setConverter] = useState(Converter.Single);
+  const [converter, setConverter] = useState(Converter.Buffer);
+  const [imgDimensions, setImgDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
 
   const [appState, setAppState] = useState(AppState.UPLOAD);
 
@@ -91,6 +96,7 @@ function App() {
     // resize canvas to image
     canvas.width = image.width;
     canvas.height = image.height;
+    setImgDimensions({ width: image.width, height: image.height });
     const context = canvas.getContext('2d');
     if (context) {
       context.drawImage(image, 0, 0);
@@ -191,8 +197,16 @@ function App() {
 
     case AppState.RESULT:
       child = (
-        <Output
+        // <Output
+        //   result={result}
+        //   reset={() => {
+        //     setFile('');
+        //     setAppState(AppState.UPLOAD);
+        //   }}
+        // />
+        <OutputCanvas
           result={result}
+          imgDimensions={imgDimensions}
           reset={() => {
             setFile('');
             setAppState(AppState.UPLOAD);
@@ -223,7 +237,7 @@ function App() {
               checked={converter === Converter.Single}
               onChange={() => setConverter(Converter.Single)}
             />
-            <label htmlFor="single">Background worker (deprectated)</label>
+            <label htmlFor="single">Background worker</label>
             <input
               type="radio"
               name="converter"
@@ -232,7 +246,7 @@ function App() {
               checked={converter === Converter.Pool}
               onChange={() => setConverter(Converter.Pool)}
             />
-            <label htmlFor="pool">Multi-worker (deprecated)</label>
+            <label htmlFor="pool">Multi-worker</label>
             <input
               type="radio"
               name="converter"

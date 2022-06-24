@@ -1,11 +1,13 @@
 ## TODO
 
 - render output on canvas/as image
-- wasm
+- rm event emitter?
+- error messages
 - api
 - options
-- error messages
-- sort out pool speed
+- resize
+- wasm
+- ~~sort out pool speed~~
 - ~~reset on result~~
 - ~~progress bar~~
 - styling/layout
