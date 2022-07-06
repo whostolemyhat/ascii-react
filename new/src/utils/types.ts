@@ -16,6 +16,8 @@ export enum Converter {
   Single,
   Pool,
   Buffer,
+  PassValue,
+  SharedPool,
 }
 
 export type Options = {

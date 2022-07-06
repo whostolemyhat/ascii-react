@@ -9,13 +9,12 @@ export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) {
   console.log('[worker] starting', e.data[0]);
-  const start = e.data[3] || 0;
   const imgWidth = e.data[1];
   const imgHeight = e.data[2];
 
   // pull data out of shared memory
-  const pixels = new Uint8ClampedArray(e.data[0]);
-  const end = e.data[4] || pixels.length;
+  // const pixels = new Uint8ClampedArray(e.data[0]);
+  const pixels = e.data[0];
 
   const PIXEL_LENGTH = 4;
   let out = '';
@@ -23,7 +22,7 @@ self.onmessage = function (e) {
   const rowPercent = 100 / imgHeight;
   let rowsCompleted = 0;
 
-  for (let j = start; j < end; j += PIXEL_LENGTH) {
+  for (let j = 0; j < pixels.length; j += PIXEL_LENGTH) {
     const pixel = {};
     pixel.r = pixels[j];
     pixel.g = pixels[j + 1];
