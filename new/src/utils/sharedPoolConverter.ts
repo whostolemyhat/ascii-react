@@ -17,15 +17,15 @@ export default class SharedBufferConverter
     this.workers = [
       new Worker(new URL('./sharedBufferWorker.js', import.meta.url)),
       new Worker(new URL('./sharedBufferWorker.js', import.meta.url)),
+      new Worker(new URL('./sharedBufferWorker.js', import.meta.url)),
     ];
     this.result = '';
     this.resultCount = 0;
   }
 
   toAscii(pixels: ImageData, options: Options) {
-    console.log('using sharedpoolbuffer worker');
-
     const totalWorkers = this.workers.length;
+    console.log(`using sharedpoolbuffer worker; using ${totalWorkers} workers`);
 
     // if you press 'convert' before this finishes, then the data isn't there
     const buffer = new SharedArrayBuffer(pixels.data.length);
@@ -42,35 +42,33 @@ export default class SharedBufferConverter
         }
 
         if (e.data.type === 'result') {
-          // tODO order
+          // TODO make order correct
           this.result += e.data.value;
           this.resultCount += 1;
-          if (this.resultCount === this.workers.length) {
+          if (this.resultCount === totalWorkers) {
             this.emit('result', this.result);
           }
         }
       };
 
-      const totalPixels = sharedArray.length / PIXEL_LENGTH;
-      console.log('pix', totalPixels);
+      // lower bound - if divide isn't even then take floor,
+      // last worker needs to go up to the end
+      const rowChunk = Math.floor(pixels.height / totalWorkers);
 
-      const chunkLength = totalPixels / this.workers.length;
-      console.log(
-        'chunk',
-        chunkLength,
-        'start',
-        i * chunkLength * PIXEL_LENGTH,
-        'end',
-        (i + 1) * chunkLength * PIXEL_LENGTH,
-      );
+      const start = pixels.width * i * rowChunk * PIXEL_LENGTH;
+      let end = pixels.width * (i + 1) * rowChunk * PIXEL_LENGTH;
+      if (i === totalWorkers - 1) {
+        end = pixels.data.length;
+      }
 
-      // TODO split array
+      console.log(`i: ${i}, start: ${start}, end: ${end}`);
+
       worker.postMessage([
         sharedArray,
         pixels.width,
         pixels.height,
-        i * chunkLength * PIXEL_LENGTH, // start
-        (i + 1) * chunkLength * PIXEL_LENGTH, // end
+        start,
+        end,
       ]);
     });
   }
