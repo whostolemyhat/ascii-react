@@ -2,25 +2,26 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
+import { Options } from './components/Options';
 import { Output } from './components/Output';
 import { OutputCanvas } from './components/OutputCanvas';
 import { Preview } from './components/Preview';
 import { Progress } from './components/Progress';
 import { IConverter } from './utils/IConverter';
-import AsciiConverter from './utils/asciiConverter';
+// import AsciiConverter from './utils/asciiConverter';
 import NoWorkerConverter from './utils/noWorkerConverer';
-import PassValueConverter from './utils/passValueConverter';
-import PoolConverter from './utils/poolConverter';
+// import PassValueConverter from './utils/passValueConverter';
+// import PoolConverter from './utils/poolConverter';
 import SharedBufferConverter from './utils/sharedBufferConverter';
 import SharedPoolConverter from './utils/sharedPoolConverter';
-import { AppState, Converter, Options } from './utils/types';
+import { AppState, Converter, ConversionOptions } from './utils/types';
 
 export const noWorkerConverter = new NoWorkerConverter();
-export const asciiConverter = new AsciiConverter();
-export const poolConverter = new PoolConverter();
+// export const asciiConverter = new AsciiConverter();
+// export const poolConverter = new PoolConverter();
 export const sharedConverter = new SharedBufferConverter();
 export const sharedPoolConverter = new SharedPoolConverter();
-export const passValueConverter = new PassValueConverter();
+// export const passValueConverter = new PassValueConverter();
 
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
@@ -31,7 +32,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [result, setResult] = useState('');
   const [progress, setProgress] = useState(0);
-  const [converter, setConverter] = useState(Converter.Buffer);
+  const [converter, setConverter] = useState(Converter.SharedPool);
   const [imgDimensions, setImgDimensions] = useState({
     width: 0,
     height: 0,
@@ -58,11 +59,11 @@ function App() {
     noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
     noWorkerConverter.on('result', handleImageComplete);
 
-    asciiConverter.on('progress', (data: any) => handleDataReceived(data));
-    asciiConverter.on('result', handleImageComplete);
+    // asciiConverter.on('progress', (data: any) => handleDataReceived(data));
+    // asciiConverter.on('result', handleImageComplete);
 
-    poolConverter.on('progress', (data: any) => handleDataReceived(data));
-    poolConverter.on('result', handleImageComplete);
+    // poolConverter.on('progress', (data: any) => handleDataReceived(data));
+    // poolConverter.on('result', handleImageComplete);
 
     sharedConverter.on('progress', (data: any) => handleDataReceived(data));
     sharedConverter.on('result', handleImageComplete);
@@ -70,8 +71,8 @@ function App() {
     sharedPoolConverter.on('progress', (data: any) => handleDataReceived(data));
     sharedPoolConverter.on('result', handleImageComplete);
 
-    passValueConverter.on('progress', (data: any) => handleDataReceived(data));
-    passValueConverter.on('result', handleImageComplete);
+    // passValueConverter.on('progress', (data: any) => handleDataReceived(data));
+    // passValueConverter.on('result', handleImageComplete);
   }, []);
 
   const onClick = () => {
@@ -158,7 +159,7 @@ function App() {
     // 'error-message--visible': this.state.error
   });
 
-  const options: Options = {
+  const options: ConversionOptions = {
     resolution: 2,
     colour: false,
     whitespace: '',
@@ -168,25 +169,25 @@ function App() {
   let child = null;
   switch (appState) {
     case AppState.PREVIEW:
-      let selectedConverter: IConverter = asciiConverter;
+      let selectedConverter: IConverter = sharedPoolConverter;
       switch (converter) {
         case Converter.None:
           selectedConverter = noWorkerConverter;
           break;
-        case Converter.Pool:
-          selectedConverter = poolConverter;
-          break;
+        // case Converter.Pool:
+        //   selectedConverter = poolConverter;
+        //   break;
         case Converter.Buffer:
           selectedConverter = sharedConverter;
           break;
-        case Converter.PassValue:
-          selectedConverter = passValueConverter;
-          break;
+        // case Converter.PassValue:
+        //   selectedConverter = passValueConverter;
+        //   break;
         case Converter.SharedPool:
           selectedConverter = sharedPoolConverter;
           break;
         default:
-          selectedConverter = asciiConverter;
+          selectedConverter = sharedPoolConverter;
           break;
       }
       child = (
@@ -232,62 +233,7 @@ function App() {
     default:
       child = (
         <form>
-          <div>
-            <input
-              type="radio"
-              name="converter"
-              value="none"
-              id="none"
-              checked={converter === Converter.None}
-              onChange={() => setConverter(Converter.None)}
-            />
-            <label htmlFor="none">Single thread</label>
-            <input
-              type="radio"
-              name="converter"
-              value="single"
-              id="single"
-              checked={converter === Converter.Single}
-              onChange={() => setConverter(Converter.Single)}
-            />
-            <label htmlFor="single">Background worker</label>
-            <input
-              type="radio"
-              name="converter"
-              value="pool"
-              id="pool"
-              checked={converter === Converter.Pool}
-              onChange={() => setConverter(Converter.Pool)}
-            />
-            <label htmlFor="pool">Multi-worker</label>
-            <input
-              type="radio"
-              name="converter"
-              value="value"
-              id="value"
-              checked={converter === Converter.PassValue}
-              onChange={() => setConverter(Converter.PassValue)}
-            />
-            <label htmlFor="value">Pass by value</label>
-            <input
-              type="radio"
-              name="converter"
-              value="buffer"
-              id="buffer"
-              checked={converter === Converter.Buffer}
-              onChange={() => setConverter(Converter.Buffer)}
-            />
-            <label htmlFor="buffer">Shared array buffer</label>
-            <input
-              type="radio"
-              name="converter"
-              value="sharedpool"
-              id="sharedpool"
-              checked={converter === Converter.SharedPool}
-              onChange={() => setConverter(Converter.SharedPool)}
-            />
-            <label htmlFor="sharedpool">Shared pool buffer</label>
-          </div>
+          <Options setConverter={setConverter} converter={converter} />
           <div
             onClick={onClick}
             onDrop={onDrop}

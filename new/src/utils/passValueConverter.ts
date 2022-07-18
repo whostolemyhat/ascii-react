@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { IConverter } from './IConverter';
-import { Options } from './types';
+import { ConversionOptions } from './types';
 
 export default class PassValueConverter
   extends EventEmitter
@@ -13,7 +13,7 @@ export default class PassValueConverter
     this.worker = new Worker(new URL('./passValueWorker.js', import.meta.url));
   }
 
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using pass value worker');
 
     // if you press 'convert' before this finishes, then the data isn't there

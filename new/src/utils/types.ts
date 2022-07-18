@@ -13,14 +13,14 @@ export type Pixels = {
 
 export enum Converter {
   None,
-  Single,
-  Pool,
+  // Single,
+  // Pool,
   Buffer,
-  PassValue,
+  // PassValue,
   SharedPool,
 }
 
-export type Options = {
+export type ConversionOptions = {
   resolution: number;
   whitespace?: string;
   invert?: boolean;

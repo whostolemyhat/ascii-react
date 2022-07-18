@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import { IConverter } from './IConverter';
 import { chunk } from './chunk';
-import { Options, Pixel } from './types';
+import { ConversionOptions, Pixel } from './types';
 
 export function pixelToChar(pixel: Pixel, mapLength: number): number {
   const averageShade = Math.floor(
@@ -16,7 +16,7 @@ export default class NoWorkerConverter
   extends EventEmitter
   implements IConverter
 {
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using no worker');
 
     const resolution =

@@ -2,7 +2,7 @@
 import EventEmitter from 'eventemitter3';
 import { IConverter } from './IConverter';
 import { chunk } from './chunk';
-import { Options } from './types';
+import { ConversionOptions } from './types';
 
 class WorkerThread {
   task?: Task;
@@ -82,7 +82,7 @@ export default class PoolConverter extends EventEmitter implements IConverter {
     console.log('created pool worker');
   }
 
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using multi worker', options.numWorkers);
     this.output = [];
     this.finished = 0;
@@ -122,6 +122,6 @@ export default class PoolConverter extends EventEmitter implements IConverter {
 }
 
 type Task = {
-  data: [number[], Options, number];
+  data: [number[], ConversionOptions, number];
   callback: (e: { data: { index: number; value: string } }) => void;
 };

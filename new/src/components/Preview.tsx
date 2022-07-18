@@ -1,9 +1,9 @@
 import { IConverter } from '../utils/IConverter';
-import { AppState, Options } from '../utils/types';
+import { AppState, ConversionOptions } from '../utils/types';
 
 function convertImage(
   imageData: ImageData,
-  options: Options,
+  options: ConversionOptions,
   worker: IConverter,
 ) {
   worker.toAscii(imageData, options);
@@ -20,7 +20,7 @@ export const Preview = ({
   file: string;
   clear: () => void;
   canvas?: HTMLCanvasElement | null;
-  options: Options;
+  options: ConversionOptions;
   setAppState: (state: AppState) => void;
   converter: IConverter;
 }) => {

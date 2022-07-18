@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { IConverter } from './IConverter';
-import { Options } from './types';
+import { ConversionOptions } from './types';
 
 export default class AsciiConverter extends EventEmitter implements IConverter {
   worker: Worker;
@@ -11,7 +11,7 @@ export default class AsciiConverter extends EventEmitter implements IConverter {
     console.log('created ascii worker');
   }
 
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using single worker');
     console.log('pixels', pixels);
 

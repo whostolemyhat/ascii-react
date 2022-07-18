@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { IConverter } from './IConverter';
-import { Options } from './types';
+import { ConversionOptions } from './types';
 
 export default class SharedBufferConverter
   extends EventEmitter
@@ -15,7 +15,7 @@ export default class SharedBufferConverter
     );
   }
 
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using sharedbuffer worker');
 
     // if you press 'convert' before this finishes, then the data isn't there

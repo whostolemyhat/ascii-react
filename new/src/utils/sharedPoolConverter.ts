@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { IConverter } from './IConverter';
-import { Options } from './types';
+import { ConversionOptions } from './types';
 
 const PIXEL_LENGTH = 4;
 
@@ -23,7 +23,7 @@ export default class SharedBufferConverter
     this.resultCount = 0;
   }
 
-  toAscii(pixels: ImageData, options: Options) {
+  toAscii(pixels: ImageData, options: ConversionOptions) {
     const totalWorkers = this.workers.length;
     console.log(`using sharedpoolbuffer worker; using ${totalWorkers} workers`);
 
@@ -60,8 +60,6 @@ export default class SharedBufferConverter
       if (i === totalWorkers - 1) {
         end = pixels.data.length;
       }
-
-      console.log(`i: ${i}, start: ${start}, end: ${end}`);
 
       worker.postMessage([
         sharedArray,
