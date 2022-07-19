@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'import/no-named-as-default': 0,
+    'import/order': ['error', { alphabetize: { order: 'asc' } }],
   },
   ignorePatterns: ['node_modules/', 'dist/'],
   overrides: [

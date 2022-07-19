@@ -8,7 +8,7 @@ export function pixelToChar(pixel, mapLength) {
 export const charMap = ['.', ',', ':', ';', 'o', 'x', '%', '#', '@'];
 
 self.onmessage = function (e) {
-  console.log('[worker] starting', e.data[0]);
+  console.log('[worker] starting');
   const start = e.data[3] || 0;
   const imgWidth = e.data[1];
   const imgHeight = e.data[2];
@@ -16,6 +16,7 @@ self.onmessage = function (e) {
   // pull data out of shared memory
   const pixels = new Uint8ClampedArray(e.data[0]);
   const end = e.data[4] || pixels.length;
+  const workerNum = e.data[5] || 0;
 
   const PIXEL_LENGTH = 4;
   let out = '';
@@ -42,5 +43,5 @@ self.onmessage = function (e) {
     }
   }
 
-  postMessage({ type: 'result', value: out });
+  postMessage({ type: 'result', value: out, position: workerNum });
 };

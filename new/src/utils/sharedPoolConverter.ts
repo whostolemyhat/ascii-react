@@ -9,7 +9,7 @@ export default class SharedBufferConverter
   implements IConverter
 {
   workers: Worker[];
-  result: string;
+  result: string[];
   resultCount: number;
 
   constructor() {
@@ -19,7 +19,7 @@ export default class SharedBufferConverter
       new Worker(new URL('./sharedBufferWorker.js', import.meta.url)),
       new Worker(new URL('./sharedBufferWorker.js', import.meta.url)),
     ];
-    this.result = '';
+    this.result = [];
     this.resultCount = 0;
   }
 
@@ -42,11 +42,11 @@ export default class SharedBufferConverter
         }
 
         if (e.data.type === 'result') {
-          // TODO make order correct
-          this.result += e.data.value;
+          const pos = e.data.position;
+          this.result[pos] = e.data.value;
           this.resultCount += 1;
           if (this.resultCount === totalWorkers) {
-            this.emit('result', this.result);
+            this.emit('result', this.result.join());
           }
         }
       };
@@ -67,6 +67,7 @@ export default class SharedBufferConverter
         pixels.height,
         start,
         end,
+        i,
       ]);
     });
   }

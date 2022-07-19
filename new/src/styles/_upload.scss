@@ -7,6 +7,8 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin: 1rem auto 2rem;
+        max-width: 800px;
 
     .input,
     .canvas {
@@ -22,16 +24,13 @@
     display: none;
 }
 
-.upload__wrapper {
-    margin: 1rem auto 2rem;
-    max-width: 800px;
-}
 
-.upload__copy {
-    max-width: 600px;
-    margin: 1.5rem auto;
-    line-height: 1.5rem;
-}
+
+// .upload__copy {
+//     max-width: 600px;
+//     margin: 1.5rem auto;
+//     line-height: 1.5rem;
+// }
 
 .upload--drag-enter {
     border: 5px solid $yellow5;
@@ -49,6 +48,11 @@
 .instructions {
     display: block;
     font-size: 1.3rem;
+
+    .button {
+        margin: 0;
+        font-size: 1.3rem;
+    }
 }
 
 .instructions--drop {

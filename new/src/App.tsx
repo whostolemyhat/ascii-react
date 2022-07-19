@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
+import { Error } from './components/Error';
 import { Options } from './components/Options';
 import { Output } from './components/Output';
 import { OutputCanvas } from './components/OutputCanvas';
@@ -14,7 +15,12 @@ import NoWorkerConverter from './utils/noWorkerConverer';
 // import PoolConverter from './utils/poolConverter';
 import SharedBufferConverter from './utils/sharedBufferConverter';
 import SharedPoolConverter from './utils/sharedPoolConverter';
-import { AppState, Converter, ConversionOptions } from './utils/types';
+import {
+  AppState,
+  Converter,
+  ConversionOptions,
+  OutputType,
+} from './utils/types';
 
 export const noWorkerConverter = new NoWorkerConverter();
 // export const asciiConverter = new AsciiConverter();
@@ -33,6 +39,7 @@ function App() {
   const [result, setResult] = useState('');
   const [progress, setProgress] = useState(0);
   const [converter, setConverter] = useState(Converter.SharedPool);
+  const [output, setOutput] = useState(OutputType.Text);
   const [imgDimensions, setImgDimensions] = useState({
     width: 0,
     height: 0,
@@ -54,8 +61,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log('adding listeners');
-
     noWorkerConverter.on('progress', (data: any) => handleDataReceived(data));
     noWorkerConverter.on('result', handleImageComplete);
 
@@ -142,6 +147,7 @@ function App() {
       setFile(window.URL.createObjectURL(file));
       // have to set appstate.preview after rendering to canvas, not here
     } else {
+      console.error('Image type not recognised');
       setHasError(true);
       setErrorMessage('Image type not recognised');
     }
@@ -151,12 +157,7 @@ function App() {
     upload: true,
     'upload--drag-enter': dragEnter,
     // 'upload--has-file': this.state.preview,
-    // 'upload--error': this.state.error
-  });
-
-  const errorClasses = classNames({
-    'error-message': true,
-    // 'error-message--visible': this.state.error
+    'upload--error': hasError,
   });
 
   const options: ConversionOptions = {
@@ -210,30 +211,31 @@ function App() {
       break;
 
     case AppState.RESULT:
-      child = (
-        <Output
-          result={result}
-          reset={() => {
-            setFile('');
-            setAppState(AppState.UPLOAD);
-          }}
-        />
-        // <OutputCanvas
-        //   result={result}
-        //   imgDimensions={imgDimensions}
-        //   reset={() => {
-        //     setFile('');
-        //     setAppState(AppState.UPLOAD);
-        //   }}
-        // />
-      );
+      child =
+        output === OutputType.Text ? (
+          <Output
+            result={result}
+            reset={() => {
+              setFile('');
+              setAppState(AppState.UPLOAD);
+            }}
+          />
+        ) : (
+          <OutputCanvas
+            result={result}
+            imgDimensions={imgDimensions}
+            reset={() => {
+              setFile('');
+              setAppState(AppState.UPLOAD);
+            }}
+          />
+        );
       break;
 
     case AppState.UPLOAD:
     default:
       child = (
-        <form>
-          <Options setConverter={setConverter} converter={converter} />
+        <form className="upload">
           <div
             onClick={onClick}
             onDrop={onDrop}
@@ -260,10 +262,18 @@ function App() {
       break;
   }
   return (
-    <div className="App">
+    <div className="container">
       {/* <UploadForm converter={noWorkerConverter}/> */}
       {/* <BackendForm /> */}
+
       <canvas ref={photo} className="canvas"></canvas>
+      <Options
+        setConverter={setConverter}
+        converter={converter}
+        output={output}
+        setOutput={setOutput}
+      />
+      {hasError && <Error message={errorMessage} />}
       {child}
     </div>
   );

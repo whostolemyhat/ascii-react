@@ -1,20 +1,16 @@
-import { useState } from 'react';
-import { Converter } from '../utils/types';
-
-enum OutputType {
-  Text,
-  Image,
-}
+import { Converter, OutputType } from '../utils/types';
 
 export const Options = ({
   converter,
   setConverter,
+  output,
+  setOutput,
 }: {
   converter: Converter;
   setConverter: (converter: Converter) => void;
+  output: OutputType;
+  setOutput: (output: OutputType) => void;
 }) => {
-  const [output, setOutput] = useState(OutputType.Text);
-
   return (
     <div>
       <p>Worker type</p>
@@ -47,24 +43,30 @@ export const Options = ({
       />
       <label htmlFor="sharedpool">Shared pool buffer</label>
       <p>Output:</p>
-      <input
-        type="radio"
-        name="output"
-        value="text"
-        id="output-text"
-        checked={output === OutputType.Text}
-        onChange={() => setOutput(OutputType.Text)}
-      />
-      <label htmlFor="output-text">Text</label>
-      <input
-        type="radio"
-        name="output"
-        value="image"
-        id="output-image"
-        checked={output === OutputType.Image}
-        onChange={() => setOutput(OutputType.Image)}
-      />
-      <label htmlFor="output-image">Image</label>
+
+      <label htmlFor="output-text">
+        <input
+          type="radio"
+          name="output"
+          value="text"
+          id="output-text"
+          checked={output === OutputType.Text}
+          onChange={() => setOutput(OutputType.Text)}
+        />
+        Text
+      </label>
+
+      <label htmlFor="output-image">
+        <input
+          type="radio"
+          name="output"
+          value="image"
+          id="output-image"
+          checked={output === OutputType.Image}
+          onChange={() => setOutput(OutputType.Image)}
+        />
+        Image
+      </label>
     </div>
   );
 };

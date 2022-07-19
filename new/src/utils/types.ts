@@ -11,6 +11,11 @@ export type Pixels = {
   height: number;
 };
 
+export enum OutputType {
+  Text,
+  Image,
+}
+
 export enum Converter {
   None,
   // Single,
