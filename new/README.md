@@ -6,9 +6,10 @@
 
 ## TODO
 
+- resizing option
 - styling/layout
 - error messages
-- test drag/drop
+- ~test drag/drop~
 - tests
 - options
 - api

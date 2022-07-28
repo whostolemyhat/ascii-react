@@ -47,10 +47,10 @@ export const OutputCanvas = ({
 
   return (
     <div className="result">
-      <canvas ref={picture} />{' '}
-      <button data-testid="reset" onClick={reset}>
+      <button data-testid="reset" onClick={reset} className="button--secondary">
         Restart
       </button>
+      <canvas ref={picture} />{' '}
     </div>
   );
 };

@@ -36,9 +36,10 @@ export const Preview = ({
   }
 
   return (
-    <>
-      <img src={file} className="preview" />
+    <div className="preview">
+      <img src={file} className="preview__img" />
       <button
+        className="preview__submit button--primary"
         data-testid="preview-submit"
         type="submit"
         onClick={(e) => {
@@ -51,9 +52,13 @@ export const Preview = ({
       >
         Convert
       </button>
-      <button data-testid="preview-clear" onClick={() => clear()}>
-        Clear
+      <button
+        data-testid="preview-clear"
+        onClick={() => clear()}
+        className="preview__cancel button--secondary"
+      >
+        Cancel
       </button>
-    </>
+    </div>
   );
 };

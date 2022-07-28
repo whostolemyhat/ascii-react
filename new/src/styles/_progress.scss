@@ -23,14 +23,6 @@ progress::-webkit-progress-value {
     background-color: $yellow5;
     border-radius: $border-radius;
 }
-progress::-moz-progress-bar {
-    /* style rules */
-}
-
-.preview {
-    max-width: 100px;
-    margin-right: 25px;
-}
 
 .progress__spinner {
     display: inline-block;

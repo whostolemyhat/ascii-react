@@ -8,6 +8,13 @@ export const Output = ({
   return (
     <>
       <div className="results">
+        <button
+          data-testid="reset"
+          onClick={reset}
+          className="button--secondary"
+        >
+          Restart
+        </button>
         <pre
           data-testid="result"
           className="result"
@@ -16,9 +23,6 @@ export const Output = ({
           <code>{result}</code>
         </pre>
       </div>
-      <button data-testid="reset" onClick={reset}>
-        Restart
-      </button>
     </>
   );
 };
