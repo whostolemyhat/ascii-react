@@ -8,11 +8,7 @@ export const Output = ({
   return (
     <>
       <div className="results">
-        <button
-          data-testid="reset"
-          onClick={reset}
-          className="button--secondary"
-        >
+        <button data-testid="reset" onClick={reset} className="button">
           Restart
         </button>
         <pre

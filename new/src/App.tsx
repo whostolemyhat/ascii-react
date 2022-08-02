@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Error } from './components/Error';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
 import { Options } from './components/Options';
 import { Output } from './components/Output';
 import { OutputCanvas } from './components/OutputCanvas';
@@ -175,15 +177,9 @@ function App() {
         case Converter.None:
           selectedConverter = noWorkerConverter;
           break;
-        // case Converter.Pool:
-        //   selectedConverter = poolConverter;
-        //   break;
         case Converter.Buffer:
           selectedConverter = sharedConverter;
           break;
-        // case Converter.PassValue:
-        //   selectedConverter = passValueConverter;
-        //   break;
         case Converter.SharedPool:
           selectedConverter = sharedPoolConverter;
           break;
@@ -261,20 +257,26 @@ function App() {
       );
       break;
   }
+
+  const showOptions =
+    appState === AppState.UPLOAD || appState === AppState.PREVIEW;
   return (
     <div className="container">
-      {/* <UploadForm converter={noWorkerConverter}/> */}
-      {/* <BackendForm /> */}
+      <Header />
 
       <canvas ref={photo} className="canvas"></canvas>
-      <Options
-        setConverter={setConverter}
-        converter={converter}
-        output={output}
-        setOutput={setOutput}
-      />
+      {showOptions && (
+        <Options
+          setConverter={setConverter}
+          converter={converter}
+          output={output}
+          setOutput={setOutput}
+        />
+      )}
       {hasError && <Error message={errorMessage} />}
       {child}
+
+      <Footer />
     </div>
   );
 }

@@ -22,13 +22,26 @@ export const Options = ({
   });
 
   return (
-    <dl className="options">
-      <dt className={controlClasses} onClick={() => setOpen(!isOpen)}>
-        <h3 className="options__heading">Options</h3>
-        <button className="options__toggle">^</button>
+    <dl className="options" aria-label="Accordion Control Group Buttons">
+      <dt>
+        <button
+          className={controlClasses}
+          onClick={() => setOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls="options-content"
+        >
+          <h3 className="options__heading">Options</h3>
+          <div
+            className="options__toggle"
+            aria-expanded={isOpen}
+            aria-controls="options-content"
+          >
+            &rsaquo;
+          </div>
+        </button>
       </dt>
 
-      <dd className={formClasses}>
+      <dd className={formClasses} aria-hidden={!isOpen} id="options-content">
         <fieldset className="options__group">
           <legend>Worker type</legend>
           <input

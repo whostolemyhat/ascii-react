@@ -1,8 +1,6 @@
 .options {
-  // background: lighten($blue, 25%);
-  // background: $grey;
   text-align: left;
-  border-bottom: 2px solid $black;
+  border-bottom: $border-width solid $black;
   margin: 0 auto 1rem;
   max-width: 800px;
   padding: 1rem;
@@ -19,17 +17,18 @@
 
 .options__form {
   max-height: 0;
-  opacity: 0;
   transition: all 300ms ease-out;
   overflow: hidden;
 }
 
 .options--open {
   max-height: 500px;
-  opacity: 1;
 }
 
 .options__controls {
+  border: 0;
+  background: none;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
@@ -37,23 +36,22 @@
 
 .options__controls--open {
   .options__toggle {
-    transform: rotate(0);
+    transform: rotate(270deg);
   }
 }
 
 .options__toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: $yellow;
   font-size: 3rem;
   font-weight: bold;;
-  display: inline-block;
   height: 40px;
   width: 40px;
   border: 0;
   cursor: pointer;
-  transform: rotate(180deg);
+  transform: rotate(90deg);
   transition: transform 300ms ease-out;
-
-  &:hover {
-    background: darken($yellow, 10%);
-  }
 }

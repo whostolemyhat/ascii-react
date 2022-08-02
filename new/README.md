@@ -6,12 +6,14 @@
 
 ## TODO
 
-- resizing option
+- _resizing option_
 - styling/layout
+- download button
+- canvas drawing -> worker
 - error messages
-- ~test drag/drop~
+- ~~test drag/drop~~
 - tests
-- options
+- ~~options~~
 - api
 - rm event emitter?
 - resize
