@@ -23,7 +23,7 @@ export default class SharedBufferConverter
     this.resultCount = 0;
   }
 
-  toAscii(pixels: ImageData, options: ConversionOptions) {
+  toAscii(pixels: ImageData, _options: ConversionOptions) {
     const totalWorkers = this.workers.length;
     console.log(`using sharedpoolbuffer worker; using ${totalWorkers} workers`);
 

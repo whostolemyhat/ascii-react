@@ -15,7 +15,7 @@ export default class SharedBufferConverter
     );
   }
 
-  toAscii(pixels: ImageData, options: ConversionOptions) {
+  toAscii(pixels: ImageData, _options: ConversionOptions) {
     console.log('using sharedbuffer worker');
 
     // if you press 'convert' before this finishes, then the data isn't there
