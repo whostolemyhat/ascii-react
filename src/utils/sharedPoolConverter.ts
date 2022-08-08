@@ -23,6 +23,7 @@ export default class SharedBufferConverter
     this.resultCount = 0;
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   toAscii(pixels: ImageData, _options: ConversionOptions) {
     const totalWorkers = this.workers.length;
     console.log(`using sharedpoolbuffer worker; using ${totalWorkers} workers`);

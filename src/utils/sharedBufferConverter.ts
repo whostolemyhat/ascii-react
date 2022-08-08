@@ -15,6 +15,7 @@ export default class SharedBufferConverter
     );
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   toAscii(pixels: ImageData, _options: ConversionOptions) {
     console.log('using sharedbuffer worker');
 
