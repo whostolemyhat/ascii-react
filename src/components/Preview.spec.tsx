@@ -15,8 +15,6 @@ describe('Preview', () => {
     const converter = MockConverter;
     const canvas = document.createElement('canvas');
 
-    console.log('canvas', canvas);
-
     render(
       <Preview
         clear={reset}

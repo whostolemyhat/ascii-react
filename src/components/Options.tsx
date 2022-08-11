@@ -62,7 +62,7 @@ export const Options = ({
             checked={converter === Converter.Buffer}
             onChange={() => setConverter(Converter.Buffer)}
           />
-          <label htmlFor="buffer">Shared array buffer</label>
+          <label htmlFor="buffer">Background worker</label>
           <input
             type="radio"
             name="converter"
@@ -71,7 +71,7 @@ export const Options = ({
             checked={converter === Converter.SharedPool}
             onChange={() => setConverter(Converter.SharedPool)}
           />
-          <label htmlFor="sharedpool">Shared pool buffer</label>
+          <label htmlFor="sharedpool">Multi-worker</label>
         </fieldset>
 
         <fieldset className="options__group">
