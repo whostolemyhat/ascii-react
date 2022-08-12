@@ -8,6 +8,7 @@
 
 - _resizing option_
 - styling/layout
+- favicon
 - download button
 - canvas drawing -> worker
 - error messages

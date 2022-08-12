@@ -28,6 +28,8 @@ export const Preview = ({
     console.error('no canvas found');
     return null;
   }
+
+  // TODO resize image here
   const context = canvas?.getContext('2d');
   const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
   if (!imageData) {

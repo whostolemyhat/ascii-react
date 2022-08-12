@@ -163,7 +163,7 @@ function App() {
   });
 
   const options: ConversionOptions = {
-    resolution: 2,
+    resolution: 1,
     colour: false,
     whitespace: '',
     invert: false,

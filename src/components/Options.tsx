@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { useState } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute, useState } from 'react';
 import { Converter, OutputType } from '../utils/types';
 
 export const Options = ({
