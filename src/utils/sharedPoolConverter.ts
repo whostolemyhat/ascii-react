@@ -36,7 +36,6 @@ export default class SharedBufferConverter
     }
 
     this.workers.forEach((worker, i) => {
-      console.log('starting workers', worker, i);
       worker.onmessage = (e: any) => {
         if (e.data.type === 'progress') {
           this.emit('progress', e.data.value);

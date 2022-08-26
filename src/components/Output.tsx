@@ -11,6 +11,13 @@ export const Output = ({
         <button data-testid="reset" onClick={reset} className="button">
           Restart
         </button>
+        <a
+          href={`data:text/plain;charset=utf-8,${encodeURIComponent(result)}`}
+          download="ascii.txt"
+          className="result__download button icon-arrow-down"
+        >
+          Download
+        </a>
         <pre
           data-testid="result"
           className="result"

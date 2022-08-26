@@ -109,13 +109,21 @@ function App() {
   };
 
   const renderImage = (canvas: HTMLCanvasElement, image: HTMLImageElement) => {
+    // scale down image
+    const SCALE_FACTOR = 0.25;
+    const scaledWidth = image.width * SCALE_FACTOR;
+    const scaledHeight = image.height * SCALE_FACTOR;
     // resize canvas to image
-    canvas.width = image.width;
-    canvas.height = image.height;
-    setImgDimensions({ width: image.width, height: image.height });
+    canvas.width = scaledWidth;
+    canvas.height = scaledHeight;
+
+    setImgDimensions({
+      width: scaledWidth,
+      height: scaledHeight,
+    });
     const context = canvas.getContext('2d');
     if (context) {
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, 0, 0, scaledWidth, scaledHeight);
       setAppState(AppState.PREVIEW);
     } else {
       console.error(`Couldn't get context`);
@@ -139,6 +147,7 @@ function App() {
       if (canvas) {
         // note case!
         image.onload = () => {
+          console.log('here 1');
           renderImage(canvas, image);
         };
         image.src = window.URL.createObjectURL(file);

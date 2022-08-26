@@ -42,6 +42,8 @@ export const OutputCanvas = ({
   useEffect(() => {
     if (picture.current) {
       drawImage(picture.current, result, imgDimensions);
+    } else {
+      console.error('No canvas ref');
     }
   }, [picture.current, result]);
 
@@ -50,6 +52,14 @@ export const OutputCanvas = ({
       <button data-testid="reset" onClick={reset} className="button--secondary">
         Restart
       </button>
+      <a
+        // @ts-ignore
+        href={`${picture.current.toDataURL('image/png')}`}
+        download="ascii.png"
+        className="result__download button icon-arrow-down"
+      >
+        Download
+      </a>
       <canvas ref={picture} />{' '}
     </div>
   );
