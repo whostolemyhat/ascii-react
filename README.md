@@ -6,7 +6,8 @@
 
 ## TODO
 
-- _resizing option_
+- choose image -> restart -> upload = never draws image
+- ~resizing option~
 - styling/layout
 - favicon
 - download button
@@ -17,7 +18,6 @@
 - ~~options~~
 - api
 - rm event emitter?
-- resize
 - wasm
 - ~~sort out pool speed~~
 - ~~reset on result~~

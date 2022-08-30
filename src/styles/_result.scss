@@ -4,3 +4,13 @@
     letter-spacing: 0.5em;
     margin: 2rem auto 3rem;
 }
+
+.result__canvas {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+}
+
+.result__canvas--zoom {
+    max-width: none;
+}

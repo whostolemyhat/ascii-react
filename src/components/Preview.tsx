@@ -32,7 +32,6 @@ export const Preview = ({
   // TODO resize image here
   const context = canvas?.getContext('2d');
   const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
-  console.log('here 3', canvas.width);
   if (!imageData) {
     console.error(`Couldn't convert image`);
     return null;

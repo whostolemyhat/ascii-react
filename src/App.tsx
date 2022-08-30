@@ -147,7 +147,6 @@ function App() {
       if (canvas) {
         // note case!
         image.onload = () => {
-          console.log('here 1');
           renderImage(canvas, image);
         };
         image.src = window.URL.createObjectURL(file);

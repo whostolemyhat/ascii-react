@@ -26,6 +26,8 @@ export default class SharedBufferConverter
   /* eslint-disable @typescript-eslint/no-unused-vars */
   toAscii(pixels: ImageData, _options: ConversionOptions) {
     const totalWorkers = this.workers.length;
+    this.resultCount = 0;
+    this.result = [];
     console.log(`using sharedpoolbuffer worker; using ${totalWorkers} workers`);
 
     // if you press 'convert' before this finishes, then the data isn't there

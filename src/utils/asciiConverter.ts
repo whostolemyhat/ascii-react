@@ -13,7 +13,6 @@ export default class AsciiConverter extends EventEmitter implements IConverter {
 
   toAscii(pixels: ImageData, options: ConversionOptions) {
     console.log('using single worker');
-    console.log('pixels', pixels);
 
     this.worker.postMessage([pixels, options]);
     this.worker.onmessage = (e: any) => {
