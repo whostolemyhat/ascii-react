@@ -29,7 +29,6 @@ export const Preview = ({
     return null;
   }
 
-  // TODO resize image here
   const context = canvas?.getContext('2d');
   const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
   if (!imageData) {
@@ -39,7 +38,7 @@ export const Preview = ({
 
   return (
     <div className="preview">
-      <img src={file} className="preview__img" />
+      <img src={file} className="preview__img" data-testid="preview-img" />
       <button
         className="preview__submit button--primary"
         data-testid="preview-submit"

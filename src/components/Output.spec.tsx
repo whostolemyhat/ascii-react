@@ -16,4 +16,19 @@ describe('Output', () => {
     fireEvent.click(button);
     expect(reset).toHaveBeenCalled();
   });
+
+  it('should allow download', () => {
+    const result =
+      'xxooooooooxxxxooooo\n$$$$$$$$ooooooo......\n....,,,,,,;;;;;;;%%%%%%';
+    render(<Output result={result} reset={jest.fn()} />);
+
+    expect(screen.getByTestId('output-download')).toHaveAttribute(
+      'href',
+      `data:text/plain;charset=utf-8,${encodeURIComponent(result)}`,
+    );
+    expect(screen.getByTestId('output-download')).toHaveAttribute(
+      'download',
+      `ascii.txt`,
+    );
+  });
 });

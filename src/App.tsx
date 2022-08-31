@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Error } from './components/Error';
@@ -250,7 +250,9 @@ function App() {
           >
             <div className="instructions instructions--standard">
               Drag an image here, or{' '}
-              <button className="button icon-arrow-up">upload</button>
+              <button className="button icon-arrow-up" type="button">
+                upload
+              </button>
             </div>
             <span className="instructions instructions--drop">Drop it!</span>
 
