@@ -54,7 +54,7 @@ export const OutputCanvas = ({
   });
 
   return (
-    <div className="result">
+    <div className="results">
       <button data-testid="reset" onClick={reset} className="button--secondary">
         Restart
       </button>
