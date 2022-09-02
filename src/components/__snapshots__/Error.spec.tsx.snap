@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error component should render message 1`] = `
+<div
+  class="error-message"
+  data-testid="error"
+>
+  uh oh
+</div>
+`;

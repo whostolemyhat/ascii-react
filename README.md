@@ -1,13 +1,29 @@
-#Ascii-React
+## Running
 
-[![Build Status](https://travis-ci.org/whostolemyhat/ascii-react.svg?branch=master)](https://travis-ci.org/whostolemyhat/ascii-react) [![David](https://img.shields.io/david/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://david-dm.org/whostolemyhat/ascii-react) [![license](https://img.shields.io/github/license/whostolemyhat/ascii-react.svg?maxAge=2592000)](https://github.com/whostolemyhat/ascii-react/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/whostolemyhat/ascii-react.svg?maxAge=2592000)]()
+`yarn && yarn start`
 
-[asciipicture.com](https://www.asciipicture.com).
+`setupProxy.js` is used to add COOP and COEP headers to enable sharedbufferarray locally.
 
-React.js-based web app which converts images to ASCII text using service workers.
+## TODO
 
-Run via:
+- choose image -> restart -> upload = never draws image
+- ~resizing option~
+- styling/layout
+- favicon
+- download button
+- canvas drawing -> worker
+- error messages
+- ~~test drag/drop~~
+- tests
+- ~~options~~
+- api
+- rm event emitter?
+- wasm
+- ~~sort out pool speed~~
+- ~~reset on result~~
+- ~~progress bar~~
 
-```npm run dev```
-
-Need to run on IP address (not localhost) so that the worker script is picked up
+https://developer.chrome.com/blog/transferable-objects-lightning-fast/
+https://www.kevinhoyt.com/2018/10/31/transferable-imagedata/
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
+https://web.dev/coop-coep/

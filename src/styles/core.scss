@@ -1,6 +1,6 @@
 
 @import 'variables';
-@import '~normalize.css/normalize';
+// @import '~normalize.css/normalize';
 
 html,
 body {
@@ -18,6 +18,10 @@ body {
 
 @import 'base';
 @import 'icon';
+@import 'button';
+@import 'error';
+@import 'preview';
+@import 'options';
 @import 'upload';
 @import 'form';
 @import 'progress';

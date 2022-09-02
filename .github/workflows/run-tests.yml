@@ -1,0 +1,24 @@
+# https://zellwk.com/blog/github-actions-deploy/
+name: Unit test
+on:
+  push:
+    branches-ignore:
+      - 'master'
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install
+        run: yarn
+      - name: Unit tests
+        run: yarn test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn build

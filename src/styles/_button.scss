@@ -1,0 +1,34 @@
+.button {
+  color: $black;
+  font-size: 1.1rem;
+  border-radius: $border-radius;
+  border: $border-width solid rgba($black, 0.9);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin: 0 1rem 1rem;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  font-weight: normal;
+  cursor: pointer;
+  user-select: none;
+  background: inherit;
+
+  &:hover {
+    background: $yellow3;
+  }
+}
+
+.button--primary {
+  @extend .button;
+}
+
+.button--secondary {
+  @extend .button;
+  border-color: $red;
+  color: $red;
+
+  &:hover {
+    background: lighten($red, 50%);
+  }
+}

@@ -1,0 +1,57 @@
+.options {
+  text-align: left;
+  border-bottom: $border-width solid $black;
+  margin: 0 auto 1rem;
+  max-width: 800px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.options__group {
+  border: none;
+
+  legend {
+    font-weight: bold;
+  }
+}
+
+.options__form {
+  max-height: 0;
+  transition: all 300ms ease-out;
+  overflow: hidden;
+}
+
+.options--open {
+  max-height: 500px;
+}
+
+.options__controls {
+  border: 0;
+  background: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.options__controls--open {
+  .options__toggle {
+    transform: rotate(270deg);
+  }
+}
+
+.options__toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $yellow;
+  font-size: 3rem;
+  font-weight: bold;;
+  height: 40px;
+  width: 40px;
+  border: 0;
+  cursor: pointer;
+  transform: rotate(90deg);
+  transition: transform 300ms ease-out;
+}

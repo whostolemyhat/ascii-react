@@ -1,0 +1,8 @@
+.error-message {
+  border: 2px solid darken($red, 10%);
+  background: $red;
+  font-weight: bold;
+  margin: 1rem auto;
+  padding: 1rem 1rem;
+  max-width: 800px;
+}

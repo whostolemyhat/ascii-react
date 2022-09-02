@@ -2,6 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: $max-width;
+    margin: 3rem auto;
 }
 
 progress {
@@ -22,14 +24,6 @@ progress::-webkit-progress-bar {
 progress::-webkit-progress-value {
     background-color: $yellow5;
     border-radius: $border-radius;
-}
-progress::-moz-progress-bar {
-    /* style rules */
-}
-
-.preview {
-    max-width: 100px;
-    margin-right: 25px;
 }
 
 .progress__spinner {
