@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './styles/core.scss';
 // import BackendForm from './components/BackendForm';
 import { Error } from './components/Error';
